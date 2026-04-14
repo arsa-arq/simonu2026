@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cronograma — SIMONU 2026 · Colegio Julio Florez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #0a1628;
+    --navy-mid:   #122040;
+    --navy-light: #1e3a6e;
+    --gold:       #c9a227;
+    --gold-light: #e8c84a;
+    --cream:      #faf8f2;
+    --white:      #ffffff;
+    --gray:       #8a95a3;
+    --text:       #1a2535;
+    --border:     rgba(201,162,39,0.25);
+    --green:      #16a085;
+    --blue:       #2471a3;
+    --orange:     #d35400;
+    --red:        #c0392b;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,22,40,0.97); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1280px; margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between; height: 60px;
+  }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.88rem; color: var(--gold-light); letter-spacing: 0.06em; text-decoration: none; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 9px; border-radius: 6px; transition: color 0.2s, background 0.2s; white-space: nowrap; }
+  .nav-links a:hover { color: var(--gold-light); background: rgba(201,162,39,0.08); }
+  .nav-links a.active { color: var(--gold-light); background: rgba(201,162,39,0.1); }
+  .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-burger span { display: block; width: 22px; height: 2px; background: rgba(255,255,255,0.7); border-radius: 2px; transition: all 0.25s; }
+  .nav-burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+  .nav-mobile { display: none; background: var(--navy-mid); border-top: 1px solid var(--border); padding: 8px 0 12px; }
+  .nav-mobile.open { display: block; }
+  .nav-mobile a { display: block; padding: 11px 24px; color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.04); transition: color 0.2s, background 0.2s; }
+  .nav-mobile a:hover { color: var(--gold-light); background: rgba(201,162,39,0.06); }
+  @media (max-width: 900px) { .nav-links { display: none; } .nav-burger { display: flex; } }
+
+  /* ── HERO ── */
+  .page-hero {
+    background: var(--navy); padding: 80px 24px 64px; position: relative; overflow: hidden;
+  }
+  .page-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,162,39,0.1) 0%, transparent 70%);
+  }
+  .page-hero .grid-bg {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(201,162,39,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201,162,39,0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+  }
+  .hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+  .breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 20px; }
+  .breadcrumb a { color: rgba(201,162,39,0.6); text-decoration: none; transition: color 0.2s; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .breadcrumb span { margin: 0 8px; color: rgba(255,255,255,0.2); }
+  .page-title { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; color: var(--white); line-height: 1.05; margin-bottom: 16px; }
+  .page-title em { font-style: italic; color: var(--gold-light); }
+  .page-desc { font-size: 1rem; color: rgba(255,255,255,0.5); max-width: 580px; line-height: 1.7; margin-bottom: 36px; }
+  .hero-meta { display: flex; gap: 28px; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; }
+  .meta-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .meta-item span { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+  .meta-item strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+  /* ── CONTENIDO ── */
+  .content { max-width: 1100px; margin: 0 auto; padding: 72px 24px 100px; }
+
+  /* ── GANTT ── */
+  .gantt-section { margin-bottom: 72px; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .section-heading { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--navy); margin-bottom: 32px; }
+  .section-heading em { font-style: italic; color: var(--gold); }
+
+  .gantt-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid rgba(10,22,40,0.1); }
+  .gantt-table { width: 100%; min-width: 720px; border-collapse: collapse; background: var(--white); }
+  .gantt-table thead tr { background: var(--navy); }
+  .gantt-table th { padding: 13px 14px; font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); font-weight: 500; text-align: center; border-right: 1px solid rgba(255,255,255,0.06); }
+  .gantt-table th.act-col { text-align: left; min-width: 220px; }
+  .gantt-table th.month-header { background: rgba(201,162,39,0.15); color: var(--gold-light); font-size: 0.75rem; letter-spacing: 0.1em; }
+  .gantt-table td { padding: 0; border-bottom: 1px solid rgba(10,22,40,0.06); vertical-align: middle; }
+  .gantt-table td.act-cell { padding: 14px 16px; border-right: 1px solid rgba(10,22,40,0.06); }
+  .gantt-table tr:last-child td { border-bottom: none; }
+  .gantt-table tr:hover td { background: rgba(10,22,40,0.02); }
+
+  .act-name { font-size: 0.88rem; font-weight: 500; color: var(--navy); margin-bottom: 2px; }
+  .act-dates { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--gray); }
+
+  .gantt-cell { width: 42px; border-right: 1px solid rgba(10,22,40,0.05); text-align: center; height: 52px; }
+  .gantt-bar { height: 14px; border-radius: 7px; margin: 0 4px; }
+  .gantt-bar.start { border-radius: 7px 0 0 7px; margin-right: 0; }
+  .gantt-bar.mid   { border-radius: 0; margin: 0; }
+  .gantt-bar.end   { border-radius: 0 7px 7px 0; margin-left: 0; }
+  .gantt-bar.full  { border-radius: 7px; }
+
+  .phase-prep   { background: #2471a3; }
+  .phase-train  { background: #16a085; }
+  .phase-exec   { background: #d35400; }
+  .phase-sim    { background: var(--gold); }
+  .phase-close  { background: #8e44ad; }
+
+  /* ── FASES ── */
+  .phases-section { margin-bottom: 72px; }
+  .phases-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .phase-card {
+    border-radius: 14px; border: 1px solid rgba(10,22,40,0.09);
+    background: var(--white); padding: 26px; position: relative; overflow: hidden;
+    transition: box-shadow 0.25s, transform 0.25s;
+  }
+  .phase-card:hover { box-shadow: 0 10px 36px rgba(10,22,40,0.1); transform: translateY(-2px); }
+  .phase-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 14px 14px 0 0; }
+  .phase-card.c-prep::before  { background: #2471a3; }
+  .phase-card.c-train::before { background: #16a085; }
+  .phase-card.c-exec::before  { background: #d35400; }
+  .phase-card.c-sim::before   { background: var(--gold); }
+  .phase-card.c-close::before { background: #8e44ad; }
+
+  .phase-num { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 12px; }
+  .phase-card.c-prep  .phase-num { color: #2471a3; }
+  .phase-card.c-train .phase-num { color: #16a085; }
+  .phase-card.c-exec  .phase-num { color: #d35400; }
+  .phase-card.c-sim   .phase-num { color: var(--gold); }
+  .phase-card.c-close .phase-num { color: #8e44ad; }
+
+  .phase-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; line-height: 1.2; }
+  .phase-period { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--gray); margin-bottom: 14px; }
+  .phase-desc { font-size: 0.85rem; color: #4a5568; line-height: 1.65; margin-bottom: 16px; }
+  .phase-tasks { list-style: none; padding: 0; }
+  .phase-tasks li { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(10,22,40,0.05); font-size: 0.82rem; color: var(--text); line-height: 1.5; }
+  .phase-tasks li:last-child { border-bottom: none; }
+  .task-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+  .c-prep  .task-dot { background: #2471a3; }
+  .c-train .task-dot { background: #16a085; }
+  .c-exec  .task-dot { background: #d35400; }
+  .c-sim   .task-dot { background: var(--gold); }
+  .c-close .task-dot { background: #8e44ad; }
+
+  /* Fase especial — simulación */
+  .phase-card.c-sim { background: linear-gradient(135deg, rgba(201,162,39,0.06), rgba(201,162,39,0.02)); border-color: rgba(201,162,39,0.3); }
+
+  /* ── RESPONSABLES ── */
+  .resp-section { margin-bottom: 72px; }
+  .resp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+  .resp-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 12px; padding: 18px; }
+  .resp-role { font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 6px; }
+  .resp-name { font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+  .resp-scope { font-size: 0.78rem; color: var(--gray); }
+
+  /* ── LEYENDA ── */
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--gray); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+  /* ── CTA ── */
+  .nav-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 48px; padding-top: 40px; border-top: 1px solid rgba(10,22,40,0.08); }
+  .cta-btn { display: inline-block; text-decoration: none; padding: 11px 24px; border-radius: 10px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.2s; }
+  .cta-btn.primary { background: var(--navy); color: var(--gold-light); }
+  .cta-btn.primary:hover { background: var(--navy-light); }
+  .cta-btn.outline { border: 1px solid rgba(10,22,40,0.15); color: var(--navy); }
+  .cta-btn.outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,162,39,0.04); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--navy); border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .footer-logo em { color: var(--gold-light); font-style: italic; }
+  .footer-sub { color: rgba(255,255,255,0.3); font-size: 0.78rem; line-height: 1.7; }
+  .footer-divider { width: 36px; height: 1px; background: var(--gold); margin: 16px auto; opacity: 0.4; }
+  .footer-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+  .footer-links a { color: rgba(255,255,255,0.28); text-decoration: none; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold-light); }
+
+  /* ── REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 640px) {
+    .hero-meta { gap: 14px; }
+    .phases-grid { grid-template-columns: 1fr; }
+    .resp-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">SIMONU · 2026</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="cronograma.html" class="active">Cronograma</a></li>
+      <li><a href="evento.html">Evento</a></li>
+      <li><a href="comisiones.html">Comisiones</a></li>
+      <li><a href="logistica.html">Logística</a></li>
+      <li><a href="criterios.html">Criterios</a></li>
+      <li><a href="historial.html">Historial</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="repositorio.html">Repositorio</a></li>
+    </ul>
+    <button class="nav-burger" id="burger" aria-label="Abrir menú" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="mobile-menu">
+    <a href="index.html">Inicio</a>
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios de simulación</a>
+    <a href="historial.html">Historial de eventos</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Banco de proyectos</a>
+    <a href="repositorio.html">Repositorio de ponencias</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a>
+      <span>›</span>
+      Cronograma general
+    </div>
+    <h1 class="page-title">Plan de <em>Trabajo</em></h1>
+    <p class="page-desc">Cronograma general de actividades del SIMONU 2026 — desde la convocatoria en abril hasta el informe de cierre en junio.</p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="meta-dot" style="background:#2471a3;"></div>
+        <span><strong>Inicio:</strong> 6 de abril de 2026</span>
+      </div>
+      <div class="meta-item">
+        <div class="meta-dot" style="background:var(--gold);"></div>
+        <span><strong>Simulación:</strong> 17 de junio de 2026</span>
+      </div>
+      <div class="meta-item">
+        <div class="meta-dot" style="background:#8e44ad;"></div>
+        <span><strong>Cierre:</strong> 19 de junio de 2026</span>
+      </div>
+      <div class="meta-item">
+        <div class="meta-dot" style="background:#16a085;"></div>
+        <span><strong>Duración:</strong> 11 semanas</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONTENIDO ── -->
+<div class="content">
+
+  <!-- DIAGRAMA GANTT -->
+  <div class="gantt-section reveal">
+    <p class="section-label">Vista general</p>
+    <h2 class="section-heading">Diagrama <em>Gantt</em></h2>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#2471a3;"></div>Preparación y convocatoria</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#16a085;"></div>Capacitaciones</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#d35400;"></div>Ejecución y montaje</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gold);"></div>Simulación</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#8e44ad;"></div>Cierre</div>
+    </div>
+
+    <div class="gantt-wrap">
+      <table class="gantt-table">
+        <thead>
+          <tr>
+            <th class="act-col" rowspan="2" style="color:rgba(255,255,255,0.7);font-size:0.72rem;">Actividad</th>
+            <th colspan="4" class="month-header">Marzo</th>
+            <th colspan="4" class="month-header">Abril</th>
+            <th colspan="4" class="month-header">Mayo</th>
+            <th colspan="4" class="month-header">Junio</th>
+          </tr>
+          <tr>
+            <th>S1</th><th>S2</th><th>S3</th><th>S4</th>
+            <th>S1</th><th>S2</th><th>S3</th><th>S4</th>
+            <th>S1</th><th>S2</th><th>S3</th><th>S4</th>
+            <th>S1</th><th>S2</th><th>S3</th><th>S4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Sensibilización Abr S2 -->
+          <tr>
+            <td class="act-cell">
+              <div class="act-name">Sensibilización y divulgación</div>
+              <div class="act-dates">6 – 10 abr</div>
+            </td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar full phase-prep"></div></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+          </tr>
+          <!-- Inscripciones Abr S2 -->
+          <tr>
+            <td class="act-cell">
+              <div class="act-name">Inscripciones</div>
+              <div class="act-dates">6 – 10 abr</div>
+            </td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar full phase-prep"></div></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+          </tr>
+          <!-- Indagación Abr S3-S4 -->
+          <tr>
+            <td class="act-cell">
+              <div class="act-name">Indagación</div>
+              <div class="act-dates">13 – 30 abr</div>
+            </td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar start phase-prep"></div></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar end phase-prep"></div></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+          </tr>
+          <!-- Capacitaciones Presidentes May S1-S2 -->
+          <tr>
+            <td class="act-cell">
+              <div class="act-name">Capacitación — Presidentes</div>
+              <div class="act-dates">4 – 15 may</div>
+            </td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar start phase-train"></div></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar end phase-train"></div></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+          </tr>
+          <!-- Capacitaciones Logística May S1-S2 -->
+          <tr>
+            <td class="act-cell">
+              <div class="act-name">Capacitación — Logística</div>
+              <div class="act-dates">4 – 15 may</div>
+            </td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar start phase-train"></div></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar end phase-train"></div></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+          </tr>
+          <!-- Capacitaciones Delegados May S3-Jun S1 -->
+          <tr>
+            <td class="act-cell">
+              <div class="act-name">Capacitación — Delegados y Comités</div>
+              <div class="act-dates">19 may – 6 jun</div>
+            </td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar start phase-train"></div></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar mid phase-train"></div></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar end phase-train"></div></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+          </tr>
+          <!-- Preparación Evento May S3-Jun S1 -->
+          <tr>
+            <td class="act-cell">
+              <div class="act-name">Preparación del evento</div>
+              <div class="act-dates">19 may – 6 jun</div>
+            </td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar start phase-exec"></div></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar mid phase-exec"></div></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar end phase-exec"></div></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+          </tr>
+          <!-- Implementación In Situ Jun S1-S2 -->
+          <tr>
+            <td class="act-cell">
+              <div class="act-name">Implementación in situ</div>
+              <div class="act-dates">9 – 11 jun</div>
+            </td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar start phase-exec"></div></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar end phase-exec"></div></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td>
+          </tr>
+          <!-- Simulación Jun 17 -->
+          <tr style="background:rgba(201,162,39,0.04);">
+            <td class="act-cell">
+              <div class="act-name" style="color:var(--gold);font-weight:700;">SIMULACIÓN GEOPOLÍTICA</div>
+              <div class="act-dates" style="color:var(--gold);">17 jun — día central</div>
+            </td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar full phase-sim"></div></td>
+            <td class="gantt-cell"></td>
+          </tr>
+          <!-- Informe cierre Jun S3 -->
+          <tr>
+            <td class="act-cell">
+              <div class="act-name">Informe de cierre</div>
+              <div class="act-dates">19 jun</div>
+            </td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell"></td><td class="gantt-cell"></td>
+            <td class="gantt-cell" style="vertical-align:middle;"><div class="gantt-bar full" style="background:#8e44ad;"></div></td>
+            <td class="gantt-cell"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FASES -->
+  <div class="phases-section reveal">
+    <p class="section-label">Detalle por fase</p>
+    <h2 class="section-heading">Las <em>5 Fases</em> del Proceso</h2>
+    <div class="phases-grid">
+
+      <!-- FASE 1 -->
+      <div class="phase-card c-prep">
+        <div class="phase-num">Fase 1 · Abril 6 – 30</div>
+        <div class="phase-name">Preparación y Convocatoria</div>
+        <div class="phase-period">3 semanas · Semanas 1 a 3 de abril</div>
+        <div class="phase-desc">Apertura oficial del SIMONU 2026: se lanza la convocatoria, se difunde el evento en el colegio y se inicia el proceso de inscripción. Los delegados comienzan su proceso de investigación.</div>
+        <ul class="phase-tasks">
+          <li><div class="task-dot"></div>Sensibilización a la comunidad educativa sobre el evento</li>
+          <li><div class="task-dot"></div>Divulgación del SIMONU 2026 en todos los cursos</li>
+          <li><div class="task-dot"></div>Apertura del proceso de inscripción de delegados</li>
+          <li><div class="task-dot"></div>Inicio de la fase de indagación e investigación</li>
+          <li><div class="task-dot"></div>Asignación de países por comisión y delegado</li>
+        </ul>
+      </div>
+
+      <!-- FASE 2 -->
+      <div class="phase-card c-train">
+        <div class="phase-num">Fase 2 · Mayo 4 – 15</div>
+        <div class="phase-name">Capacitación de Líderes</div>
+        <div class="phase-period">2 semanas · Semanas 1 a 2 de mayo</div>
+        <div class="phase-desc">Formación especializada de los presidentes de comisión y del equipo de logística. Se preparan para dirigir las deliberaciones y coordinar la operación del evento.</div>
+        <ul class="phase-tasks">
+          <li><div class="task-dot"></div>Formación de los 15 presidentes de comisión</li>
+          <li><div class="task-dot"></div>Formación de los 15 vicepresidentes</li>
+          <li><div class="task-dot"></div>Capacitación del equipo de logística y comunicaciones</li>
+          <li><div class="task-dot"></div>Entrenamiento en protocolo y procedimiento parlamentario</li>
+          <li><div class="task-dot"></div>Simulacros de conducción de sesiones</li>
+        </ul>
+      </div>
+
+      <!-- FASE 3 -->
+      <div class="phase-card c-train">
+        <div class="phase-num">Fase 3 · Mayo 19 – Jun 6</div>
+        <div class="phase-name">Capacitación de Delegados</div>
+        <div class="phase-period">3 semanas · Semanas 3 de mayo a 1 de junio</div>
+        <div class="phase-desc">Entrenamiento de los 225 delegados y secretarios de mesa. Se afianzan las habilidades de oratoria, negociación diplomática y redacción de ponencias.</div>
+        <ul class="phase-tasks">
+          <li><div class="task-dot"></div>Capacitación en técnicas de debate y oratoria</li>
+          <li><div class="task-dot"></div>Formación de los 15 secretarios de mesa</li>
+          <li><div class="task-dot"></div>Revisión y retroalimentación de ponencias</li>
+          <li><div class="task-dot"></div>Preparación de documentos de posición por país</li>
+          <li><div class="task-dot"></div>Preparación logística general del evento</li>
+        </ul>
+      </div>
+
+      <!-- FASE 4 — especial -->
+      <div class="phase-card c-exec">
+        <div class="phase-num">Fase 4 · Junio 9 – 11</div>
+        <div class="phase-name">Implementación In Situ</div>
+        <div class="phase-period">3 días · Preparación final</div>
+        <div class="phase-desc">Montaje y alistamiento de todos los espacios del colegio que albergarán las 15 comisiones en simultáneo. Verificación técnica y logística final antes del gran día.</div>
+        <ul class="phase-tasks">
+          <li><div class="task-dot"></div>Montaje de los 15 salones de comisión</div></li>
+          <li><div class="task-dot"></div>Instalación de señalética y materiales</li>
+          <li><div class="task-dot"></div>Verificación de equipos audiovisuales</li>
+          <li><div class="task-dot"></div>Preparación de acreditaciones y carnets</li>
+          <li><div class="task-dot"></div>Ensayo general de protocolo</li>
+        </ul>
+      </div>
+
+      <!-- FASE 5 — simulación -->
+      <div class="phase-card c-sim">
+        <div class="phase-num">Fase 5 · Junio 17</div>
+        <div class="phase-name">Simulación Geopolítica</div>
+        <div class="phase-period">1 día · 06:15 – 14:00 h</div>
+        <div class="phase-desc">El día central del SIMONU 2026. Las 15 comisiones deliberan en simultáneo durante 7 horas y 45 minutos, culminando con el evento de cierre. <a href="evento.html" style="color:var(--gold);text-decoration:none;font-weight:600;">Ver agenda completa →</a></div>
+        <ul class="phase-tasks">
+          <li><div class="task-dot"></div>Apertura oficial y carnetización</li>
+          <li><div class="task-dot"></div>Presentación de ponencias (5 min por delegado)</li>
+          <li><div class="task-dot"></div>Bloques de debate en comisiones</li>
+          <li><div class="task-dot"></div>Deliberación y cierre de comisiones</li>
+          <li><div class="task-dot"></div>Evento de cierre en recinto abierto</li>
+        </ul>
+      </div>
+
+      <!-- FASE 6 — cierre -->
+      <div class="phase-card c-close">
+        <div class="phase-num">Fase 6 · Junio 19</div>
+        <div class="phase-name">Informe de Cierre</div>
+        <div class="phase-period">1 sesión · Sistematización</div>
+        <div class="phase-desc">Presentación formal de resultados, evaluación del proceso y sistematización de la experiencia del SIMONU 2026 para construir el historial del evento.</div>
+        <ul class="phase-tasks">
+          <li><div class="task-dot"></div>Consolidación de resultados por comisión</li>
+          <li><div class="task-dot"></div>Evaluación general del proceso formativo</li>
+          <li><div class="task-dot"></div>Reconocimientos y menciones destacadas</li>
+          <li><div class="task-dot"></div>Sistematización y archivo del evento</li>
+          <li><div class="task-dot"></div>Publicación en el repositorio de ponencias</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RESPONSABLES -->
+  <div class="resp-section reveal">
+    <p class="section-label">Secretaría general</p>
+    <h2 class="section-heading">Equipo <em>Coordinador</em></h2>
+    <div class="resp-grid">
+      <div class="resp-card" style="border-top:3px solid var(--gold);">
+        <div class="resp-role">Secretario General</div>
+        <div class="resp-name">Santiago Aguilera</div>
+        <div class="resp-scope">Coordinación general · C1–C15</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-role">Secretario Piso 1</div>
+        <div class="resp-name">Juan Andres Vargas</div>
+        <div class="resp-scope">Comisiones C4, C5, C6</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-role">Secretario Piso 2</div>
+        <div class="resp-name">Daniela Calderon</div>
+        <div class="resp-scope">Comisiones C7, C8, C9</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-role">Prensa 1</div>
+        <div class="resp-name">Gabriela Salinas</div>
+        <div class="resp-scope">Comisiones C10, C11, C12</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-role">Prensa 2</div>
+        <div class="resp-name">Medina Sara</div>
+        <div class="resp-scope">Comisiones C13, C14, C15</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-role">Logística 1</div>
+        <div class="resp-name">Laura Zapata</div>
+        <div class="resp-scope">Montaje y materiales</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-role">Logística 2</div>
+        <div class="resp-name">Alex Lambertinez</div>
+        <div class="resp-scope">Montaje y materiales</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-role">Estadística 1</div>
+        <div class="resp-name">Contreras Samuel</div>
+        <div class="resp-scope">Registro y datos del evento</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-role">Estadística 2</div>
+        <div class="resp-name">Salcedo Emilio</div>
+        <div class="resp-scope">Registro y datos del evento</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV ENTRE PÁGINAS -->
+  <div class="nav-cta reveal">
+    <a href="evento.html" class="cta-btn primary">Ver agenda del día →</a>
+    <a href="comisiones.html" class="cta-btn outline">Ver comisiones</a>
+    <a href="logistica.html" class="cta-btn outline">Ver logística</a>
+    <a href="index.html" class="cta-btn outline">← Volver al inicio</a>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">SIMONU <em>2026</em></div>
+  <div class="footer-divider"></div>
+  <div class="footer-sub">
+    Colegio Técnico Distrital Julio Florez · Bogotá, Colombia<br>
+    Simulación Geopolítica de Naciones Unidas · 17 de Junio de 2026
+  </div>
+  <nav class="footer-links" aria-label="Mapa del sitio">
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="repositorio.html">Repositorio</a>
+  </nav>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('burger').classList.toggle('open');
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 100); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
