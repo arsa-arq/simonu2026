@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evento del Día — SIMONU 2026 · Colegio Julio Florez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #0a1628;
+    --navy-mid:   #122040;
+    --navy-light: #1e3a6e;
+    --gold:       #c9a227;
+    --gold-light: #e8c84a;
+    --cream:      #faf8f2;
+    --white:      #ffffff;
+    --gray:       #8a95a3;
+    --text:       #1a2535;
+    --border:     rgba(201,162,39,0.25);
+    --teal:       #16a085;
+    --orange:     #d35400;
+    --purple:     #8e44ad;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,22,40,0.97); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.88rem; color: var(--gold-light); letter-spacing: 0.06em; text-decoration: none; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 9px; border-radius: 6px; transition: color 0.2s, background 0.2s; white-space: nowrap; }
+  .nav-links a:hover { color: var(--gold-light); background: rgba(201,162,39,0.08); }
+  .nav-links a.active { color: var(--gold-light); background: rgba(201,162,39,0.1); }
+  .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-burger span { display: block; width: 22px; height: 2px; background: rgba(255,255,255,0.7); border-radius: 2px; transition: all 0.25s; }
+  .nav-burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+  .nav-mobile { display: none; background: var(--navy-mid); border-top: 1px solid var(--border); padding: 8px 0 12px; }
+  .nav-mobile.open { display: block; }
+  .nav-mobile a { display: block; padding: 11px 24px; color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.04); transition: color 0.2s, background 0.2s; }
+  .nav-mobile a:hover { color: var(--gold-light); background: rgba(201,162,39,0.06); }
+  @media (max-width: 900px) { .nav-links { display: none; } .nav-burger { display: flex; } }
+
+  /* ── HERO ── */
+  .page-hero { background: var(--navy); padding: 80px 24px 64px; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,162,39,0.12) 0%, transparent 70%); }
+  .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,162,39,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201,162,39,0.05) 1px, transparent 1px); background-size: 50px 50px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%); }
+  .hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+  .breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 20px; }
+  .breadcrumb a { color: rgba(201,162,39,0.6); text-decoration: none; transition: color 0.2s; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .breadcrumb span { margin: 0 8px; color: rgba(255,255,255,0.2); }
+  .page-title { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; color: var(--white); line-height: 1.05; margin-bottom: 16px; }
+  .page-title em { font-style: italic; color: var(--gold-light); }
+  .page-desc { font-size: 1rem; color: rgba(255,255,255,0.5); max-width: 580px; line-height: 1.7; margin-bottom: 36px; }
+
+  /* Tarjetas de resumen en el hero */
+  .hero-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .hero-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(201,162,39,0.18); border-radius: 10px; padding: 16px; }
+  .hc-label { font-family: 'DM Mono', monospace; font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
+  .hc-value { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--gold-light); line-height: 1; margin-bottom: 4px; }
+  .hc-sub { font-size: 0.75rem; color: rgba(255,255,255,0.45); }
+  @media (max-width: 640px) { .hero-cards { grid-template-columns: repeat(2, 1fr); } }
+
+  /* ── CONTENIDO ── */
+  .content { max-width: 1000px; margin: 0 auto; padding: 72px 24px 100px; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .section-heading { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--navy); margin-bottom: 32px; }
+  .section-heading em { font-style: italic; color: var(--gold); }
+
+  /* ── AGENDA PRINCIPAL ── */
+  .agenda { display: flex; flex-direction: column; gap: 0; position: relative; margin-bottom: 72px; }
+  .agenda::before { content: ''; position: absolute; left: 88px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--gold) 0%, rgba(201,162,39,0.15) 100%); }
+
+  .agenda-block { display: grid; grid-template-columns: 88px 1fr; position: relative; padding: 4px 0; }
+
+  /* Punto en la línea */
+  .agenda-block::before { content: ''; position: absolute; left: 80px; top: 28px; width: 18px; height: 18px; border-radius: 50%; background: var(--white); border: 3px solid var(--gray); box-shadow: 0 0 0 3px var(--cream); z-index: 1; transition: border-color 0.2s; }
+  .agenda-block.highlight-block::before { border-color: var(--gold); background: var(--gold); box-shadow: 0 0 0 4px rgba(201,162,39,0.2); }
+  .agenda-block.break-block::before { border-color: var(--teal); background: var(--teal); }
+  .agenda-block.closing-block::before { border-color: var(--purple); background: var(--purple); box-shadow: 0 0 0 4px rgba(142,68,173,0.2); }
+
+  .time-col { padding-top: 22px; padding-right: 20px; text-align: right; }
+  .time-start { font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 500; color: var(--navy); }
+  .time-end   { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--gray); margin-top: 2px; }
+  .time-dur   { font-size: 0.68rem; color: var(--gray); margin-top: 4px; background: rgba(10,22,40,0.06); border-radius: 4px; padding: 2px 6px; display: inline-block; }
+
+  .block-card { margin: 8px 0 8px 24px; border-radius: 12px; border: 1px solid rgba(10,22,40,0.08); background: var(--white); padding: 20px 24px; transition: box-shadow 0.2s, transform 0.2s; }
+  .block-card:hover { box-shadow: 0 6px 24px rgba(10,22,40,0.08); transform: translateY(-1px); }
+
+  .agenda-block.highlight-block .block-card { border-color: rgba(201,162,39,0.3); background: linear-gradient(135deg, rgba(201,162,39,0.05), rgba(201,162,39,0.02)); }
+  .agenda-block.break-block .block-card { border-color: rgba(22,160,133,0.2); background: rgba(22,160,133,0.03); }
+  .agenda-block.closing-block .block-card { border-color: rgba(142,68,173,0.25); background: linear-gradient(135deg, rgba(142,68,173,0.05), transparent); }
+
+  .block-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 10px; }
+  .block-name { font-size: 1.05rem; font-weight: 600; color: var(--navy); line-height: 1.2; }
+  .agenda-block.highlight-block .block-name { color: #7a6010; }
+  .agenda-block.closing-block .block-name { color: var(--purple); }
+
+  .block-location { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+  .loc-pill { font-size: 0.7rem; padding: 3px 10px; border-radius: 100px; font-weight: 500; white-space: nowrap; }
+  .loc-cerrado { background: rgba(30,58,110,0.1); color: var(--navy-light); }
+  .loc-abierto  { background: rgba(22,160,133,0.1); color: var(--teal); }
+  .loc-patio    { background: rgba(211,84,0,0.1); color: var(--orange); }
+  .loc-general  { background: rgba(10,22,40,0.06); color: var(--gray); }
+
+  .block-desc { font-size: 0.85rem; color: #4a5568; line-height: 1.65; margin-bottom: 12px; }
+
+  .block-details { display: flex; gap: 16px; flex-wrap: wrap; }
+  .detail-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--gray); }
+  .detail-item::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .det-participantes::before { background: var(--navy-light); }
+  .det-nota::before { background: var(--gold); }
+  .det-responsable::before { background: var(--teal); }
+
+  /* Bloque total */
+  .total-bar { background: var(--navy); border-radius: 12px; padding: 20px 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 8px; }
+  .total-label { font-family: 'DM Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.45); }
+  .total-value { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--gold-light); }
+  .total-items { display: flex; gap: 24px; }
+  .total-stat { text-align: center; }
+  .total-stat-num { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--gold-light); }
+  .total-stat-lbl { font-size: 0.7rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
+
+  /* ── ESPACIOS ── */
+  .spaces-section { margin-bottom: 72px; }
+  .spaces-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .space-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 12px; padding: 22px; }
+  .space-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; margin-bottom: 12px; }
+  .space-name { font-weight: 600; color: var(--navy); font-size: 0.95rem; margin-bottom: 4px; }
+  .space-use  { font-size: 0.8rem; color: var(--gray); margin-bottom: 10px; }
+  .space-when { font-size: 0.78rem; color: #4a5568; line-height: 1.55; }
+  .space-tag  { display: inline-block; font-size: 0.65rem; font-weight: 600; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 10px; }
+
+  /* ── COMISIONES SIMULTÁNEAS ── */
+  .commissions-note { background: var(--navy); border-radius: 14px; padding: 36px; margin-bottom: 72px; }
+  .cn-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .cn-title em { font-style: italic; color: var(--gold-light); }
+  .cn-desc { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 24px; max-width: 600px; }
+  .cn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+  .cn-item { background: rgba(255,255,255,0.04); border: 1px solid rgba(201,162,39,0.12); border-radius: 8px; padding: 10px 12px; }
+  .cn-code { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--gold); letter-spacing: 0.12em; margin-bottom: 4px; }
+  .cn-name { font-size: 0.8rem; color: rgba(255,255,255,0.75); font-weight: 500; line-height: 1.3; }
+  .cn-level { font-size: 0.68rem; color: rgba(255,255,255,0.35); margin-top: 3px; }
+
+  /* ── ROLES ── */
+  .roles-section { margin-bottom: 72px; }
+  .roles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+  .role-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 12px; padding: 18px; }
+  .role-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; }
+  .tag-pres { background: rgba(30,58,110,0.1); color: var(--navy-light); }
+  .tag-vicep { background: rgba(22,160,133,0.1); color: var(--teal); }
+  .tag-sec   { background: rgba(142,68,173,0.1); color: var(--purple); }
+  .tag-del   { background: rgba(201,162,39,0.12); color: #7a6010; }
+  .tag-log   { background: rgba(211,84,0,0.1); color: var(--orange); }
+  .role-title { font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .role-resp  { font-size: 0.82rem; color: #4a5568; line-height: 1.55; }
+
+  /* ── CTA ── */
+  .nav-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 48px; padding-top: 40px; border-top: 1px solid rgba(10,22,40,0.08); }
+  .cta-btn { display: inline-block; text-decoration: none; padding: 11px 24px; border-radius: 10px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.2s; }
+  .cta-btn.primary { background: var(--navy); color: var(--gold-light); }
+  .cta-btn.primary:hover { background: var(--navy-light); }
+  .cta-btn.outline { border: 1px solid rgba(10,22,40,0.15); color: var(--navy); }
+  .cta-btn.outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,162,39,0.04); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--navy); border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .footer-logo em { color: var(--gold-light); font-style: italic; }
+  .footer-sub { color: rgba(255,255,255,0.3); font-size: 0.78rem; line-height: 1.7; }
+  .footer-divider { width: 36px; height: 1px; background: var(--gold); margin: 16px auto; opacity: 0.4; }
+  .footer-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+  .footer-links a { color: rgba(255,255,255,0.28); text-decoration: none; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold-light); }
+
+  /* ── REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 640px) {
+    .agenda::before { left: 70px; }
+    .agenda-block { grid-template-columns: 70px 1fr; }
+    .agenda-block::before { left: 62px; }
+    .block-card { padding: 16px; }
+    .block-header { flex-direction: column; gap: 8px; }
+    .total-items { gap: 16px; }
+    .cn-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">SIMONU · 2026</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="cronograma.html">Cronograma</a></li>
+      <li><a href="evento.html" class="active">Evento</a></li>
+      <li><a href="comisiones.html">Comisiones</a></li>
+      <li><a href="logistica.html">Logística</a></li>
+      <li><a href="criterios.html">Criterios</a></li>
+      <li><a href="historial.html">Historial</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="repositorio.html">Repositorio</a></li>
+    </ul>
+    <button class="nav-burger" id="burger" aria-label="Abrir menú" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="mobile-menu">
+    <a href="index.html">Inicio</a>
+    <a href="cronograma.html">Cronograma — plan de trabajo</a>
+    <a href="evento.html">Evento del día — jun 17</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios de simulación</a>
+    <a href="historial.html">Historial de eventos</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Banco de proyectos</a>
+    <a href="repositorio.html">Repositorio de ponencias</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a>
+      <span>›</span>
+      <a href="cronograma.html">Cronograma</a>
+      <span>›</span>
+      Evento del día
+    </div>
+    <h1 class="page-title">Agenda del <em>17 de Junio</em></h1>
+    <p class="page-desc">Programa detallado de la Simulación Geopolítica SIMONU 2026. Un día de deliberación, debate y diplomacia con 15 comisiones activas en simultáneo.</p>
+    <div class="hero-cards">
+      <div class="hero-card">
+        <div class="hc-label">Fecha</div>
+        <div class="hc-value" style="font-size:1.15rem;">Mié 17</div>
+        <div class="hc-sub">Junio de 2026</div>
+      </div>
+      <div class="hero-card">
+        <div class="hc-label">Duración total</div>
+        <div class="hc-value">7h 45</div>
+        <div class="hc-sub">06:15 a 14:00</div>
+      </div>
+      <div class="hero-card">
+        <div class="hc-label">Comisiones activas</div>
+        <div class="hc-value">15</div>
+        <div class="hc-sub">En simultáneo</div>
+      </div>
+      <div class="hero-card">
+        <div class="hc-label">Participantes</div>
+        <div class="hc-value">384</div>
+        <div class="hc-sub">Delegados y equipos</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONTENIDO ── -->
+<div class="content">
+
+  <!-- AGENDA -->
+  <div class="reveal" style="margin-bottom:72px;">
+    <p class="section-label">Programa oficial</p>
+    <h2 class="section-heading">Agenda <em>del Día</em></h2>
+
+    <div class="agenda">
+
+      <!-- BLOQUE 1: Apertura -->
+      <div class="agenda-block">
+        <div class="time-col">
+          <div class="time-start">06:15</div>
+          <div class="time-end">06:30</div>
+          <div class="time-dur">15 min</div>
+        </div>
+        <div class="block-card">
+          <div class="block-header">
+            <div class="block-name">Apertura y Carnetización</div>
+            <div class="block-location">
+              <span class="loc-pill loc-patio">Patio principal</span>
+            </div>
+          </div>
+          <p class="block-desc">Ceremonia de apertura oficial del SIMONU 2026. Se realiza la acreditación y entrega de carnets a todos los delegados, presidentes y personal de apoyo. Los participantes reciben su identificación y se ubican en sus comisiones asignadas.</p>
+          <div class="block-details">
+            <div class="detail-item det-participantes">384 participantes acreditados</div>
+            <div class="detail-item det-responsable">Equipo de logística y comunicaciones</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 2: Ponencias -->
+      <div class="agenda-block highlight-block">
+        <div class="time-col">
+          <div class="time-start">06:30</div>
+          <div class="time-end">08:30</div>
+          <div class="time-dur">2 horas</div>
+        </div>
+        <div class="block-card">
+          <div class="block-header">
+            <div class="block-name">Presentación de Ponencias y Deliberación inicial</div>
+            <div class="block-location">
+              <span class="loc-pill loc-cerrado">Recinto cerrado</span>
+            </div>
+          </div>
+          <p class="block-desc">Cada delegado expone su ponencia representando la posición oficial de su país ante la comisión. La mesa directiva (Presidente y Vicepresidente) modera el orden de intervención. Es el momento central de la voz diplomática individual.</p>
+          <div class="block-details">
+            <div class="detail-item det-nota">5 minutos por delegado</div>
+            <div class="detail-item det-participantes">15 delegados por comisión</div>
+            <div class="detail-item det-responsable">Presidentes y vicepresidentes de comisión</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 3: Refrigerio -->
+      <div class="agenda-block break-block">
+        <div class="time-col">
+          <div class="time-start">08:30</div>
+          <div class="time-end">08:45</div>
+          <div class="time-dur">15 min</div>
+        </div>
+        <div class="block-card">
+          <div class="block-header">
+            <div class="block-name">Refrigerio</div>
+            <div class="block-location">
+              <span class="loc-pill loc-general">Zona de descanso</span>
+            </div>
+          </div>
+          <p class="block-desc">Pausa activa para refrigerio. Los delegados pueden continuar intercambios diplomáticos informales con representantes de otras delegaciones.</p>
+          <div class="block-details">
+            <div class="detail-item det-nota">Tiempo para negociaciones informales</div>
+            <div class="detail-item det-responsable">Equipo de logística</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 4: Bloques de debate -->
+      <div class="agenda-block highlight-block">
+        <div class="time-col">
+          <div class="time-start">08:45</div>
+          <div class="time-end">10:45</div>
+          <div class="time-dur">2 horas</div>
+        </div>
+        <div class="block-card">
+          <div class="block-header">
+            <div class="block-name">Bloques de Debate</div>
+            <div class="block-location">
+              <span class="loc-pill loc-cerrado">Recinto cerrado</span>
+            </div>
+          </div>
+          <p class="block-desc">Fase de debate estructurado por bloques temáticos. Las delegaciones presentan propuestas, responden preguntas, forman alianzas y avanzan hacia resoluciones. La mesa directiva organiza la agenda y da la palabra según el reglamento.</p>
+          <div class="block-details">
+            <div class="detail-item det-nota">Debate formal por bloques temáticos</div>
+            <div class="detail-item det-participantes">15 comisiones simultáneas</div>
+            <div class="detail-item det-responsable">Presidentes, vicepresidentes y secretarios de mesa</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 5: Receso -->
+      <div class="agenda-block break-block">
+        <div class="time-col">
+          <div class="time-start">10:45</div>
+          <div class="time-end">11:00</div>
+          <div class="time-dur">15 min</div>
+        </div>
+        <div class="block-card">
+          <div class="block-header">
+            <div class="block-name">Receso</div>
+            <div class="block-location">
+              <span class="loc-pill loc-general">Zona de descanso</span>
+            </div>
+          </div>
+          <p class="block-desc">Pausa entre bloques. Momento para que los delegados revisen notas, consoliden posiciones y coordinen votos con otras delegaciones.</p>
+          <div class="block-details">
+            <div class="detail-item det-nota">Coordinación de alianzas entre delegaciones</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 6: Deliberación y cierre -->
+      <div class="agenda-block highlight-block">
+        <div class="time-col">
+          <div class="time-start">11:00</div>
+          <div class="time-end">12:00</div>
+          <div class="time-dur">1 hora</div>
+        </div>
+        <div class="block-card">
+          <div class="block-header">
+            <div class="block-name">Deliberación final y Cierre de Comisiones</div>
+            <div class="block-location">
+              <span class="loc-pill loc-cerrado">Recinto cerrado</span>
+            </div>
+          </div>
+          <p class="block-desc">Etapa final del trabajo en comisiones. Se vota la resolución, se registran los resultados y el presidente declara formalmente cerrada la sesión. Los secretarios de mesa consolidan las actas de cada comisión.</p>
+          <div class="block-details">
+            <div class="detail-item det-nota">Votación de resoluciones por comisión</div>
+            <div class="detail-item det-responsable">Secretarios de mesa y estadística</div>
+            <div class="detail-item det-participantes">Actas y registros oficiales</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 7: Almuerzo -->
+      <div class="agenda-block break-block">
+        <div class="time-col">
+          <div class="time-start">12:00</div>
+          <div class="time-end">13:00</div>
+          <div class="time-dur">1 hora</div>
+        </div>
+        <div class="block-card">
+          <div class="block-header">
+            <div class="block-name">Almuerzo</div>
+            <div class="block-location">
+              <span class="loc-pill loc-general">Comedor / patio</span>
+            </div>
+          </div>
+          <p class="block-desc">Pausa para el almuerzo. Los equipos de estadística y prensa consolidan la información de todas las comisiones para el evento de cierre.</p>
+          <div class="block-details">
+            <div class="detail-item det-responsable">Estadística y prensa consolidan resultados</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 8: Evento de cierre -->
+      <div class="agenda-block closing-block">
+        <div class="time-col">
+          <div class="time-start">13:00</div>
+          <div class="time-end">14:00</div>
+          <div class="time-dur">1 hora</div>
+        </div>
+        <div class="block-card">
+          <div class="block-header">
+            <div class="block-name">Evento de Cierre — SIMONU 2026</div>
+            <div class="block-location">
+              <span class="loc-pill loc-abierto">Recinto abierto</span>
+            </div>
+          </div>
+          <p class="block-desc">Ceremonia de clausura oficial del SIMONU 2026. Se presentan las resoluciones adoptadas por cada comisión, se hace el reconocimiento a los mejores delegados y se realiza el cierre institucional del evento con toda la comunidad escolar.</p>
+          <div class="block-details">
+            <div class="detail-item det-nota">Presentación de resoluciones de las 15 comisiones</div>
+            <div class="detail-item det-participantes">Reconocimientos y menciones</div>
+            <div class="detail-item det-responsable">Secretario General y autoridades del colegio</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Total del día -->
+    <div class="total-bar">
+      <div>
+        <div class="total-label">Duración total del evento</div>
+        <div class="total-value">7 horas 45 minutos</div>
+      </div>
+      <div class="total-items">
+        <div class="total-stat">
+          <div class="total-stat-num">5h</div>
+          <div class="total-stat-lbl">Deliberación</div>
+        </div>
+        <div class="total-stat">
+          <div class="total-stat-num">45min</div>
+          <div class="total-stat-lbl">Pausas</div>
+        </div>
+        <div class="total-stat">
+          <div class="total-stat-num">2h</div>
+          <div class="total-stat-lbl">Almuerzo y cierre</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESPACIOS -->
+  <div class="spaces-section reveal">
+    <p class="section-label">Infraestructura</p>
+    <h2 class="section-heading">Espacios del <em>Evento</em></h2>
+    <div class="spaces-grid">
+      <div class="space-card">
+        <div class="space-icon" style="background:rgba(211,84,0,0.1);">🏫</div>
+        <div class="space-name">Patio Principal</div>
+        <div class="space-use">Ceremonia de apertura y carnetización</div>
+        <div class="space-when">Usado en: <strong>06:15 – 06:30</strong><br>Punto de encuentro inicial para todos los participantes. Aquí se entrega la acreditación oficial.</div>
+        <span class="space-tag" style="background:rgba(211,84,0,0.1);color:var(--orange);">Apertura</span>
+      </div>
+      <div class="space-card">
+        <div class="space-icon" style="background:rgba(30,58,110,0.1);">🏛️</div>
+        <div class="space-name">Recintos Cerrados</div>
+        <div class="space-use">15 salones para las comisiones</div>
+        <div class="space-when">Usado en: <strong>06:30 – 12:00</strong><br>Cada comisión ocupa su propio salón durante toda la jornada de debate y deliberación.</div>
+        <span class="space-tag" style="background:rgba(30,58,110,0.1);color:var(--navy-light);">Deliberación</span>
+      </div>
+      <div class="space-card">
+        <div class="space-icon" style="background:rgba(22,160,133,0.1);">🌿</div>
+        <div class="space-name">Recinto Abierto</div>
+        <div class="space-use">Evento de cierre y premiación</div>
+        <div class="space-when">Usado en: <strong>13:00 – 14:00</strong><br>Espacio amplio para reunir a todos los participantes en la ceremonia final con presencia institucional.</div>
+        <span class="space-tag" style="background:rgba(142,68,173,0.1);color:var(--purple);">Clausura</span>
+      </div>
+      <div class="space-card">
+        <div class="space-icon" style="background:rgba(201,162,39,0.1);">☕</div>
+        <div class="space-name">Zona de Descanso</div>
+        <div class="space-use">Refrigerios, recesos y negociaciones</div>
+        <div class="space-when">Usado en: <strong>08:30, 10:45 y 12:00</strong><br>Espacio para pausas y para que los delegados coordinen posiciones entre comisiones.</div>
+        <span class="space-tag" style="background:rgba(22,160,133,0.1);color:var(--teal);">Pausas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMISIONES SIMULTÁNEAS -->
+  <div class="commissions-note reveal">
+    <div class="cn-title">15 comisiones <em>en simultáneo</em></div>
+    <p class="cn-desc">El 17 de junio, todas las comisiones deliberan al mismo tiempo en diferentes salones del colegio, coordinadas por la Secretaría General. Cada comisión tiene su propia mesa directiva y agenda interna.</p>
+    <div class="cn-grid">
+      <div class="cn-item">
+        <div class="cn-code">C1</div>
+        <div class="cn-name">Orden Mundial</div>
+        <div class="cn-level">Avanzado · Inglés</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C2</div>
+        <div class="cn-name">Energía y Recursos</div>
+        <div class="cn-level">Avanzado · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C3</div>
+        <div class="cn-name">Guerra Tecnológica</div>
+        <div class="cn-level">Avanzado · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C4</div>
+        <div class="cn-name">Geopolítica Climática</div>
+        <div class="cn-level">Avanzado · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C5</div>
+        <div class="cn-name">Medio Oriente</div>
+        <div class="cn-level">Avanzado · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C6</div>
+        <div class="cn-name">Guerras Híbridas</div>
+        <div class="cn-level">Avanzado · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C7</div>
+        <div class="cn-name">Migraciones</div>
+        <div class="cn-level">Avanzado · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C8</div>
+        <div class="cn-name">Rutas Estratégicas</div>
+        <div class="cn-level">Avanzado · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C9</div>
+        <div class="cn-name">América Latina</div>
+        <div class="cn-level">Básico · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C10</div>
+        <div class="cn-name">África Estratégica</div>
+        <div class="cn-level">Básico · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C11</div>
+        <div class="cn-name">Indo-Pacífico</div>
+        <div class="cn-level">Básico · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C12</div>
+        <div class="cn-name">Alimentos y Poder</div>
+        <div class="cn-level">Básico · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C13</div>
+        <div class="cn-name">Agua</div>
+        <div class="cn-level">Básico · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C14</div>
+        <div class="cn-name">Espacio</div>
+        <div class="cn-level">Básico · Español</div>
+      </div>
+      <div class="cn-item">
+        <div class="cn-code">C15</div>
+        <div class="cn-name">Seguridad Global</div>
+        <div class="cn-level">Básico · Español</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLES EN EL EVENTO -->
+  <div class="roles-section reveal">
+    <p class="section-label">Quién hace qué</p>
+    <h2 class="section-heading">Roles en la <em>Simulación</em></h2>
+    <div class="roles-grid">
+      <div class="role-card">
+        <span class="role-tag tag-pres">Presidente</span>
+        <div class="role-title">Presidente de Comisión</div>
+        <div class="role-resp">Dirige la sesión, da la palabra, gestiona el tiempo y declara abierta y cerrada la comisión. Modera el debate y vela por el cumplimiento del reglamento.</div>
+      </div>
+      <div class="role-card">
+        <span class="role-tag tag-vicep">Vicepresidente</span>
+        <div class="role-title">Vicepresidente de Comisión</div>
+        <div class="role-resp">Apoya al presidente en la conducción de la sesión. Asume la dirección cuando el presidente lo requiere y gestiona la lista de oradores.</div>
+      </div>
+      <div class="role-card">
+        <span class="role-tag tag-sec">Secretario de Mesa</span>
+        <div class="role-title">Secretario de Mesa</div>
+        <div class="role-resp">Lleva el registro oficial de la sesión, redacta las actas, contabiliza los votos y coordina con el Secretario General la información de la comisión.</div>
+      </div>
+      <div class="role-card">
+        <span class="role-tag tag-del">Delegado</span>
+        <div class="role-title">Delegado / Delegada</div>
+        <div class="role-resp">Representa a su país asignado, presenta su ponencia en 5 minutos, participa en los debates, negocia alianzas y vota las resoluciones.</div>
+      </div>
+      <div class="role-card">
+        <span class="role-tag tag-log">Logística</span>
+        <div class="role-title">Equipo de Logística</div>
+        <div class="role-resp">Garantiza el funcionamiento del evento: materiales, señalética, control de acceso, refrigerios y apoyo operativo a todas las comisiones durante la jornada.</div>
+      </div>
+      <div class="role-card">
+        <span class="role-tag tag-log">Comunicaciones</span>
+        <div class="role-title">Equipo de Comunicaciones</div>
+        <div class="role-resp">Cubre el evento fotográfica y periodísticamente. Registra los momentos clave de cada comisión y genera el contenido para el blog y redes institucionales.</div>
+      </div>
+      <div class="role-card">
+        <span class="role-tag tag-sec">Estadística</span>
+        <div class="role-title">Equipo de Estadística</div>
+        <div class="role-resp">Consolida los datos del evento en tiempo real: participación, votos, resoluciones y métricas generales que se presentan en el cierre.</div>
+      </div>
+      <div class="role-card">
+        <span class="role-tag tag-pres">Sec. General</span>
+        <div class="role-title">Secretario General</div>
+        <div class="role-resp">Santiago Aguilera. Coordina el evento en su totalidad, enlaza todas las comisiones, gestiona imprevistos y preside la ceremonia de cierre.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="nav-cta reveal">
+    <a href="comisiones.html" class="cta-btn primary">Ver comisiones →</a>
+    <a href="criterios.html" class="cta-btn outline">Criterios de evaluación</a>
+    <a href="cronograma.html" class="cta-btn outline">← Volver al cronograma</a>
+    <a href="index.html" class="cta-btn outline">← Inicio</a>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">SIMONU <em>2026</em></div>
+  <div class="footer-divider"></div>
+  <div class="footer-sub">
+    Colegio Técnico Distrital Julio Florez · Bogotá, Colombia<br>
+    Simulación Geopolítica de Naciones Unidas · 17 de Junio de 2026
+  </div>
+  <nav class="footer-links" aria-label="Mapa del sitio">
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="repositorio.html">Repositorio</a>
+  </nav>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('burger').classList.toggle('open');
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 100);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
