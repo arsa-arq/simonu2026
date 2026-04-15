@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logística — SIMONU 2026 · Colegio Julio Florez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #0a1628;
+    --navy-mid:   #122040;
+    --navy-light: #1e3a6e;
+    --gold:       #c9a227;
+    --gold-light: #e8c84a;
+    --cream:      #faf8f2;
+    --white:      #ffffff;
+    --gray:       #8a95a3;
+    --text:       #1a2535;
+    --border:     rgba(201,162,39,0.25);
+    --teal:       #16a085;
+    --orange:     #d35400;
+    --purple:     #8e44ad;
+    --blue:       #2471a3;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,22,40,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.88rem; color: var(--gold-light); letter-spacing: 0.06em; text-decoration: none; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 9px; border-radius: 6px; transition: color 0.2s, background 0.2s; white-space: nowrap; }
+  .nav-links a:hover { color: var(--gold-light); background: rgba(201,162,39,0.08); }
+  .nav-links a.active { color: var(--gold-light); background: rgba(201,162,39,0.1); }
+  .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-burger span { display: block; width: 22px; height: 2px; background: rgba(255,255,255,0.7); border-radius: 2px; transition: all 0.25s; }
+  .nav-burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+  .nav-mobile { display: none; background: var(--navy-mid); border-top: 1px solid var(--border); padding: 8px 0 12px; }
+  .nav-mobile.open { display: block; }
+  .nav-mobile a { display: block; padding: 11px 24px; color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.04); transition: color 0.2s, background 0.2s; }
+  .nav-mobile a:hover { color: var(--gold-light); background: rgba(201,162,39,0.06); }
+  @media (max-width: 900px) { .nav-links { display: none; } .nav-burger { display: flex; } }
+
+  /* ── HERO ── */
+  .page-hero { background: var(--navy); padding: 80px 24px 64px; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,162,39,0.12) 0%, transparent 70%); }
+  .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,162,39,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201,162,39,0.05) 1px, transparent 1px); background-size: 50px 50px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%); }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+  .breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 20px; }
+  .breadcrumb a { color: rgba(201,162,39,0.6); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .breadcrumb span { margin: 0 8px; color: rgba(255,255,255,0.2); }
+  .page-title { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; color: var(--white); line-height: 1.05; margin-bottom: 16px; }
+  .page-title em { font-style: italic; color: var(--gold-light); }
+  .page-desc { font-size: 1rem; color: rgba(255,255,255,0.5); max-width: 620px; line-height: 1.7; margin-bottom: 36px; }
+  .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+  .hstat { text-align: center; }
+  .hstat-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+  .hstat-lbl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.4); margin-top: 5px; }
+  .hstat-div { width: 1px; height: 48px; background: rgba(201,162,39,0.2); align-self: center; }
+  @media (max-width: 640px) { .hstat-div { display: none; } .hero-stats { gap: 20px; } }
+
+  /* ── CONTENIDO ── */
+  .content { max-width: 1100px; margin: 0 auto; padding: 56px 24px 100px; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .section-heading { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--navy); margin-bottom: 32px; }
+  .section-heading em { font-style: italic; color: var(--gold); }
+  .section-block { margin-bottom: 72px; }
+
+  /* ── ESTRUCTURA JERÁRQUICA ── */
+  .org-chart { display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+  /* Nodo raíz */
+  .org-root { background: var(--navy); border-radius: 14px; padding: 22px 32px; text-align: center; position: relative; }
+  .org-root::after { content: ''; position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); width: 2px; height: 24px; background: rgba(201,162,39,0.3); }
+  .org-root-title { font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--gold); margin-bottom: 6px; }
+  .org-root-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--white); }
+  .org-root-role { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
+  /* Fila de equipos */
+  .org-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; width: 100%; padding-top: 24px; position: relative; }
+  .org-row::before { content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 2px; background: rgba(201,162,39,0.2); }
+
+  /* Equipo: cada columna */
+  .org-team { display: flex; flex-direction: column; gap: 10px; min-width: 180px; flex: 1; max-width: 240px; align-items: center; }
+  .org-team-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.14em; padding: 4px 12px; border-radius: 100px; font-weight: 600; }
+  .lbl-sec    { background: rgba(30,58,110,0.12); color: var(--navy-light); }
+  .lbl-press  { background: rgba(142,68,173,0.1); color: var(--purple); }
+  .lbl-log    { background: rgba(211,84,0,0.1); color: var(--orange); }
+  .lbl-stat   { background: rgba(22,160,133,0.1); color: var(--teal); }
+
+  .org-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 10px; padding: 14px 16px; width: 100%; text-align: center; transition: box-shadow 0.2s; }
+  .org-card:hover { box-shadow: 0 6px 20px rgba(10,22,40,0.08); }
+  .org-card-name { font-weight: 600; color: var(--navy); font-size: 0.9rem; margin-bottom: 3px; }
+  .org-card-detail { font-size: 0.75rem; color: var(--gray); line-height: 1.5; }
+
+  /* ── PARTICIPANTES POR ROL ── */
+  .roles-overview { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+  .role-stat-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 12px; padding: 20px; display: flex; gap: 14px; align-items: center; transition: box-shadow 0.2s; }
+  .role-stat-card:hover { box-shadow: 0 6px 20px rgba(10,22,40,0.08); }
+  .role-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+  .role-info {}
+  .role-count { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--navy); line-height: 1; }
+  .role-name  { font-size: 0.78rem; color: var(--gray); margin-top: 3px; }
+
+  /* ── DISTRIBUCIÓN POR COMISIÓN ── */
+  .dist-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid rgba(10,22,40,0.1); }
+  .dist-table { width: 100%; min-width: 620px; border-collapse: collapse; background: var(--white); font-size: 0.82rem; }
+  .dist-table thead tr { background: var(--navy); }
+  .dist-table th { padding: 12px 14px; font-family: 'DM Mono', monospace; font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 500; text-align: center; border-right: 1px solid rgba(255,255,255,0.05); }
+  .dist-table th:first-child { text-align: left; }
+  .dist-table td { padding: 10px 14px; border-bottom: 1px solid rgba(10,22,40,0.06); color: var(--text); text-align: center; border-right: 1px solid rgba(10,22,40,0.04); }
+  .dist-table td:first-child { text-align: left; font-weight: 600; color: var(--navy); }
+  .dist-table tr:last-child td { border-bottom: none; }
+  .dist-table tr:hover td { background: rgba(10,22,40,0.02); }
+  .dist-table .total-row td { background: rgba(201,162,39,0.06); font-weight: 700; color: var(--navy); border-top: 2px solid rgba(201,162,39,0.2); }
+  .dist-table .total-row td:first-child { color: var(--gold); }
+  .num-blue   { color: var(--blue); font-weight: 600; }
+  .num-teal   { color: var(--teal); font-weight: 600; }
+  .num-orange { color: var(--orange); font-weight: 600; }
+  .num-purple { color: var(--purple); font-weight: 600; }
+  .num-gold   { color: var(--gold); font-weight: 600; }
+  .c-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: rgba(10,22,40,0.35); display: block; font-weight: 400; }
+
+  /* ── CURSOS Y PRESIDENTES ── */
+  .courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .course-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 12px; padding: 18px; display: flex; gap: 14px; align-items: flex-start; }
+  .course-num { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: rgba(10,22,40,0.25); font-weight: 500; min-width: 36px; margin-top: 2px; }
+  .course-info {}
+  .course-name { font-size: 0.75rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .course-pres { font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+  .course-vice { font-size: 0.8rem; color: var(--gray); }
+  .course-alumnos { display: inline-block; margin-top: 8px; font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--teal); background: rgba(22,160,133,0.08); padding: 2px 8px; border-radius: 4px; }
+
+  /* ── RESPONSABILIDADES ── */
+  .resp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .resp-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 14px; padding: 22px; position: relative; overflow: hidden; }
+  .resp-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .resp-card.c-sec::before    { background: var(--blue); }
+  .resp-card.c-press::before  { background: var(--purple); }
+  .resp-card.c-log::before    { background: var(--orange); }
+  .resp-card.c-stat::before   { background: var(--teal); }
+  .resp-card.c-mesa::before   { background: var(--navy-light); }
+  .resp-card.c-com::before    { background: #e74c3c; }
+  .resp-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; }
+  .tag-sec   { background: rgba(36,113,163,0.1); color: var(--blue); }
+  .tag-press { background: rgba(142,68,173,0.1); color: var(--purple); }
+  .tag-log   { background: rgba(211,84,0,0.1); color: var(--orange); }
+  .tag-stat  { background: rgba(22,160,133,0.1); color: var(--teal); }
+  .tag-mesa  { background: rgba(30,58,110,0.1); color: var(--navy-light); }
+  .tag-com   { background: rgba(231,76,60,0.1); color: #e74c3c; }
+  .resp-title { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+  .resp-desc  { font-size: 0.83rem; color: #4a5568; line-height: 1.65; margin-bottom: 14px; }
+  .resp-tasks { list-style: none; padding: 0; }
+  .resp-tasks li { display: flex; gap: 8px; padding: 5px 0; font-size: 0.8rem; color: var(--text); border-bottom: 1px solid rgba(10,22,40,0.05); }
+  .resp-tasks li:last-child { border-bottom: none; }
+  .task-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+  .dot-sec   { background: var(--blue); }
+  .dot-press { background: var(--purple); }
+  .dot-log   { background: var(--orange); }
+  .dot-stat  { background: var(--teal); }
+  .dot-mesa  { background: var(--navy-light); }
+  .dot-com   { background: #e74c3c; }
+
+  /* ── CTA ── */
+  .nav-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 48px; padding-top: 40px; border-top: 1px solid rgba(10,22,40,0.08); }
+  .cta-btn { display: inline-block; text-decoration: none; padding: 11px 24px; border-radius: 10px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.2s; }
+  .cta-btn.primary { background: var(--navy); color: var(--gold-light); }
+  .cta-btn.primary:hover { background: var(--navy-light); }
+  .cta-btn.outline { border: 1px solid rgba(10,22,40,0.15); color: var(--navy); }
+  .cta-btn.outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,162,39,0.04); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--navy); border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .footer-logo em { color: var(--gold-light); font-style: italic; }
+  .footer-sub { color: rgba(255,255,255,0.3); font-size: 0.78rem; line-height: 1.7; }
+  .footer-divider { width: 36px; height: 1px; background: var(--gold); margin: 16px auto; opacity: 0.4; }
+  .footer-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+  .footer-links a { color: rgba(255,255,255,0.28); text-decoration: none; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold-light); }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 640px) {
+    .org-row { gap: 10px; }
+    .org-team { min-width: 140px; }
+    .courses-grid { grid-template-columns: 1fr 1fr; }
+    .resp-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">SIMONU · 2026</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="cronograma.html">Cronograma</a></li>
+      <li><a href="evento.html">Evento</a></li>
+      <li><a href="comisiones.html">Comisiones</a></li>
+      <li><a href="logistica.html" class="active">Logística</a></li>
+      <li><a href="criterios.html">Criterios</a></li>
+      <li><a href="historial.html">Historial</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="repositorio.html">Repositorio</a></li>
+    </ul>
+    <button class="nav-burger" id="burger" aria-label="Abrir menú" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="mobile-menu">
+    <a href="index.html">Inicio</a>
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Banco de proyectos</a>
+    <a href="repositorio.html">Repositorio de ponencias</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a><span>›</span>Logística
+    </div>
+    <h1 class="page-title">Equipo de <em>Logística</em></h1>
+    <p class="page-desc">El SIMONU 2026 opera gracias a la coordinación de 9 secretarios generales y múltiples equipos de apoyo distribuidos en todas las comisiones. Aquí está la estructura completa.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num">9</div><div class="hstat-lbl">Secretarios</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-num">15</div><div class="hstat-lbl">Mesas directivas</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-num">30</div><div class="hstat-lbl">Logística</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-num">60</div><div class="hstat-lbl">Comunicaciones</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-num">15</div><div class="hstat-lbl">Estadística</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONTENIDO ── -->
+<div class="content">
+
+  <!-- ORGANIGRAMA -->
+  <div class="section-block reveal">
+    <p class="section-label">Estructura de mando</p>
+    <h2 class="section-heading">Secretaría <em>General</em></h2>
+
+    <div class="org-chart">
+      <!-- Raíz -->
+      <div class="org-root" style="min-width:280px;">
+        <div class="org-root-title">Secretario General</div>
+        <div class="org-root-name">Santiago Aguilera</div>
+        <div class="org-root-role">Coordinación general · Todas las comisiones</div>
+      </div>
+
+      <!-- Segunda fila: 4 equipos -->
+      <div class="org-row">
+
+        <div class="org-team">
+          <span class="org-team-label lbl-sec">Secretaría de Piso</span>
+          <div class="org-card">
+            <div class="org-card-name">Juan Andres Vargas</div>
+            <div class="org-card-detail">Secretario Piso 1<br>Comisiones C4 · C5 · C6</div>
+          </div>
+          <div class="org-card">
+            <div class="org-card-name">Daniela Calderon</div>
+            <div class="org-card-detail">Secretaria Piso 2<br>Comisiones C7 · C8 · C9</div>
+          </div>
+        </div>
+
+        <div class="org-team">
+          <span class="org-team-label lbl-press">Prensa</span>
+          <div class="org-card">
+            <div class="org-card-name">Gabriela Salinas</div>
+            <div class="org-card-detail">Prensa 1<br>Comisiones C10 · C11 · C12</div>
+          </div>
+          <div class="org-card">
+            <div class="org-card-name">Medina Sara</div>
+            <div class="org-card-detail">Prensa 2<br>Comisiones C13 · C14 · C15</div>
+          </div>
+        </div>
+
+        <div class="org-team">
+          <span class="org-team-label lbl-log">Logística</span>
+          <div class="org-card">
+            <div class="org-card-name">Laura Zapata</div>
+            <div class="org-card-detail">Logística 1<br>Montaje y materiales</div>
+          </div>
+          <div class="org-card">
+            <div class="org-card-name">Alex Lambertinez</div>
+            <div class="org-card-detail">Logística 2<br>Montaje y materiales</div>
+          </div>
+        </div>
+
+        <div class="org-team">
+          <span class="org-team-label lbl-stat">Estadística</span>
+          <div class="org-card">
+            <div class="org-card-name">Contreras Samuel</div>
+            <div class="org-card-detail">Estadística 1<br>Registro y datos</div>
+          </div>
+          <div class="org-card">
+            <div class="org-card-name">Salcedo Emilio</div>
+            <div class="org-card-detail">Estadística 2<br>Registro y datos</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTICIPANTES POR ROL -->
+  <div class="section-block reveal">
+    <p class="section-label">Distribución global</p>
+    <h2 class="section-heading">Participantes por <em>Rol</em></h2>
+    <div class="roles-overview">
+      <div class="role-stat-card">
+        <div class="role-icon" style="background:rgba(36,113,163,0.1);">🎙️</div>
+        <div class="role-info">
+          <div class="role-count" style="color:var(--blue);">15</div>
+          <div class="role-name">Presidentes de comisión</div>
+        </div>
+      </div>
+      <div class="role-stat-card">
+        <div class="role-icon" style="background:rgba(22,160,133,0.1);">📋</div>
+        <div class="role-info">
+          <div class="role-count" style="color:var(--teal);">15</div>
+          <div class="role-name">Vicepresidentes</div>
+        </div>
+      </div>
+      <div class="role-stat-card">
+        <div class="role-icon" style="background:rgba(30,58,110,0.1);">📝</div>
+        <div class="role-info">
+          <div class="role-count" style="color:var(--navy-light);">15</div>
+          <div class="role-name">Secretarios de mesa</div>
+        </div>
+      </div>
+      <div class="role-stat-card">
+        <div class="role-icon" style="background:rgba(201,162,39,0.12);">🌍</div>
+        <div class="role-info">
+          <div class="role-count" style="color:#7a6010;">225</div>
+          <div class="role-name">Delegados y delegadas</div>
+        </div>
+      </div>
+      <div class="role-stat-card">
+        <div class="role-icon" style="background:rgba(211,84,0,0.1);">⚙️</div>
+        <div class="role-info">
+          <div class="role-count" style="color:var(--orange);">30</div>
+          <div class="role-name">Equipo de logística</div>
+        </div>
+      </div>
+      <div class="role-stat-card">
+        <div class="role-icon" style="background:rgba(231,76,60,0.1);">📸</div>
+        <div class="role-info">
+          <div class="role-count" style="color:#e74c3c;">60</div>
+          <div class="role-name">Comunicaciones</div>
+        </div>
+      </div>
+      <div class="role-stat-card">
+        <div class="role-icon" style="background:rgba(22,160,133,0.1);">📊</div>
+        <div class="role-info">
+          <div class="role-count" style="color:var(--teal);">15</div>
+          <div class="role-name">Estadística</div>
+        </div>
+      </div>
+      <div class="role-stat-card" style="border-color:rgba(201,162,39,0.3);background:rgba(201,162,39,0.04);">
+        <div class="role-icon" style="background:rgba(201,162,39,0.15);">👥</div>
+        <div class="role-info">
+          <div class="role-count" style="color:var(--gold);">384</div>
+          <div class="role-name">Total participantes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISTRIBUCIÓN POR COMISIÓN -->
+  <div class="section-block reveal">
+    <p class="section-label">Por comisión</p>
+    <h2 class="section-heading">Distribución de <em>Roles</em></h2>
+    <div class="dist-table-wrap">
+      <table class="dist-table">
+        <thead>
+          <tr>
+            <th>Comisión</th>
+            <th>Presidente</th>
+            <th>Vicepresidente</th>
+            <th>Sec. Mesa</th>
+            <th>Delegados</th>
+            <th>Logística</th>
+            <th>Comunicaciones</th>
+            <th>Estadística</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="c-label">C1</span>Orden Mundial</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C2</span>Energía y Recursos</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C3</span>Guerra Tecnológica</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C4</span>Geopolítica Climática</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C5</span>Medio Oriente</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C6</span>Guerras Híbridas</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C7</span>Migraciones</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C8</span>Rutas Estratégicas</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C9</span>América Latina</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C10</span>África Estratégica</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C11</span>Indo-Pacífico</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C12</span>Alimentos y Poder</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C13</span>Agua</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C14</span>Espacio</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr>
+            <td><span class="c-label">C15</span>Seguridad Global</td>
+            <td class="num-blue">1</td><td class="num-blue">1</td><td class="num-blue">1</td>
+            <td class="num-gold">15</td><td class="num-orange">2</td><td class="num-purple">4</td><td class="num-teal">1</td>
+            <td><strong>25</strong></td>
+          </tr>
+          <tr class="total-row">
+            <td>TOTALES</td>
+            <td class="num-blue">15</td><td class="num-blue">15</td><td class="num-blue">15</td>
+            <td class="num-gold">225</td><td class="num-orange">30</td><td class="num-purple">60</td><td class="num-teal">15</td>
+            <td style="font-size:1rem;">375</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.78rem;color:var(--gray);margin-top:12px;">* Los 9 secretarios generales se contabilizan aparte. Total participantes: <strong>384</strong>.</p>
+  </div>
+
+  <!-- PRESIDENTES POR CURSO -->
+  <div class="section-block reveal">
+    <p class="section-label">Representación institucional</p>
+    <h2 class="section-heading">Presidentes por <em>Curso</em></h2>
+    <div class="courses-grid">
+      <div class="course-card">
+        <div class="course-num">1104</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Arias Laura</div>
+          <div class="course-vice">Vice: Reyes Emily</div>
+          <span class="course-alumnos">28 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">1103</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Moya Juan</div>
+          <div class="course-vice">Vice: Barrios Nohemi</div>
+          <span class="course-alumnos">26 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">1102</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Diaz Camila</div>
+          <div class="course-vice">Vice: Sana Joshua</div>
+          <span class="course-alumnos">30 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">1101</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Angulo Samuel</div>
+          <div class="course-vice">Vice: Contreras Sara</div>
+          <span class="course-alumnos">33 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">1004</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Urrego Nicol</div>
+          <div class="course-vice">Vice: Perez Samuel</div>
+          <span class="course-alumnos">27 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">1003</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Sánchez Thomas</div>
+          <div class="course-vice">Vice: Duarte Samuel</div>
+          <span class="course-alumnos">27 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">1002</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Danna Rodriguez</div>
+          <div class="course-vice">Vice: Rivera Miguel</div>
+          <span class="course-alumnos">29 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">1001</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Tabarquino Juliana</div>
+          <div class="course-vice">Vice: Rios Simón</div>
+          <span class="course-alumnos">31 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">903</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Sara Sánchez</div>
+          <div class="course-vice">Vice: Mendoza Cielo</div>
+          <span class="course-alumnos">40 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">902</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Zarate David</div>
+          <div class="course-vice">Vice: Gabriela Chaparro</div>
+          <span class="course-alumnos">39 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">901</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Pereira Michael</div>
+          <div class="course-vice">Vice: Arciniegas Helen</div>
+          <span class="course-alumnos">38 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">803</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Vega Samuel</div>
+          <div class="course-vice">Vice: Blanco Viviana</div>
+          <span class="course-alumnos">12 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">802</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Vera Nicolas</div>
+          <div class="course-vice">Vice: Arango Stefanni</div>
+          <span class="course-alumnos">12 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-num">801</div>
+        <div class="course-info">
+          <div class="course-name">Curso</div>
+          <div class="course-pres">Villa Juan Esteban</div>
+          <div class="course-vice">Vice: Muñoz Danna</div>
+          <span class="course-alumnos">12 alumnos</span>
+        </div>
+      </div>
+      <div class="course-card" style="border-color:rgba(201,162,39,0.2);">
+        <div class="course-num" style="color:var(--gold);">Total</div>
+        <div class="course-info">
+          <div class="course-name">15 Cursos</div>
+          <div class="course-pres" style="font-size:1.3rem;color:var(--gold);">384</div>
+          <div class="course-vice">participantes en total</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESPONSABILIDADES POR EQUIPO -->
+  <div class="section-block reveal">
+    <p class="section-label">Funciones y responsabilidades</p>
+    <h2 class="section-heading">Qué hace <em>cada equipo</em></h2>
+    <div class="resp-grid">
+
+      <div class="resp-card c-sec">
+        <span class="resp-tag tag-sec">Secretaría General</span>
+        <div class="resp-title">Secretarios Generales</div>
+        <div class="resp-desc">Coordinan el evento desde la dirección central. El Secretario General supervisa todo el desarrollo; los secretarios de piso actúan como enlace entre la dirección y las comisiones asignadas.</div>
+        <ul class="resp-tasks">
+          <li><div class="task-dot dot-sec"></div>Supervisión general del evento</li>
+          <li><div class="task-dot dot-sec"></div>Coordinación entre comisiones y logística</li>
+          <li><div class="task-dot dot-sec"></div>Resolución de imprevistos en tiempo real</li>
+          <li><div class="task-dot dot-sec"></div>Enlace con directivas del colegio</li>
+          <li><div class="task-dot dot-sec"></div>Protocolo en la ceremonia de apertura y cierre</li>
+        </ul>
+      </div>
+
+      <div class="resp-card c-press">
+        <span class="resp-tag tag-press">Prensa</span>
+        <div class="resp-title">Equipo de Prensa</div>
+        <div class="resp-desc">Cubre el evento periodística y fotográficamente. Genera contenido para el blog del SIMONU, registra los momentos clave y coordina la comunicación institucional durante la jornada.</div>
+        <ul class="resp-tasks">
+          <li><div class="task-dot dot-press"></div>Cobertura fotográfica y audiovisual del evento</li>
+          <li><div class="task-dot dot-press"></div>Redacción de crónicas y noticias para el blog</li>
+          <li><div class="task-dot dot-press"></div>Registro de declaraciones de delegados</li>
+          <li><div class="task-dot dot-press"></div>Producción de contenido para redes institucionales</li>
+          <li><div class="task-dot dot-press"></div>Recopilación de material para el historial</li>
+        </ul>
+      </div>
+
+      <div class="resp-card c-log">
+        <span class="resp-tag tag-log">Logística</span>
+        <div class="resp-title">Equipo de Logística</div>
+        <div class="resp-desc">Garantiza el funcionamiento operativo del evento: montaje de salones, materiales, señalética, control de acceso y soporte durante toda la jornada del 17 de junio.</div>
+        <ul class="resp-tasks">
+          <li><div class="task-dot dot-log"></div>Montaje de los 15 salones de comisión</li>
+          <li><div class="task-dot dot-log"></div>Distribución de materiales y señalética</li>
+          <li><div class="task-dot dot-log"></div>Control de acceso y carnetización</li>
+          <li><div class="task-dot dot-log"></div>Coordinación del refrigerio y almuerzo</li>
+          <li><div class="task-dot dot-log"></div>Soporte técnico y operativo durante el evento</li>
+        </ul>
+      </div>
+
+      <div class="resp-card c-stat">
+        <span class="resp-tag tag-stat">Estadística</span>
+        <div class="resp-title">Equipo de Estadística</div>
+        <div class="resp-desc">Recopila y consolida los datos del evento en tiempo real: asistencia, participación por comisión, resultados de votaciones y métricas generales que se presentan en el cierre.</div>
+        <ul class="resp-tasks">
+          <li><div class="task-dot dot-stat"></div>Registro de asistencia por comisión</li>
+          <li><div class="task-dot dot-stat"></div>Consolidación de resultados de votaciones</li>
+          <li><div class="task-dot dot-stat"></div>Seguimiento de métricas de participación</li>
+          <li><div class="task-dot dot-stat"></div>Producción del informe estadístico para el cierre</li>
+          <li><div class="task-dot dot-stat"></div>Alimentación del informe de cierre (jun 19)</li>
+        </ul>
+      </div>
+
+      <div class="resp-card c-mesa">
+        <span class="resp-tag tag-mesa">Mesa Directiva</span>
+        <div class="resp-title">Secretarios de Mesa</div>
+        <div class="resp-desc">Uno por comisión. Son el registro oficial de cada sesión: llevan el acta, contabilizan los votos y coordinan la información con el Secretario General asignado a su piso.</div>
+        <ul class="resp-tasks">
+          <li><div class="task-dot dot-mesa"></div>Redacción del acta oficial de sesión</li>
+          <li><div class="task-dot dot-mesa"></div>Contabilización y registro de votaciones</li>
+          <li><div class="task-dot dot-mesa"></div>Control de lista de oradores</li>
+          <li><div class="task-dot dot-mesa"></div>Coordinación con el secretario de piso</li>
+          <li><div class="task-dot dot-mesa"></div>Entrega del acta consolidada al cierre</li>
+        </ul>
+      </div>
+
+      <div class="resp-card c-com">
+        <span class="resp-tag tag-com">Comunicaciones</span>
+        <div class="resp-title">Equipo de Comunicaciones</div>
+        <div class="resp-desc">Cuatro personas por comisión (60 en total). Registran el desarrollo interno de su comisión asignada: fotografía, cronometraje de intervenciones y apoyo al secretario de mesa.</div>
+        <ul class="resp-tasks">
+          <li><div class="task-dot dot-com"></div>Fotografía y video de la comisión asignada</li>
+          <li><div class="task-dot dot-com"></div>Cronometraje de las ponencias</li>
+          <li><div class="task-dot dot-com"></div>Apoyo al secretario de mesa</li>
+          <li><div class="task-dot dot-com"></div>Reporte al equipo de prensa central</li>
+          <li><div class="task-dot dot-com"></div>Registro de momentos para el historial</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="nav-cta reveal">
+    <a href="criterios.html" class="cta-btn primary">Ver criterios →</a>
+    <a href="comisiones.html" class="cta-btn outline">Ver comisiones</a>
+    <a href="evento.html" class="cta-btn outline">Agenda del día</a>
+    <a href="index.html" class="cta-btn outline">← Inicio</a>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">SIMONU <em>2026</em></div>
+  <div class="footer-divider"></div>
+  <div class="footer-sub">
+    Colegio Técnico Distrital Julio Florez · Bogotá, Colombia<br>
+    Simulación Geopolítica de Naciones Unidas · 17 de Junio de 2026
+  </div>
+  <nav class="footer-links" aria-label="Mapa del sitio">
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="repositorio.html">Repositorio</a>
+  </nav>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('burger').classList.toggle('open');
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 100);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+</script>
+</body>
+</html>

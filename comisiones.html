@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comisiones — SIMONU 2026 · Colegio Julio Florez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #0a1628;
+    --navy-mid:   #122040;
+    --navy-light: #1e3a6e;
+    --gold:       #c9a227;
+    --gold-light: #e8c84a;
+    --cream:      #faf8f2;
+    --white:      #ffffff;
+    --gray:       #8a95a3;
+    --text:       #1a2535;
+    --border:     rgba(201,162,39,0.25);
+    --teal:       #16a085;
+    --red:        #c0392b;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,22,40,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.88rem; color: var(--gold-light); letter-spacing: 0.06em; text-decoration: none; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 9px; border-radius: 6px; transition: color 0.2s, background 0.2s; white-space: nowrap; }
+  .nav-links a:hover { color: var(--gold-light); background: rgba(201,162,39,0.08); }
+  .nav-links a.active { color: var(--gold-light); background: rgba(201,162,39,0.1); }
+  .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-burger span { display: block; width: 22px; height: 2px; background: rgba(255,255,255,0.7); border-radius: 2px; transition: all 0.25s; }
+  .nav-burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+  .nav-mobile { display: none; background: var(--navy-mid); border-top: 1px solid var(--border); padding: 8px 0 12px; }
+  .nav-mobile.open { display: block; }
+  .nav-mobile a { display: block; padding: 11px 24px; color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.04); transition: color 0.2s, background 0.2s; }
+  .nav-mobile a:hover { color: var(--gold-light); background: rgba(201,162,39,0.06); }
+  @media (max-width: 900px) { .nav-links { display: none; } .nav-burger { display: flex; } }
+
+  /* ── HERO ── */
+  .page-hero { background: var(--navy); padding: 80px 24px 64px; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,162,39,0.12) 0%, transparent 70%); }
+  .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,162,39,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201,162,39,0.05) 1px, transparent 1px); background-size: 50px 50px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%); }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+  .breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 20px; }
+  .breadcrumb a { color: rgba(201,162,39,0.6); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .breadcrumb span { margin: 0 8px; color: rgba(255,255,255,0.2); }
+  .page-title { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; color: var(--white); line-height: 1.05; margin-bottom: 16px; }
+  .page-title em { font-style: italic; color: var(--gold-light); }
+  .page-desc { font-size: 1rem; color: rgba(255,255,255,0.5); max-width: 620px; line-height: 1.7; margin-bottom: 36px; }
+  .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+  .hstat { text-align: center; }
+  .hstat-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+  .hstat-lbl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.4); margin-top: 5px; }
+  .hstat-div { width: 1px; height: 48px; background: rgba(201,162,39,0.2); align-self: center; }
+
+  /* ── FILTROS ── */
+  .filters-bar { background: var(--white); border-bottom: 1px solid rgba(10,22,40,0.08); padding: 16px 24px; position: sticky; top: 60px; z-index: 90; }
+  .filters-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .filter-btn { padding: 8px 18px; border-radius: 100px; border: 1.5px solid rgba(10,22,40,0.15); background: transparent; color: var(--gray); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .filter-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .filter-btn.active { background: var(--navy); color: var(--gold-light); border-color: var(--navy); }
+  .filter-btn.english-active { background: var(--red); color: var(--white); border-color: var(--red); }
+  .filter-sep { width: 1px; height: 24px; background: rgba(10,22,40,0.1); }
+  .filter-count { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--gray); margin-left: auto; white-space: nowrap; }
+
+  /* ── GRID DE COMISIONES ── */
+  .content { max-width: 1100px; margin: 0 auto; padding: 48px 24px 100px; }
+
+  .commissions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 22px; }
+
+  .c-card {
+    background: var(--white);
+    border: 1px solid rgba(10,22,40,0.09);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.25s, transform 0.25s;
+    display: flex; flex-direction: column;
+  }
+  .c-card:hover { box-shadow: 0 14px 44px rgba(10,22,40,0.11); transform: translateY(-3px); }
+  .c-card[style*="display:none"] { display: none !important; }
+
+  /* Franja superior con color por tipo */
+  .c-stripe { height: 5px; }
+  .stripe-advanced { background: linear-gradient(90deg, var(--navy-light), var(--teal)); }
+  .stripe-english  { background: linear-gradient(90deg, var(--red), #e67e22); }
+  .stripe-basic    { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+
+  .c-body { padding: 24px 24px 0; flex: 1; }
+
+  /* Cabecera de la tarjeta */
+  .c-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .c-num-badge { font-family: 'DM Mono', monospace; font-size: 1.4rem; font-weight: 500; color: rgba(10,22,40,0.15); line-height: 1; flex-shrink: 0; }
+  .c-badges { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+  .badge { display: inline-block; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-adv { background: rgba(30,58,110,0.1); color: var(--navy-light); }
+  .badge-bas { background: rgba(201,162,39,0.12); color: #7a6010; }
+  .badge-eng { background: rgba(192,57,43,0.1); color: var(--red); }
+  .badge-es  { background: rgba(22,160,133,0.1); color: var(--teal); }
+
+  .c-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); line-height: 1.15; margin-bottom: 8px; }
+  .c-nucleus { font-size: 0.82rem; color: #4a5568; line-height: 1.6; margin-bottom: 16px; }
+
+  /* Expansible: países */
+  .c-countries-toggle { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 10px 0; border-top: 1px solid rgba(10,22,40,0.06); }
+  .c-toggle-label { font-size: 0.75rem; font-weight: 600; color: var(--navy-light); text-transform: uppercase; letter-spacing: 0.08em; }
+  .c-toggle-icon { font-size: 0.7rem; color: var(--gray); transition: transform 0.2s; }
+  .c-toggle-icon.open { transform: rotate(180deg); }
+  .c-countries-list { display: none; flex-wrap: wrap; gap: 5px; padding-bottom: 14px; }
+  .c-countries-list.open { display: flex; }
+  .country-chip { background: rgba(10,22,40,0.05); border-radius: 6px; padding: 3px 9px; font-size: 0.7rem; color: var(--text); }
+
+  /* Footer de la tarjeta: mesa directiva */
+  .c-footer { background: rgba(10,22,40,0.02); border-top: 1px solid rgba(10,22,40,0.06); padding: 16px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .c-person {}
+  .c-role { font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 3px; }
+  .c-pname { font-size: 0.88rem; font-weight: 600; color: var(--navy); }
+
+  /* ── TABLA RESUMEN ── */
+  .summary-section { margin-top: 72px; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .section-heading { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--navy); margin-bottom: 28px; }
+  .section-heading em { font-style: italic; color: var(--gold); }
+  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid rgba(10,22,40,0.1); }
+  .summary-table { width: 100%; min-width: 640px; border-collapse: collapse; background: var(--white); font-size: 0.83rem; }
+  .summary-table thead tr { background: var(--navy); }
+  .summary-table th { padding: 12px 16px; font-family: 'DM Mono', monospace; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 500; text-align: left; border-right: 1px solid rgba(255,255,255,0.05); }
+  .summary-table td { padding: 11px 16px; border-bottom: 1px solid rgba(10,22,40,0.06); color: var(--text); border-right: 1px solid rgba(10,22,40,0.04); vertical-align: middle; }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .summary-table tr:hover td { background: rgba(10,22,40,0.02); }
+  .summary-table .num-cell { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: rgba(10,22,40,0.35); text-align: center; }
+  .summary-table .name-cell { font-weight: 600; color: var(--navy); }
+  .summary-table .pres-cell { color: #2c3e50; }
+  .level-pip { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+  .pip-adv { background: var(--navy-light); }
+  .pip-bas { background: var(--gold); }
+  .pip-eng { background: var(--red); }
+  .lang-tag { display: inline-block; font-size: 0.65rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; }
+  .lang-en { background: rgba(192,57,43,0.1); color: var(--red); }
+  .lang-es { background: rgba(22,160,133,0.1); color: var(--teal); }
+
+  /* ── CTA ── */
+  .nav-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 48px; padding-top: 40px; border-top: 1px solid rgba(10,22,40,0.08); }
+  .cta-btn { display: inline-block; text-decoration: none; padding: 11px 24px; border-radius: 10px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.2s; }
+  .cta-btn.primary { background: var(--navy); color: var(--gold-light); }
+  .cta-btn.primary:hover { background: var(--navy-light); }
+  .cta-btn.outline { border: 1px solid rgba(10,22,40,0.15); color: var(--navy); }
+  .cta-btn.outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,162,39,0.04); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--navy); border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .footer-logo em { color: var(--gold-light); font-style: italic; }
+  .footer-sub { color: rgba(255,255,255,0.3); font-size: 0.78rem; line-height: 1.7; }
+  .footer-divider { width: 36px; height: 1px; background: var(--gold); margin: 16px auto; opacity: 0.4; }
+  .footer-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+  .footer-links a { color: rgba(255,255,255,0.28); text-decoration: none; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold-light); }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 640px) {
+    .commissions-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 20px; }
+    .hstat-div { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">SIMONU · 2026</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="cronograma.html">Cronograma</a></li>
+      <li><a href="evento.html">Evento</a></li>
+      <li><a href="comisiones.html" class="active">Comisiones</a></li>
+      <li><a href="logistica.html">Logística</a></li>
+      <li><a href="criterios.html">Criterios</a></li>
+      <li><a href="historial.html">Historial</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="repositorio.html">Repositorio</a></li>
+    </ul>
+    <button class="nav-burger" id="burger" aria-label="Abrir menú" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="mobile-menu">
+    <a href="index.html">Inicio</a>
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Banco de proyectos</a>
+    <a href="repositorio.html">Repositorio de ponencias</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a><span>›</span>Comisiones
+    </div>
+    <h1 class="page-title">Las <em>15 Comisiones</em></h1>
+    <p class="page-desc">Cada comisión aborda una de las grandes tensiones geopolíticas del siglo XXI. Los delegados representan a países reales y deliberan en español o inglés según el nivel asignado.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num">8</div><div class="hstat-lbl">Nivel Avanzado</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-num">7</div><div class="hstat-lbl">Nivel Básico</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-num">1</div><div class="hstat-lbl">En inglés</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-num">225</div><div class="hstat-lbl">Delegados</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-num">15</div><div class="hstat-lbl">por comisión</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FILTROS ── -->
+<div class="filters-bar">
+  <div class="filters-inner">
+    <button class="filter-btn active" onclick="filter('all', this)">Todas (15)</button>
+    <div class="filter-sep"></div>
+    <button class="filter-btn" onclick="filter('advanced', this)">Nivel avanzado (8)</button>
+    <button class="filter-btn" onclick="filter('basic', this)">Nivel básico (7)</button>
+    <div class="filter-sep"></div>
+    <button class="filter-btn" onclick="filter('english', this)">En inglés (1)</button>
+    <button class="filter-btn" onclick="filter('spanish', this)">En español (14)</button>
+    <span class="filter-count" id="filter-count">Mostrando 15 de 15</span>
+  </div>
+</div>
+
+<!-- ── COMISIONES ── -->
+<div class="content">
+  <div class="commissions-grid" id="grid">
+
+    <!-- C1 -->
+    <div class="c-card" data-level="advanced" data-lang="english">
+      <div class="c-stripe stripe-english"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C1</div>
+          <div class="c-badges">
+            <span class="badge badge-adv">Avanzado</span>
+            <span class="badge badge-eng">🇬🇧 Inglés</span>
+          </div>
+        </div>
+        <div class="c-name">Orden Mundial</div>
+        <div class="c-nucleus">Reconfiguración del orden mundial y transición hacia una multipolaridad inestable en el siglo XXI. Competencia por hegemonía, fragmentación geoeconómica y nuevos polos de poder.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇷🇺 Rusia</span><span class="country-chip">🇮🇳 India</span><span class="country-chip">🇯🇵 Japón</span><span class="country-chip">🇩🇪 Alemania</span><span class="country-chip">🇫🇷 Francia</span><span class="country-chip">🇬🇧 Reino Unido</span><span class="country-chip">🇧🇷 Brasil</span><span class="country-chip">🇲🇽 México</span><span class="country-chip">🇹🇷 Turquía</span><span class="country-chip">🇮🇷 Irán</span><span class="country-chip">🇿🇦 Sudáfrica</span><span class="country-chip">🇮🇩 Indonesia</span><span class="country-chip">🇪🇺 Unión Europea</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidenta</div><div class="c-pname">Arias Laura</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidenta</div><div class="c-pname">Gabriela Chaparro</div></div>
+      </div>
+    </div>
+
+    <!-- C2 -->
+    <div class="c-card" data-level="advanced" data-lang="spanish">
+      <div class="c-stripe stripe-advanced"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C2</div>
+          <div class="c-badges">
+            <span class="badge badge-adv">Avanzado</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">Energía y Recursos</div>
+        <div class="c-nucleus">Geopolítica de la energía, transición energética y disputa por minerales críticos. Petróleo, gas y minerales estratégicos para la transición energética.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇷🇺 Rusia</span><span class="country-chip">🇸🇦 Arabia Saudita</span><span class="country-chip">🇮🇷 Irán</span><span class="country-chip">🇶🇦 Qatar</span><span class="country-chip">🇦🇪 Emiratos Árabes Unidos</span><span class="country-chip">🇳🇴 Noruega</span><span class="country-chip">🇮🇳 India</span><span class="country-chip">🇯🇵 Japón</span><span class="country-chip">🇩🇪 Alemania</span><span class="country-chip">🇦🇺 Australia</span><span class="country-chip">🇨🇱 Chile</span><span class="country-chip">🇨🇩 Rep. Dem. del Congo</span><span class="country-chip">🇧🇷 Brasil</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidente</div><div class="c-pname">Moya Juan</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidenta</div><div class="c-pname">Barrios Nohemi</div></div>
+      </div>
+    </div>
+
+    <!-- C3 -->
+    <div class="c-card" data-level="advanced" data-lang="spanish">
+      <div class="c-stripe stripe-advanced"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C3</div>
+          <div class="c-badges">
+            <span class="badge badge-adv">Avanzado</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">Guerra Tecnológica</div>
+        <div class="c-nucleus">Competencia tecnológica global, soberanía digital y control de infraestructuras críticas de información. IA, semiconductores, datos y ciberseguridad como eje de poder.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇯🇵 Japón</span><span class="country-chip">🇰🇷 Corea del Sur</span><span class="country-chip">🇹🇼 Taiwán</span><span class="country-chip">🇩🇪 Alemania</span><span class="country-chip">🇫🇷 Francia</span><span class="country-chip">🇬🇧 Reino Unido</span><span class="country-chip">🇳🇱 Países Bajos</span><span class="country-chip">🇮🇳 India</span><span class="country-chip">🇮🇱 Israel</span><span class="country-chip">🇸🇬 Singapur</span><span class="country-chip">🇷🇺 Rusia</span><span class="country-chip">🇨🇦 Canadá</span><span class="country-chip">🇪🇺 Unión Europea</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidenta</div><div class="c-pname">Diaz Camila</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidente</div><div class="c-pname">Sana Joshua</div></div>
+      </div>
+    </div>
+
+    <!-- C4 -->
+    <div class="c-card" data-level="advanced" data-lang="spanish">
+      <div class="c-stripe stripe-advanced"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C4</div>
+          <div class="c-badges">
+            <span class="badge badge-adv">Avanzado</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">Geopolítica Climática</div>
+        <div class="c-nucleus">Crisis climática, seguridad ambiental y reconfiguración geopolítica de los recursos naturales. Cambio climático como factor de conflicto y seguridad internacional.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇧🇷 Brasil</span><span class="country-chip">🇨🇴 Colombia</span><span class="country-chip">🇵🇪 Perú</span><span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇮🇳 India</span><span class="country-chip">🇵🇰 Pakistán</span><span class="country-chip">🇧🇩 Bangladesh</span><span class="country-chip">🇪🇹 Etiopía</span><span class="country-chip">🇰🇪 Kenia</span><span class="country-chip">🇪🇬 Egipto</span><span class="country-chip">🇮🇩 Indonesia</span><span class="country-chip">🇵🇭 Filipinas</span><span class="country-chip">🇩🇪 Alemania</span><span class="country-chip">🇨🇦 Canadá</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidente</div><div class="c-pname">Vera Nicolas</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidenta</div><div class="c-pname">Contreras Sara</div></div>
+      </div>
+    </div>
+
+    <!-- C5 -->
+    <div class="c-card" data-level="advanced" data-lang="spanish">
+      <div class="c-stripe stripe-advanced"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C5</div>
+          <div class="c-badges">
+            <span class="badge badge-adv">Avanzado</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">Medio Oriente</div>
+        <div class="c-nucleus">Reconfiguración del Medio Oriente: conflictos superpuestos, rivalidades regionales y presencia de potencias globales. Energía, religión, geoestrategia y guerras proxy.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇮🇱 Israel</span><span class="country-chip">🇵🇸 Palestina</span><span class="country-chip">🇮🇷 Irán</span><span class="country-chip">🇸🇦 Arabia Saudita</span><span class="country-chip">🇹🇷 Turquía</span><span class="country-chip">🇸🇾 Siria</span><span class="country-chip">🇮🇶 Irak</span><span class="country-chip">🇾🇪 Yemen</span><span class="country-chip">🇪🇬 Egipto</span><span class="country-chip">🇯🇴 Jordania</span><span class="country-chip">🇱🇧 Líbano</span><span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇷🇺 Rusia</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇫🇷 Francia</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidenta</div><div class="c-pname">Urrego Nicol</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidente</div><div class="c-pname">Miguel Rivera</div></div>
+      </div>
+    </div>
+
+    <!-- C6 -->
+    <div class="c-card" data-level="advanced" data-lang="spanish">
+      <div class="c-stripe stripe-advanced"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C6</div>
+          <div class="c-badges">
+            <span class="badge badge-adv">Avanzado</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">Guerras Híbridas</div>
+        <div class="c-nucleus">Transformación de la guerra: conflictos híbridos, ciberseguridad y nuevas amenazas globales. Guerra no convencional, ciberataques y desinformación.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇷🇺 Rusia</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇺🇦 Ucrania</span><span class="country-chip">🇩🇪 Alemania</span><span class="country-chip">🇫🇷 Francia</span><span class="country-chip">🇬🇧 Reino Unido</span><span class="country-chip">🇵🇱 Polonia</span><span class="country-chip">🇪🇪 Estonia</span><span class="country-chip">🇮🇱 Israel</span><span class="country-chip">🇮🇷 Irán</span><span class="country-chip">🇹🇷 Turquía</span><span class="country-chip">🇮🇳 India</span><span class="country-chip">🇰🇷 Corea del Sur</span><span class="country-chip">🛡️ OTAN</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidente</div><div class="c-pname">Sánchez Thomas</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidenta</div><div class="c-pname">Mendoza Cielo</div></div>
+      </div>
+    </div>
+
+    <!-- C7 -->
+    <div class="c-card" data-level="advanced" data-lang="spanish">
+      <div class="c-stripe stripe-advanced"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C7</div>
+          <div class="c-badges">
+            <span class="badge badge-adv">Avanzado</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">Migraciones</div>
+        <div class="c-nucleus">Migraciones masivas, desplazamientos forzados y tensiones entre soberanía estatal y derechos humanos. Movilidad humana como fenómeno geopolítico.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇲🇽 México</span><span class="country-chip">🇨🇴 Colombia</span><span class="country-chip">🇻🇪 Venezuela</span><span class="country-chip">🇧🇷 Brasil</span><span class="country-chip">🇵🇪 Perú</span><span class="country-chip">🇪🇨 Ecuador</span><span class="country-chip">🇪🇸 España</span><span class="country-chip">🇮🇹 Italia</span><span class="country-chip">🇩🇪 Alemania</span><span class="country-chip">🇫🇷 Francia</span><span class="country-chip">🇹🇷 Turquía</span><span class="country-chip">🇬🇷 Grecia</span><span class="country-chip">🇪🇬 Egipto</span><span class="country-chip">🇪🇹 Etiopía</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidente</div><div class="c-pname">Zarate David</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidenta</div><div class="c-pname">Arciniegas Helen</div></div>
+      </div>
+    </div>
+
+    <!-- C8 -->
+    <div class="c-card" data-level="advanced" data-lang="spanish">
+      <div class="c-stripe stripe-advanced"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C8</div>
+          <div class="c-badges">
+            <span class="badge badge-adv">Avanzado</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">Rutas Estratégicas</div>
+        <div class="c-nucleus">Control de corredores estratégicos, cuellos de botella marítimos y vulnerabilidad del comercio global. Control del comercio a través de rutas críticas.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇪🇬 Egipto</span><span class="country-chip">🇸🇦 Arabia Saudita</span><span class="country-chip">🇾🇪 Yemen</span><span class="country-chip">🇮🇷 Irán</span><span class="country-chip">🇮🇳 India</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇸🇬 Singapur</span><span class="country-chip">🇮🇩 Indonesia</span><span class="country-chip">🇲🇾 Malasia</span><span class="country-chip">🇯🇵 Japón</span><span class="country-chip">🇰🇷 Corea del Sur</span><span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇵🇦 Panamá</span><span class="country-chip">🇹🇷 Turquía</span><span class="country-chip">🇪🇺 Unión Europea</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidenta</div><div class="c-pname">Tabarquino Juliana</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidente</div><div class="c-pname">Rios Simón</div></div>
+      </div>
+    </div>
+
+    <!-- C9 -->
+    <div class="c-card" data-level="basic" data-lang="spanish">
+      <div class="c-stripe stripe-basic"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C9</div>
+          <div class="c-badges">
+            <span class="badge badge-bas">Básico</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">América Latina</div>
+        <div class="c-nucleus">Geopolítica de América Latina: recursos estratégicos, crisis políticas y disputa por influencia global. Influencia externa y recursos en la región.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇧🇷 Brasil</span><span class="country-chip">🇲🇽 México</span><span class="country-chip">🇦🇷 Argentina</span><span class="country-chip">🇨🇴 Colombia</span><span class="country-chip">🇨🇱 Chile</span><span class="country-chip">🇵🇪 Perú</span><span class="country-chip">🇻🇪 Venezuela</span><span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇷🇺 Rusia</span><span class="country-chip">🇨🇦 Canadá</span><span class="country-chip">🇨🇺 Cuba</span><span class="country-chip">🇪🇨 Ecuador</span><span class="country-chip">🇧🇴 Bolivia</span><span class="country-chip">🇪🇺 Unión Europea</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidenta</div><div class="c-pname">Sara Sánchez</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidente</div><div class="c-pname">Samuel Duarte</div></div>
+      </div>
+    </div>
+
+    <!-- C10 -->
+    <div class="c-card" data-level="basic" data-lang="spanish">
+      <div class="c-stripe stripe-basic"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C10</div>
+          <div class="c-badges">
+            <span class="badge badge-bas">Básico</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">África Estratégica</div>
+        <div class="c-nucleus">África en el siglo XXI: recursos, seguridad, neocolonialismo y nuevas disputas de poder. Recursos, seguridad y disputa internacional en el continente.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇳🇬 Nigeria</span><span class="country-chip">🇿🇦 Sudáfrica</span><span class="country-chip">🇪🇹 Etiopía</span><span class="country-chip">🇰🇪 Kenia</span><span class="country-chip">🇪🇬 Egipto</span><span class="country-chip">🇨🇩 Rep. Dem. del Congo</span><span class="country-chip">🇦🇴 Angola</span><span class="country-chip">🇲🇦 Marruecos</span><span class="country-chip">🇩🇿 Argelia</span><span class="country-chip">🇫🇷 Francia</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇷🇺 Rusia</span><span class="country-chip">🇹🇷 Turquía</span><span class="country-chip">🌍 Unión Africana</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidenta</div><div class="c-pname">Danna Rodriguez</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidente</div><div class="c-pname">Perez Samuel</div></div>
+      </div>
+    </div>
+
+    <!-- C11 -->
+    <div class="c-card" data-level="basic" data-lang="spanish">
+      <div class="c-stripe stripe-basic"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C11</div>
+          <div class="c-badges">
+            <span class="badge badge-bas">Básico</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">Indo-Pacífico</div>
+        <div class="c-nucleus">Indo-Pacífico: epicentro de la competencia global y reconfiguración del equilibrio de poder en Asia. Centro del poder global y tensiones marítimas.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇮🇳 India</span><span class="country-chip">🇯🇵 Japón</span><span class="country-chip">🇰🇷 Corea del Sur</span><span class="country-chip">🇦🇺 Australia</span><span class="country-chip">🇮🇩 Indonesia</span><span class="country-chip">🇻🇳 Vietnam</span><span class="country-chip">🇵🇭 Filipinas</span><span class="country-chip">🇸🇬 Singapur</span><span class="country-chip">🇲🇾 Malasia</span><span class="country-chip">🇹🇼 Taiwán</span><span class="country-chip">🇷🇺 Rusia</span><span class="country-chip">🇫🇷 Francia</span><span class="country-chip">🇬🇧 Reino Unido</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidente</div><div class="c-pname">Pereira Michael</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidenta</div><div class="c-pname">Reyes Emily</div></div>
+      </div>
+    </div>
+
+    <!-- C12 -->
+    <div class="c-card" data-level="basic" data-lang="spanish">
+      <div class="c-stripe stripe-basic"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C12</div>
+          <div class="c-badges">
+            <span class="badge badge-bas">Básico</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">Alimentos y Poder</div>
+        <div class="c-nucleus">Seguridad alimentaria global, cadenas de suministro y conflictos por acceso a alimentos. Control de alimentos como herramienta geopolítica de presión.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇮🇳 India</span><span class="country-chip">🇧🇷 Brasil</span><span class="country-chip">🇦🇷 Argentina</span><span class="country-chip">🇷🇺 Rusia</span><span class="country-chip">🇺🇦 Ucrania</span><span class="country-chip">🇨🇦 Canadá</span><span class="country-chip">🇦🇺 Australia</span><span class="country-chip">🇫🇷 Francia</span><span class="country-chip">🇩🇪 Alemania</span><span class="country-chip">🇪🇬 Egipto</span><span class="country-chip">🇳🇬 Nigeria</span><span class="country-chip">🇮🇩 Indonesia</span><span class="country-chip">🌾 FAO</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidente</div><div class="c-pname">Vega Samuel</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidenta</div><div class="c-pname">Blanco Viviana</div></div>
+      </div>
+    </div>
+
+    <!-- C13 -->
+    <div class="c-card" data-level="basic" data-lang="spanish">
+      <div class="c-stripe stripe-basic"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C13</div>
+          <div class="c-badges">
+            <span class="badge badge-bas">Básico</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">Agua</div>
+        <div class="c-nucleus">Geopolítica del agua: escasez, control de cuencas y conflictos por recursos hídricos. Conflictos por acceso al agua como recurso estratégico.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇮🇳 India</span><span class="country-chip">🇵🇰 Pakistán</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇧🇩 Bangladesh</span><span class="country-chip">🇪🇬 Egipto</span><span class="country-chip">🇪🇹 Etiopía</span><span class="country-chip">🇸🇩 Sudán</span><span class="country-chip">🇹🇷 Turquía</span><span class="country-chip">🇮🇶 Irak</span><span class="country-chip">🇸🇾 Siria</span><span class="country-chip">🇮🇱 Israel</span><span class="country-chip">🇯🇴 Jordania</span><span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇲🇽 México</span><span class="country-chip">🇧🇷 Brasil</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidente</div><div class="c-pname">Angulo Samuel</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidenta</div><div class="c-pname">Carolina Aguilar</div></div>
+      </div>
+    </div>
+
+    <!-- C14 -->
+    <div class="c-card" data-level="basic" data-lang="spanish">
+      <div class="c-stripe stripe-basic"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C14</div>
+          <div class="c-badges">
+            <span class="badge badge-bas">Básico</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">Espacio</div>
+        <div class="c-nucleus">Geopolítica del espacio exterior: militarización, satélites y control de órbitas estratégicas. El espacio como nuevo dominio de poder y competencia global.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇨🇳 China</span><span class="country-chip">🇷🇺 Rusia</span><span class="country-chip">🇮🇳 India</span><span class="country-chip">🇯🇵 Japón</span><span class="country-chip">🇫🇷 Francia</span><span class="country-chip">🇩🇪 Alemania</span><span class="country-chip">🇬🇧 Reino Unido</span><span class="country-chip">🇮🇱 Israel</span><span class="country-chip">🇮🇷 Irán</span><span class="country-chip">🇰🇷 Corea del Sur</span><span class="country-chip">🇰🇵 Corea del Norte</span><span class="country-chip">🇧🇷 Brasil</span><span class="country-chip">🇨🇦 Canadá</span><span class="country-chip">🛰️ Ag. Espacial Europea</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidente</div><div class="c-pname">Villa Juan Esteban</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidenta</div><div class="c-pname">Muñoz Danna</div></div>
+      </div>
+    </div>
+
+    <!-- C15 -->
+    <div class="c-card" data-level="basic" data-lang="spanish">
+      <div class="c-stripe stripe-basic"></div>
+      <div class="c-body">
+        <div class="c-header">
+          <div class="c-num-badge">C15</div>
+          <div class="c-badges">
+            <span class="badge badge-bas">Básico</span>
+            <span class="badge badge-es">Español</span>
+          </div>
+        </div>
+        <div class="c-name">Seguridad Global</div>
+        <div class="c-nucleus">Geopolítica de la seguridad global: terrorismo, crimen organizado y economías ilícitas transnacionales. Actores no estatales y economías ilegales.</div>
+        <div class="c-countries-toggle" onclick="toggleCountries(this)">
+          <span class="c-toggle-label">15 delegaciones</span>
+          <span class="c-toggle-icon">▼</span>
+        </div>
+        <div class="c-countries-list">
+          <span class="country-chip">🇺🇸 Estados Unidos</span><span class="country-chip">🇲🇽 México</span><span class="country-chip">🇨🇴 Colombia</span><span class="country-chip">🇧🇷 Brasil</span><span class="country-chip">🇵🇪 Perú</span><span class="country-chip">🇻🇪 Venezuela</span><span class="country-chip">🇳🇬 Nigeria</span><span class="country-chip">🇿🇦 Sudáfrica</span><span class="country-chip">🇹🇷 Turquía</span><span class="country-chip">🇦🇫 Afganistán</span><span class="country-chip">🇵🇰 Pakistán</span><span class="country-chip">🇮🇳 India</span><span class="country-chip">🇫🇷 Francia</span><span class="country-chip">🇪🇸 España</span><span class="country-chip">🇺🇳 ONU</span>
+        </div>
+      </div>
+      <div class="c-footer">
+        <div class="c-person"><div class="c-role">Presidente</div><div class="c-pname">Castelvi Miguel</div></div>
+        <div class="c-person"><div class="c-role">Vicepresidenta</div><div class="c-pname">Arango Stefanni</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TABLA RESUMEN -->
+  <div class="summary-section reveal">
+    <p class="section-label">Vista consolidada</p>
+    <h2 class="section-heading">Resumen de <em>Mesas</em></h2>
+    <div class="table-wrap">
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th style="width:48px;">#</th>
+            <th>Comisión</th>
+            <th>Nivel</th>
+            <th>Idioma</th>
+            <th>Presidente/a</th>
+            <th>Vicepresidente/a</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="num-cell">C1</td><td class="name-cell">Orden Mundial</td><td><span class="level-pip pip-eng"></span>Avanzado</td><td><span class="lang-tag lang-en">EN</span></td><td class="pres-cell">Arias Laura</td><td>Gabriela Chaparro</td></tr>
+          <tr><td class="num-cell">C2</td><td class="name-cell">Energía y Recursos</td><td><span class="level-pip pip-adv"></span>Avanzado</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Moya Juan</td><td>Barrios Nohemi</td></tr>
+          <tr><td class="num-cell">C3</td><td class="name-cell">Guerra Tecnológica</td><td><span class="level-pip pip-adv"></span>Avanzado</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Diaz Camila</td><td>Sana Joshua</td></tr>
+          <tr><td class="num-cell">C4</td><td class="name-cell">Geopolítica Climática</td><td><span class="level-pip pip-adv"></span>Avanzado</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Vera Nicolas</td><td>Contreras Sara</td></tr>
+          <tr><td class="num-cell">C5</td><td class="name-cell">Medio Oriente</td><td><span class="level-pip pip-adv"></span>Avanzado</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Urrego Nicol</td><td>Miguel Rivera</td></tr>
+          <tr><td class="num-cell">C6</td><td class="name-cell">Guerras Híbridas</td><td><span class="level-pip pip-adv"></span>Avanzado</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Sánchez Thomas</td><td>Mendoza Cielo</td></tr>
+          <tr><td class="num-cell">C7</td><td class="name-cell">Migraciones</td><td><span class="level-pip pip-adv"></span>Avanzado</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Zarate David</td><td>Arciniegas Helen</td></tr>
+          <tr><td class="num-cell">C8</td><td class="name-cell">Rutas Estratégicas</td><td><span class="level-pip pip-adv"></span>Avanzado</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Tabarquino Juliana</td><td>Rios Simón</td></tr>
+          <tr><td class="num-cell">C9</td><td class="name-cell">América Latina</td><td><span class="level-pip pip-bas"></span>Básico</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Sara Sánchez</td><td>Samuel Duarte</td></tr>
+          <tr><td class="num-cell">C10</td><td class="name-cell">África Estratégica</td><td><span class="level-pip pip-bas"></span>Básico</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Danna Rodriguez</td><td>Perez Samuel</td></tr>
+          <tr><td class="num-cell">C11</td><td class="name-cell">Indo-Pacífico</td><td><span class="level-pip pip-bas"></span>Básico</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Pereira Michael</td><td>Reyes Emily</td></tr>
+          <tr><td class="num-cell">C12</td><td class="name-cell">Alimentos y Poder</td><td><span class="level-pip pip-bas"></span>Básico</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Vega Samuel</td><td>Blanco Viviana</td></tr>
+          <tr><td class="num-cell">C13</td><td class="name-cell">Agua</td><td><span class="level-pip pip-bas"></span>Básico</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Angulo Samuel</td><td>Carolina Aguilar</td></tr>
+          <tr><td class="num-cell">C14</td><td class="name-cell">Espacio</td><td><span class="level-pip pip-bas"></span>Básico</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Villa Juan Esteban</td><td>Muñoz Danna</td></tr>
+          <tr><td class="num-cell">C15</td><td class="name-cell">Seguridad Global</td><td><span class="level-pip pip-bas"></span>Básico</td><td><span class="lang-tag lang-es">ES</span></td><td class="pres-cell">Castelvi Miguel</td><td>Arango Stefanni</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="nav-cta reveal">
+    <a href="logistica.html" class="cta-btn primary">Ver logística →</a>
+    <a href="criterios.html" class="cta-btn outline">Criterios de evaluación</a>
+    <a href="evento.html" class="cta-btn outline">Agenda del día</a>
+    <a href="index.html" class="cta-btn outline">← Inicio</a>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">SIMONU <em>2026</em></div>
+  <div class="footer-divider"></div>
+  <div class="footer-sub">
+    Colegio Técnico Distrital Julio Florez · Bogotá, Colombia<br>
+    Simulación Geopolítica de Naciones Unidas · 17 de Junio de 2026
+  </div>
+  <nav class="footer-links" aria-label="Mapa del sitio">
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="repositorio.html">Repositorio</a>
+  </nav>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('burger').classList.toggle('open');
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+
+  function toggleCountries(el) {
+    const list = el.nextElementSibling;
+    const icon = el.querySelector('.c-toggle-icon');
+    list.classList.toggle('open');
+    icon.classList.toggle('open');
+  }
+
+  function filter(type, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active', 'english-active'));
+    btn.classList.add(type === 'english' ? 'english-active' : 'active');
+
+    const cards = document.querySelectorAll('.c-card');
+    let visible = 0;
+    cards.forEach(card => {
+      let show = false;
+      if (type === 'all')     show = true;
+      if (type === 'advanced') show = card.dataset.level === 'advanced';
+      if (type === 'basic')    show = card.dataset.level === 'basic';
+      if (type === 'english')  show = card.dataset.lang === 'english';
+      if (type === 'spanish')  show = card.dataset.lang === 'spanish';
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    document.getElementById('filter-count').textContent = `Mostrando ${visible} de 15`;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
