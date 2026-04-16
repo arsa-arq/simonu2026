@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banco de Proyectos — SIMONU 2026 · Colegio Julio Florez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#0a1628;--navy-mid:#122040;--navy-light:#1e3a6e;
+    --gold:#c9a227;--gold-light:#e8c84a;--cream:#faf8f2;
+    --white:#ffffff;--gray:#8a95a3;--text:#1a2535;
+    --border:rgba(201,162,39,0.25);--teal:#16a085;--orange:#d35400;--purple:#8e44ad;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;}
+
+  nav{position:sticky;top:0;z-index:100;background:rgba(10,22,40,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+  .nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+  .nav-logo{font-family:'DM Mono',monospace;font-size:0.88rem;color:var(--gold-light);letter-spacing:0.06em;text-decoration:none;flex-shrink:0;}
+  .nav-links{display:flex;gap:4px;list-style:none;align-items:center;}
+  .nav-links a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.75rem;letter-spacing:0.04em;text-transform:uppercase;padding:6px 9px;border-radius:6px;transition:color 0.2s,background 0.2s;white-space:nowrap;}
+  .nav-links a:hover{color:var(--gold-light);background:rgba(201,162,39,0.08);}
+  .nav-links a.active{color:var(--gold-light);background:rgba(201,162,39,0.1);}
+  .nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+  .nav-burger span{display:block;width:22px;height:2px;background:rgba(255,255,255,0.7);border-radius:2px;transition:all 0.25s;}
+  .nav-burger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+  .nav-burger.open span:nth-child(2){opacity:0;}
+  .nav-burger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+  .nav-mobile{display:none;background:var(--navy-mid);border-top:1px solid var(--border);padding:8px 0 12px;}
+  .nav-mobile.open{display:block;}
+  .nav-mobile a{display:block;padding:11px 24px;color:rgba(255,255,255,0.65);text-decoration:none;font-size:0.82rem;letter-spacing:0.04em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.04);transition:color 0.2s,background 0.2s;}
+  .nav-mobile a:hover{color:var(--gold-light);background:rgba(201,162,39,0.06);}
+  @media(max-width:900px){.nav-links{display:none;}.nav-burger{display:flex;}}
+
+  .page-hero{background:var(--navy);padding:80px 24px 64px;position:relative;overflow:hidden;}
+  .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(201,162,39,0.12) 0%,transparent 70%);}
+  .grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(201,162,39,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(201,162,39,0.05) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 100%);}
+  .hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2;}
+  .breadcrumb{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--gold);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:20px;}
+  .breadcrumb a{color:rgba(201,162,39,0.6);text-decoration:none;}
+  .breadcrumb span{margin:0 8px;color:rgba(255,255,255,0.2);}
+  .page-title{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:900;color:var(--white);line-height:1.05;margin-bottom:16px;}
+  .page-title em{font-style:italic;color:var(--gold-light);}
+  .page-desc{font-size:1rem;color:rgba(255,255,255,0.5);max-width:620px;line-height:1.7;}
+
+  /* COMING SOON CENTRAL */
+  .content{max-width:1100px;margin:0 auto;padding:64px 24px 100px;}
+  .section-label{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+  .section-heading{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--navy);margin-bottom:28px;}
+  .section-heading em{font-style:italic;color:var(--gold);}
+
+  /* Banner próximamente */
+  .coming-banner{background:var(--navy);border-radius:16px;padding:56px 40px;text-align:center;margin-bottom:56px;position:relative;overflow:hidden;}
+  .coming-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(201,162,39,0.08) 0%,transparent 70%);}
+  .coming-icon{font-size:3.5rem;margin-bottom:20px;position:relative;}
+  .coming-banner h2{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--white);margin-bottom:14px;position:relative;}
+  .coming-banner h2 em{font-style:italic;color:var(--gold-light);}
+  .coming-banner p{font-size:0.95rem;color:rgba(255,255,255,0.5);line-height:1.75;max-width:560px;margin:0 auto 28px;position:relative;}
+  .coming-badge{display:inline-block;background:rgba(201,162,39,0.15);border:1px solid var(--border);border-radius:100px;padding:10px 24px;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--gold-light);letter-spacing:0.12em;text-transform:uppercase;position:relative;}
+
+  /* Qué encontrarás */
+  .preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:56px;}
+  .preview-card{background:var(--white);border:1px solid rgba(10,22,40,0.08);border-radius:14px;padding:24px;position:relative;overflow:hidden;}
+  .preview-card::after{content:'Próximamente';position:absolute;top:14px;right:14px;font-family:'DM Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:0.12em;background:rgba(10,22,40,0.06);color:var(--gray);padding:3px 8px;border-radius:4px;}
+  .preview-icon{font-size:1.8rem;margin-bottom:14px;}
+  .preview-title{font-weight:700;font-size:0.95rem;color:var(--navy);margin-bottom:8px;}
+  .preview-desc{font-size:0.82rem;color:#4a5568;line-height:1.65;}
+  /* overlay deshabilitado */
+  .preview-card.disabled{opacity:0.65;pointer-events:none;}
+
+  /* Estructura que tendrá */
+  .structure-block{background:rgba(201,162,39,0.05);border:1px solid rgba(201,162,39,0.2);border-radius:14px;padding:32px 36px;margin-bottom:56px;}
+  .structure-block h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:20px;}
+  .structure-items{display:flex;flex-direction:column;gap:12px;}
+  .si{display:flex;gap:14px;align-items:flex-start;}
+  .si-num{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--gold);font-weight:500;min-width:28px;margin-top:2px;}
+  .si-content{}
+  .si-title{font-weight:600;font-size:0.9rem;color:var(--navy);margin-bottom:2px;}
+  .si-desc{font-size:0.8rem;color:var(--gray);line-height:1.5;}
+
+  /* Placeholder cards vacías */
+  .placeholder-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:40px;}
+  .placeholder-card{background:var(--white);border:2px dashed rgba(10,22,40,0.1);border-radius:14px;padding:28px;text-align:center;}
+  .ph-icon{font-size:2rem;margin-bottom:12px;opacity:0.35;}
+  .ph-label{font-family:'DM Mono',monospace;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--gray);}
+
+  /* CTA */
+  .nav-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:48px;padding-top:40px;border-top:1px solid rgba(10,22,40,0.08);}
+  .cta-btn{display:inline-block;text-decoration:none;padding:11px 24px;border-radius:10px;font-size:0.82rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;transition:all 0.2s;}
+  .cta-btn.primary{background:var(--navy);color:var(--gold-light);}
+  .cta-btn.primary:hover{background:var(--navy-light);}
+  .cta-btn.outline{border:1px solid rgba(10,22,40,0.15);color:var(--navy);}
+  .cta-btn.outline:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,162,39,0.04);}
+
+  footer{background:var(--navy);border-top:1px solid var(--border);padding:40px 24px;text-align:center;}
+  .footer-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:8px;}
+  .footer-logo em{color:var(--gold-light);font-style:italic;}
+  .footer-sub{color:rgba(255,255,255,0.3);font-size:0.78rem;line-height:1.7;}
+  .footer-divider{width:36px;height:1px;background:var(--gold);margin:16px auto;opacity:0.4;}
+  .footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
+  .footer-links a{color:rgba(255,255,255,0.28);text-decoration:none;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;transition:color 0.2s;}
+  .footer-links a:hover{color:var(--gold-light);}
+
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @media(max-width:640px){.structure-block{padding:24px;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">SIMONU · 2026</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="cronograma.html">Cronograma</a></li>
+      <li><a href="evento.html">Evento</a></li>
+      <li><a href="comisiones.html">Comisiones</a></li>
+      <li><a href="logistica.html">Logística</a></li>
+      <li><a href="criterios.html">Criterios</a></li>
+      <li><a href="historial.html">Historial</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="proyectos.html" class="active">Proyectos</a></li>
+      <li><a href="repositorio.html">Repositorio</a></li>
+    </ul>
+    <button class="nav-burger" id="burger" aria-label="Abrir menú" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="mobile-menu">
+    <a href="index.html">Inicio</a>
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Banco de proyectos</a>
+    <a href="repositorio.html">Repositorio de ponencias</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb"><a href="index.html">Inicio</a><span>›</span>Banco de proyectos</div>
+    <h1 class="page-title">Banco de <em>Proyectos</em></h1>
+    <p class="page-desc">Archivo de proyectos, papeles de trabajo y resoluciones producidos por las comisiones del SIMONU JF a lo largo de sus ediciones.</p>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- BANNER PRÓXIMAMENTE -->
+  <div class="coming-banner reveal">
+    <div class="coming-icon">🗄️</div>
+    <h2>Contenido <em>en preparación</em></h2>
+    <p>El banco de proyectos se publicará una vez concluida la simulación del 17 de junio. Aquí encontrarás los papeles de trabajo, proyectos de resolución y comunicados de prensa producidos por las 15 comisiones del SIMONU 2026, así como los documentos destacados de ediciones anteriores.</p>
+    <span class="coming-badge">Disponible tras el 17 de junio de 2026</span>
+  </div>
+
+  <!-- QUÉ ENCONTRARÁS -->
+  <div class="reveal">
+    <p class="section-label">Vista previa</p>
+    <h2 class="section-heading">¿Qué encontrarás <em>aquí</em>?</h2>
+    <div class="preview-grid">
+      <div class="preview-card disabled">
+        <div class="preview-icon">📄</div>
+        <div class="preview-title">Papeles de trabajo</div>
+        <div class="preview-desc">Borradores de resolución redactados por los bloques durante los debates. Documentos de trabajo colaborativo entre delegaciones.</div>
+      </div>
+      <div class="preview-card disabled">
+        <div class="preview-icon">✅</div>
+        <div class="preview-title">Resoluciones aprobadas</div>
+        <div class="preview-desc">Proyectos de resolución que superaron la votación final en cada comisión. El resultado oficial del debate parlamentario.</div>
+      </div>
+      <div class="preview-card disabled">
+        <div class="preview-icon">📰</div>
+        <div class="preview-title">Comunicados de prensa</div>
+        <div class="preview-desc">Documentos presentados por delegaciones en desacuerdo con las resoluciones propuestas, expuestos en tercera persona.</div>
+      </div>
+      <div class="preview-card disabled">
+        <div class="preview-icon">🌍</div>
+        <div class="preview-title">Proyectos por comisión</div>
+        <div class="preview-desc">Organizados por las 15 comisiones: C1 Orden Mundial, C2 Energía y Recursos… hasta C15 Seguridad Global.</div>
+      </div>
+      <div class="preview-card disabled">
+        <div class="preview-icon">📅</div>
+        <div class="preview-title">Proyectos por edición</div>
+        <div class="preview-desc">Archivo histórico de los proyectos más destacados de ediciones anteriores del SIMONU JF desde 2015.</div>
+      </div>
+      <div class="preview-card disabled">
+        <div class="preview-icon">⭐</div>
+        <div class="preview-title">Proyectos destacados</div>
+        <div class="preview-desc">Selección de los trabajos más sobresalientes reconocidos por la Mesa Directiva y el Secretariado General.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CÓMO ESTARÁ ORGANIZADO -->
+  <div class="structure-block reveal">
+    <h3>🗂️ Cómo estará organizado el banco</h3>
+    <div class="structure-items">
+      <div class="si">
+        <div class="si-num">01</div>
+        <div class="si-content">
+          <div class="si-title">Filtro por tipo de documento</div>
+          <div class="si-desc">Papel de trabajo · Proyecto de resolución · Resolución final · Comunicado de prensa</div>
+        </div>
+      </div>
+      <div class="si">
+        <div class="si-num">02</div>
+        <div class="si-content">
+          <div class="si-title">Filtro por comisión</div>
+          <div class="si-desc">Las 15 comisiones del SIMONU 2026 con sus respectivos documentos producidos durante el debate.</div>
+        </div>
+      </div>
+      <div class="si">
+        <div class="si-num">03</div>
+        <div class="si-content">
+          <div class="si-title">Filtro por edición</div>
+          <div class="si-desc">Documentos de las ediciones anteriores: 2018, 2019, 2020, 2022, 2023, 2024, 2025 y 2026.</div>
+        </div>
+      </div>
+      <div class="si">
+        <div class="si-num">04</div>
+        <div class="si-content">
+          <div class="si-title">Filtro por nivel</div>
+          <div class="si-desc">Avanzado (C1–C8) · Básico (C9–C15) · Inglés (C1)</div>
+        </div>
+      </div>
+      <div class="si">
+        <div class="si-num">05</div>
+        <div class="si-content">
+          <div class="si-title">Enlace de descarga o visualización</div>
+          <div class="si-desc">Cada proyecto tendrá su enlace directo al PDF alojado en Google Drive o en la carpeta docs/ del repositorio.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLACEHOLDERS COMISIONES 2026 -->
+  <div class="reveal">
+    <p class="section-label">SIMONU 2026 · Geopolítica</p>
+    <h2 class="section-heading">Proyectos por <em>Comisión</em></h2>
+    <p style="font-size:0.88rem;color:var(--gray);margin-bottom:24px;">Se publicarán después del 17 de junio. Agrega aquí los enlaces a los documentos de cada comisión.</p>
+    <div class="placeholder-grid">
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C1 · Orden Mundial</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C2 · Energía y Recursos</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C3 · Guerra Tecnológica</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C4 · Geopolítica Climática</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C5 · Medio Oriente</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C6 · Guerras Híbridas</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C7 · Migraciones</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C8 · Rutas Estratégicas</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C9 · América Latina</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C10 · África Estratégica</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C11 · Indo-Pacífico</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C12 · Alimentos y Poder</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C13 · Agua</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C14 · Espacio</div></div>
+      <div class="placeholder-card"><div class="ph-icon">📄</div><div class="ph-label">C15 · Seguridad Global</div></div>
+    </div>
+  </div>
+
+  <div class="nav-cta reveal">
+    <a href="repositorio.html" class="cta-btn primary">Ver repositorio de ponencias →</a>
+    <a href="comisiones.html" class="cta-btn outline">Ver comisiones</a>
+    <a href="criterios.html" class="cta-btn outline">Criterios — papeles de trabajo</a>
+    <a href="index.html" class="cta-btn outline">← Inicio</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">SIMONU <em>2026</em></div>
+  <div class="footer-divider"></div>
+  <div class="footer-sub">Colegio Técnico Distrital Julio Florez · Bogotá, Colombia<br>Simulación Geopolítica de Naciones Unidas · 17 de Junio de 2026</div>
+  <nav class="footer-links">
+    <a href="cronograma.html">Cronograma</a><a href="evento.html">Evento del día</a><a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a><a href="criterios.html">Criterios</a><a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a><a href="proyectos.html">Proyectos</a><a href="repositorio.html">Repositorio</a>
+  </nav>
+</footer>
+
+<script>
+  function toggleMenu(){document.getElementById('burger').classList.toggle('open');document.getElementById('mobile-menu').classList.toggle('open');}
+  const obs=new IntersectionObserver((e)=>{e.forEach((en,i)=>{if(en.isIntersecting){setTimeout(()=>en.target.classList.add('visible'),i*80);obs.unobserve(en.target);}});},{threshold:0.07});
+  document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+</script>
+</body>
+</html>

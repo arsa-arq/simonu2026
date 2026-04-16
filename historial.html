@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historial — SIMONU 2026 · Colegio Julio Florez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #0a1628;
+    --navy-mid:   #122040;
+    --navy-light: #1e3a6e;
+    --gold:       #c9a227;
+    --gold-light: #e8c84a;
+    --cream:      #faf8f2;
+    --white:      #ffffff;
+    --gray:       #8a95a3;
+    --text:       #1a2535;
+    --border:     rgba(201,162,39,0.25);
+    --teal:       #16a085;
+    --orange:     #d35400;
+    --purple:     #8e44ad;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,22,40,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.88rem; color: var(--gold-light); letter-spacing: 0.06em; text-decoration: none; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 9px; border-radius: 6px; transition: color 0.2s, background 0.2s; white-space: nowrap; }
+  .nav-links a:hover { color: var(--gold-light); background: rgba(201,162,39,0.08); }
+  .nav-links a.active { color: var(--gold-light); background: rgba(201,162,39,0.1); }
+  .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-burger span { display: block; width: 22px; height: 2px; background: rgba(255,255,255,0.7); border-radius: 2px; transition: all 0.25s; }
+  .nav-burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+  .nav-mobile { display: none; background: var(--navy-mid); border-top: 1px solid var(--border); padding: 8px 0 12px; }
+  .nav-mobile.open { display: block; }
+  .nav-mobile a { display: block; padding: 11px 24px; color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.04); transition: color 0.2s, background 0.2s; }
+  .nav-mobile a:hover { color: var(--gold-light); background: rgba(201,162,39,0.06); }
+  @media (max-width: 900px) { .nav-links { display: none; } .nav-burger { display: flex; } }
+
+  /* ── HERO ── */
+  .page-hero { background: var(--navy); padding: 80px 24px 64px; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,162,39,0.12) 0%, transparent 70%); }
+  .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,162,39,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201,162,39,0.05) 1px, transparent 1px); background-size: 50px 50px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%); }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+  .breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 20px; }
+  .breadcrumb a { color: rgba(201,162,39,0.6); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .breadcrumb span { margin: 0 8px; color: rgba(255,255,255,0.2); }
+  .page-title { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; color: var(--white); line-height: 1.05; margin-bottom: 16px; }
+  .page-title em { font-style: italic; color: var(--gold-light); }
+  .page-desc { font-size: 1rem; color: rgba(255,255,255,0.5); max-width: 640px; line-height: 1.7; margin-bottom: 36px; }
+  .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+  .hstat { text-align: center; }
+  .hstat-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+  .hstat-lbl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.4); margin-top: 5px; }
+  .hstat-div { width: 1px; height: 48px; background: rgba(201,162,39,0.2); align-self: center; }
+
+  /* ── CONTENIDO ── */
+  .content { max-width: 1100px; margin: 0 auto; padding: 64px 24px 100px; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .section-heading { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--navy); margin-bottom: 36px; }
+  .section-heading em { font-style: italic; color: var(--gold); }
+
+  /* ── LÍNEA DE TIEMPO ── */
+  .timeline { position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--gold) 0%, rgba(201,162,39,0.1) 90%); transform: translateX(-50%); }
+
+  .tl-entry { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; margin-bottom: 0; align-items: start; }
+  .tl-entry.odd  .tl-card-wrap { grid-column: 1; text-align: right; padding-right: 36px; }
+  .tl-entry.odd  .tl-spacer    { grid-column: 2; }
+  .tl-entry.odd  .tl-empty     { grid-column: 3; }
+  .tl-entry.even .tl-empty     { grid-column: 1; }
+  .tl-entry.even .tl-spacer    { grid-column: 2; }
+  .tl-entry.even .tl-card-wrap { grid-column: 3; text-align: left; padding-left: 36px; }
+
+  /* Nodo central */
+  .tl-spacer { display: flex; align-items: flex-start; justify-content: center; padding-top: 24px; position: relative; }
+  .tl-node { width: 44px; height: 44px; border-radius: 50%; border: 3px solid var(--cream); display: flex; align-items: center; justify-content: center; flex-shrink: 0; z-index: 2; position: relative; }
+  .tl-node.regular { background: var(--navy-light); box-shadow: 0 0 0 4px rgba(30,58,110,0.2); }
+  .tl-node.milestone { background: var(--gold); box-shadow: 0 0 0 6px rgba(201,162,39,0.2); }
+  .tl-node.current { background: var(--navy); border-color: var(--gold); box-shadow: 0 0 0 6px rgba(201,162,39,0.25); }
+  .tl-node-year { font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.05em; }
+  .tl-node.regular .tl-node-year { color: rgba(255,255,255,0.8); }
+  .tl-node.milestone .tl-node-year { color: var(--navy); }
+  .tl-node.current .tl-node-year { color: var(--gold-light); }
+
+  /* Tarjeta */
+  .tl-card { background: var(--white); border: 1px solid rgba(10,22,40,0.09); border-radius: 14px; padding: 22px 24px; margin-bottom: 32px; transition: box-shadow 0.25s, transform 0.25s; display: inline-block; width: 100%; text-align: left; position: relative; overflow: hidden; }
+  .tl-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .tl-card.regular::before   { background: var(--navy-light); }
+  .tl-card.milestone::before { background: var(--gold); }
+  .tl-card.current::before   { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+  .tl-card:hover { box-shadow: 0 10px 36px rgba(10,22,40,0.1); transform: translateY(-2px); }
+  .tl-card.milestone { border-color: rgba(201,162,39,0.25); background: linear-gradient(135deg, rgba(201,162,39,0.04), rgba(201,162,39,0.01)); }
+  .tl-card.current { border-color: rgba(201,162,39,0.35); background: linear-gradient(135deg, rgba(10,22,40,0.04), transparent); }
+
+  .tl-year { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 6px; }
+  .tl-card.regular   .tl-year { color: var(--navy-light); }
+  .tl-card.milestone .tl-year { color: var(--gold); }
+  .tl-card.current   .tl-year { color: var(--gold); }
+
+  .tl-theme { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); line-height: 1.2; margin-bottom: 10px; }
+  .tl-card.current .tl-theme { color: var(--navy); }
+
+  .tl-desc { font-size: 0.84rem; color: #4a5568; line-height: 1.65; margin-bottom: 10px; }
+
+  .tl-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tl-badge { display: inline-block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 100px; }
+  .badge-gcbmun      { background: rgba(142,68,173,0.1); color: var(--purple); }
+  .badge-outstanding { background: rgba(201,162,39,0.15); color: #7a6010; }
+  .badge-english     { background: rgba(192,57,43,0.1); color: #c0392b; }
+  .badge-primaria    { background: rgba(22,160,133,0.1); color: var(--teal); }
+  .badge-online      { background: rgba(36,113,163,0.1); color: #2471a3; }
+  .badge-current     { background: rgba(10,22,40,0.08); color: var(--navy-light); }
+
+  /* Línea de tiempo compacta móvil */
+  @media (max-width: 700px) {
+    .timeline::before { left: 20px; }
+    .tl-entry { grid-template-columns: 44px 1fr; }
+    .tl-entry.odd .tl-card-wrap,
+    .tl-entry.even .tl-card-wrap { grid-column: 2; text-align: left; padding: 0 0 0 20px; }
+    .tl-entry.odd .tl-spacer,
+    .tl-entry.even .tl-spacer { grid-column: 1; }
+    .tl-entry.odd .tl-empty,
+    .tl-entry.even .tl-empty { display: none; }
+  }
+
+  /* ── DESCRIPCIÓN DEL PROYECTO ── */
+  .project-block { background: var(--navy); border-radius: 16px; padding: 40px 44px; margin-bottom: 64px; }
+  .project-block .section-heading { color: var(--white); margin-bottom: 20px; }
+  .project-block p { font-size: 0.92rem; color: rgba(255,255,255,0.6); line-height: 1.8; margin-bottom: 16px; }
+  .project-block p:last-child { margin-bottom: 0; }
+  .project-block p strong { color: rgba(255,255,255,0.9); }
+
+  /* ── RECONOCIMIENTOS ── */
+  .recognition-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; margin-bottom: 64px; }
+  .recognition-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 12px; padding: 22px; }
+  .rec-icon { font-size: 1.8rem; margin-bottom: 12px; }
+  .rec-year { font-family: 'DM Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 6px; }
+  .rec-title { font-weight: 700; font-size: 0.95rem; color: var(--navy); margin-bottom: 6px; }
+  .rec-desc { font-size: 0.82rem; color: #4a5568; line-height: 1.6; }
+
+  /* ── CTA ── */
+  .nav-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 48px; padding-top: 40px; border-top: 1px solid rgba(10,22,40,0.08); }
+  .cta-btn { display: inline-block; text-decoration: none; padding: 11px 24px; border-radius: 10px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.2s; }
+  .cta-btn.primary { background: var(--navy); color: var(--gold-light); }
+  .cta-btn.primary:hover { background: var(--navy-light); }
+  .cta-btn.outline { border: 1px solid rgba(10,22,40,0.15); color: var(--navy); }
+  .cta-btn.outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,162,39,0.04); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--navy); border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .footer-logo em { color: var(--gold-light); font-style: italic; }
+  .footer-sub { color: rgba(255,255,255,0.3); font-size: 0.78rem; line-height: 1.7; }
+  .footer-divider { width: 36px; height: 1px; background: var(--gold); margin: 16px auto; opacity: 0.4; }
+  .footer-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+  .footer-links a { color: rgba(255,255,255,0.28); text-decoration: none; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold-light); }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 640px) {
+    .project-block { padding: 28px 24px; }
+    .hstat-div { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">SIMONU · 2026</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="cronograma.html">Cronograma</a></li>
+      <li><a href="evento.html">Evento</a></li>
+      <li><a href="comisiones.html">Comisiones</a></li>
+      <li><a href="logistica.html">Logística</a></li>
+      <li><a href="criterios.html">Criterios</a></li>
+      <li><a href="historial.html" class="active">Historial</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="repositorio.html">Repositorio</a></li>
+    </ul>
+    <button class="nav-burger" id="burger" aria-label="Abrir menú" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="mobile-menu">
+    <a href="index.html">Inicio</a>
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Banco de proyectos</a>
+    <a href="repositorio.html">Repositorio de ponencias</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a><span>›</span>Historial
+    </div>
+    <h1 class="page-title">Una Década de <em>SIMONU JF</em></h1>
+    <p class="page-desc">Más de diez años de formación de ciudadanos globales en el Colegio Técnico Distrital Julio Florez. Una trayectoria de crecimiento constante, nuevas comisiones y reconocimiento internacional.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num">+10</div><div class="hstat-lbl">Años de historia</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-num">10</div><div class="hstat-lbl">Ediciones</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-num">2</div><div class="hstat-lbl">Participaciones GCBMUN</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-num">1</div><div class="hstat-lbl">Outstanding Delegation</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONTENIDO ── -->
+<div class="content">
+
+  <!-- DESCRIPCIÓN DEL PROYECTO -->
+  <div class="project-block reveal">
+    <p class="section-label" style="color:var(--gold);">¿Qué es el SIMONU JF?</p>
+    <h2 class="section-heading">El <em>Proyecto</em></h2>
+    <p>El Proyecto SIMONU J.F. es una iniciativa educativa del Colegio Instituto Técnico Distrital Julio Flórez que busca fortalecer en los jóvenes del Ciclo V habilidades clave como la <strong>comunicación asertiva, las habilidades blandas, la autonomía, el liderazgo</strong> y el interés por comprender los saberes y problemáticas desde contextos situados.</p>
+    <p>A través de la argumentación y el debate, se promueve una mirada transformadora del conflicto y de las diferencias, en clave de diálogo, comprensión mutua y resolución pacífica. Con una trayectoria de más de diez años, SIMONU J.F. se ha consolidado como un <strong>espacio significativo de participación estudiantil</strong>, caracterizado por su crecimiento constante y su impacto en la comunidad educativa.</p>
+    <p>Su evolución se ha reflejado en la creación de <strong>nuevas comisiones</strong> —como la de inglés— y en la expansión del proyecto hacia la educación primaria, fortaleciendo el enfoque formativo desde edades tempranas. La participación en el GCBMUN abrió un espacio de diálogo entre instituciones con objetivos comunes, reafirmando el valor formativo de SIMONU J.F. como un escenario transformador en la formación de ciudadanos globales.</p>
+  </div>
+
+  <!-- RECONOCIMIENTOS DESTACADOS -->
+  <div class="reveal" style="margin-bottom:64px;">
+    <p class="section-label">Hitos institucionales</p>
+    <h2 class="section-heading">Reconocimientos <em>Destacados</em></h2>
+    <div class="recognition-grid">
+      <div class="recognition-card">
+        <div class="rec-icon">🏆</div>
+        <div class="rec-year">2024</div>
+        <div class="rec-title">Outstanding Delegation</div>
+        <div class="rec-desc">En el GCBMUN (Model United Nations del Gimnasio Colombo Británico), el colegio obtuvo el reconocimiento de "Delegación Sobresaliente", el más alto galardón de la competencia.</div>
+      </div>
+      <div class="recognition-card">
+        <div class="rec-icon">🌐</div>
+        <div class="rec-year">2023 · 2024</div>
+        <div class="rec-title">Participación GCBMUN</div>
+        <div class="rec-desc">El Julio Florez participó en el Model United Nations del Gimnasio Colombo Británico en dos ediciones consecutivas, visibilizando las capacidades de liderazgo y argumentación de sus estudiantes.</div>
+      </div>
+      <div class="recognition-card">
+        <div class="rec-icon">🇬🇧</div>
+        <div class="rec-year">Post 2023</div>
+        <div class="rec-title">Comisión en Inglés</div>
+        <div class="rec-desc">El SIMONU JF incorporó una comisión oficial en inglés, ampliando el alcance del proyecto y fortaleciendo las habilidades de comunicación internacional de los delegados.</div>
+      </div>
+      <div class="recognition-card">
+        <div class="rec-icon">📚</div>
+        <div class="rec-year">Expansión continua</div>
+        <div class="rec-title">Inclusión de Educación Primaria</div>
+        <div class="rec-desc">El proyecto amplió su alcance hacia la educación primaria, fortaleciendo el enfoque formativo de ciudadanía global desde edades tempranas dentro del colegio.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÍNEA DE TIEMPO -->
+  <div class="reveal">
+    <p class="section-label">Evolución del proyecto</p>
+    <h2 class="section-heading">Línea de <em>Tiempo</em></h2>
+  </div>
+
+  <div class="timeline">
+
+    <!-- 2015 -->
+    <div class="tl-entry odd reveal">
+      <div class="tl-card-wrap">
+        <div class="tl-card regular">
+          <div class="tl-year">2015 — Primera edición registrada</div>
+          <div class="tl-theme">Simunesco</div>
+          <div class="tl-desc">Se registran los primeros eventos del proyecto bajo el nombre "simunesco". El inicio de una tradición que transformaría la experiencia formativa del Julio Florez y marcaría el comienzo de una trayectoria de más de una década.</div>
+        </div>
+      </div>
+      <div class="tl-spacer">
+        <div class="tl-node regular"><span class="tl-node-year">2015</span></div>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- 2016 -->
+    <div class="tl-entry even reveal">
+      <div class="tl-empty"></div>
+      <div class="tl-spacer">
+        <div class="tl-node regular"><span class="tl-node-year">2016</span></div>
+      </div>
+      <div class="tl-card-wrap">
+        <div class="tl-card regular">
+          <div class="tl-year">2016</div>
+          <div class="tl-theme">Tratados de Paz</div>
+          <div class="tl-desc">La segunda edición del SIMONU JF centró su agenda en la diplomacia y la resolución pacífica de conflictos. Los delegados debatieron sobre los mecanismos internacionales para la construcción de paz, en sintonía con el contexto colombiano de la época.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2018 -->
+    <div class="tl-entry odd reveal">
+      <div class="tl-card-wrap">
+        <div class="tl-card regular">
+          <div class="tl-year">2018</div>
+          <div class="tl-theme">Una Experiencia Juvenil</div>
+          <div class="tl-desc">Con el lema "Una Experiencia Juvenil", esta edición apostó por poner a la juventud en el centro de la reflexión global. Los estudiantes asumieron con renovada energía su rol como delegados y representantes de países en comisiones de debate.</div>
+        </div>
+      </div>
+      <div class="tl-spacer">
+        <div class="tl-node regular"><span class="tl-node-year">2018</span></div>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- 2019 -->
+    <div class="tl-entry even reveal">
+      <div class="tl-empty"></div>
+      <div class="tl-spacer">
+        <div class="tl-node regular"><span class="tl-node-year">2019</span></div>
+      </div>
+      <div class="tl-card-wrap">
+        <div class="tl-card regular">
+          <div class="tl-year">2019</div>
+          <div class="tl-theme">Cultura</div>
+          <div class="tl-desc">El enfoque temático de esta edición fue la cultura como eje articulador de las relaciones internacionales. Los delegados exploraron cómo la diversidad cultural influye en la política exterior, los derechos humanos y la cooperación global.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2020 -->
+    <div class="tl-entry odd reveal">
+      <div class="tl-card-wrap">
+        <div class="tl-card milestone">
+          <div class="tl-year">2020 — Edición especial · 5 de octubre</div>
+          <div class="tl-theme">Encuentro Ciudadanos del Mundo</div>
+          <div class="tl-desc">Bajo los lemas "¡World Citizen!" y "Simonu un Nuevo Comienzo", esta edición adaptó el formato al contexto de la pandemia. El evento se realizó el 5 de octubre (7:35–11:30 a.m.), demostrando la resiliencia del proyecto y su capacidad de reinventarse.</div>
+          <div class="tl-badges">
+            <span class="tl-badge badge-online">Formato especial</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-spacer">
+        <div class="tl-node milestone"><span class="tl-node-year">2020</span></div>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- 2022 -->
+    <div class="tl-entry even reveal">
+      <div class="tl-empty"></div>
+      <div class="tl-spacer">
+        <div class="tl-node regular"><span class="tl-node-year">2022</span></div>
+      </div>
+      <div class="tl-card-wrap">
+        <div class="tl-card regular">
+          <div class="tl-year">2022 — Retorno presencial</div>
+          <div class="tl-theme">El Mundo Hecho una Pelota</div>
+          <div class="tl-desc">Con una metáfora poderosa sobre la interconexión global, el SIMONU JF retornó a la presencialidad. El concepto "El mundo hecho una pelota" invitó a reflexionar sobre cómo las acciones locales impactan en el sistema internacional.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2023 -->
+    <div class="tl-entry odd reveal">
+      <div class="tl-card-wrap">
+        <div class="tl-card milestone">
+          <div class="tl-year">2023 — Expansión internacional</div>
+          <div class="tl-theme">21 Lecciones para el Siglo XXI</div>
+          <div class="tl-desc">Inspirada en el libro de Yuval Noah Harari, esta edición exploró los grandes desafíos de la humanidad: tecnología, política, medio ambiente y el futuro del trabajo. Además, por primera vez el colegio participó en el GCBMUN del Gimnasio Colombo Británico.</div>
+          <div class="tl-badges">
+            <span class="tl-badge badge-gcbmun">GCBMUN 2023</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-spacer">
+        <div class="tl-node milestone"><span class="tl-node-year">2023</span></div>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- 2024 -->
+    <div class="tl-entry even reveal">
+      <div class="tl-empty"></div>
+      <div class="tl-spacer">
+        <div class="tl-node milestone"><span class="tl-node-year">2024</span></div>
+      </div>
+      <div class="tl-card-wrap">
+        <div class="tl-card milestone">
+          <div class="tl-year">2024 — Año del gran reconocimiento</div>
+          <div class="tl-theme">UBUNTU: Humanidad hacia otros</div>
+          <div class="tl-desc">Bajo la filosofía ubuntu —"soy porque somos"—, esta edición exploró la interdependencia humana como fundamento del orden internacional. En el GCBMUN, el Julio Florez obtuvo el reconocimiento de Outstanding Delegation: el galardón más alto de la competencia. La comisión en inglés también se consolidó como parte permanente del evento.</div>
+          <div class="tl-badges">
+            <span class="tl-badge badge-gcbmun">GCBMUN 2024</span>
+            <span class="tl-badge badge-outstanding">⭐ Outstanding Delegation</span>
+            <span class="tl-badge badge-english">Comisión en inglés</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2025 -->
+    <div class="tl-entry odd reveal">
+      <div class="tl-card-wrap">
+        <div class="tl-card regular">
+          <div class="tl-year">2025</div>
+          <div class="tl-theme">Sostenibilidad</div>
+          <div class="tl-desc">La décima edición del SIMONU JF aborda la sostenibilidad como eje central: el equilibrio entre el desarrollo humano, la economía global y la preservación del planeta. Los delegados exploran los mecanismos multilaterales para garantizar un futuro sostenible.</div>
+          <div class="tl-badges">
+            <span class="tl-badge badge-primaria">Incluye primaria</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-spacer">
+        <div class="tl-node regular"><span class="tl-node-year">2025</span></div>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- 2026 -->
+    <div class="tl-entry even reveal">
+      <div class="tl-empty"></div>
+      <div class="tl-spacer">
+        <div class="tl-node current"><span class="tl-node-year">2026</span></div>
+      </div>
+      <div class="tl-card-wrap">
+        <div class="tl-card current">
+          <div class="tl-year">2026 — Edición actual · 17 de junio</div>
+          <div class="tl-theme">Geopolítica</div>
+          <div class="tl-desc">La undécima edición del SIMONU JF aborda la geopolítica del siglo XXI: el nuevo orden mundial multipolar, las guerras híbridas, la transición energética, el Indo-Pacífico y los conflictos que reconfiguran el planeta. La mayor edición de la historia: 15 comisiones, 384 participantes, 225 delegados y 15 cursos en simultáneo.</div>
+          <div class="tl-badges">
+            <span class="tl-badge badge-current">15 comisiones</span>
+            <span class="tl-badge badge-current">384 participantes</span>
+            <span class="tl-badge badge-english">Comisión en inglés</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+
+  <!-- CTA -->
+  <div class="nav-cta reveal" style="margin-top:64px;">
+    <a href="comisiones.html" class="cta-btn primary">Ver comisiones 2026 →</a>
+    <a href="repositorio.html" class="cta-btn outline">Repositorio de ponencias</a>
+    <a href="criterios.html" class="cta-btn outline">Criterios de simulación</a>
+    <a href="index.html" class="cta-btn outline">← Inicio</a>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">SIMONU <em>2026</em></div>
+  <div class="footer-divider"></div>
+  <div class="footer-sub">
+    Colegio Técnico Distrital Julio Florez · Bogotá, Colombia<br>
+    Simulación Geopolítica de Naciones Unidas · 17 de Junio de 2026
+  </div>
+  <nav class="footer-links" aria-label="Mapa del sitio">
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="repositorio.html">Repositorio</a>
+  </nav>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('burger').classList.toggle('open');
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+</script>
+</body>
+</html>

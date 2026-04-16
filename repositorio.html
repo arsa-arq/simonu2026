@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repositorio de Ponencias — SIMONU 2026 · Colegio Julio Florez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#0a1628;--navy-mid:#122040;--navy-light:#1e3a6e;
+    --gold:#c9a227;--gold-light:#e8c84a;--cream:#faf8f2;
+    --white:#ffffff;--gray:#8a95a3;--text:#1a2535;
+    --border:rgba(201,162,39,0.25);--teal:#16a085;--orange:#d35400;--red:#c0392b;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;}
+
+  nav{position:sticky;top:0;z-index:100;background:rgba(10,22,40,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+  .nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+  .nav-logo{font-family:'DM Mono',monospace;font-size:0.88rem;color:var(--gold-light);letter-spacing:0.06em;text-decoration:none;flex-shrink:0;}
+  .nav-links{display:flex;gap:4px;list-style:none;align-items:center;}
+  .nav-links a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.75rem;letter-spacing:0.04em;text-transform:uppercase;padding:6px 9px;border-radius:6px;transition:color 0.2s,background 0.2s;white-space:nowrap;}
+  .nav-links a:hover{color:var(--gold-light);background:rgba(201,162,39,0.08);}
+  .nav-links a.active{color:var(--gold-light);background:rgba(201,162,39,0.1);}
+  .nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+  .nav-burger span{display:block;width:22px;height:2px;background:rgba(255,255,255,0.7);border-radius:2px;transition:all 0.25s;}
+  .nav-burger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+  .nav-burger.open span:nth-child(2){opacity:0;}
+  .nav-burger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+  .nav-mobile{display:none;background:var(--navy-mid);border-top:1px solid var(--border);padding:8px 0 12px;}
+  .nav-mobile.open{display:block;}
+  .nav-mobile a{display:block;padding:11px 24px;color:rgba(255,255,255,0.65);text-decoration:none;font-size:0.82rem;letter-spacing:0.04em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.04);}
+  .nav-mobile a:hover{color:var(--gold-light);background:rgba(201,162,39,0.06);}
+  @media(max-width:900px){.nav-links{display:none;}.nav-burger{display:flex;}}
+
+  .page-hero{background:var(--navy);padding:80px 24px 64px;position:relative;overflow:hidden;}
+  .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(201,162,39,0.12) 0%,transparent 70%);}
+  .grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(201,162,39,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(201,162,39,0.05) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 100%);}
+  .hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2;}
+  .breadcrumb{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--gold);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:20px;}
+  .breadcrumb a{color:rgba(201,162,39,0.6);text-decoration:none;}
+  .breadcrumb span{margin:0 8px;color:rgba(255,255,255,0.2);}
+  .page-title{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:900;color:var(--white);line-height:1.05;margin-bottom:16px;}
+  .page-title em{font-style:italic;color:var(--gold-light);}
+  .page-desc{font-size:1rem;color:rgba(255,255,255,0.5);max-width:620px;line-height:1.7;}
+
+  .content{max-width:1100px;margin:0 auto;padding:64px 24px 100px;}
+  .section-label{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+  .section-heading{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--navy);margin-bottom:28px;}
+  .section-heading em{font-style:italic;color:var(--gold);}
+
+  /* BANNER */
+  .coming-banner{background:var(--navy);border-radius:16px;padding:56px 40px;text-align:center;margin-bottom:56px;position:relative;overflow:hidden;}
+  .coming-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(201,162,39,0.08) 0%,transparent 70%);}
+  .coming-icon{font-size:3.5rem;margin-bottom:20px;position:relative;}
+  .coming-banner h2{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--white);margin-bottom:14px;position:relative;}
+  .coming-banner h2 em{font-style:italic;color:var(--gold-light);}
+  .coming-banner p{font-size:0.95rem;color:rgba(255,255,255,0.5);line-height:1.75;max-width:560px;margin:0 auto 28px;position:relative;}
+  .coming-badge{display:inline-block;background:rgba(201,162,39,0.15);border:1px solid var(--border);border-radius:100px;padding:10px 24px;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--gold-light);letter-spacing:0.12em;text-transform:uppercase;position:relative;}
+
+  /* INSTRUCCIONES PARA AÑADIR -->
+  .howto-block{background:rgba(201,162,39,0.05);border:1px solid rgba(201,162,39,0.2);border-radius:14px;padding:32px 36px;margin-bottom:56px;}
+  .howto-block h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:20px;}
+  .howto-steps{display:flex;flex-direction:column;gap:14px;}
+  .hs{display:flex;gap:14px;align-items:flex-start;}
+  .hs-num{width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--navy);font-weight:700;flex-shrink:0;margin-top:1px;}
+  .hs-text{font-size:0.85rem;color:#4a5568;line-height:1.65;}
+  .hs-text strong{color:var(--navy);}
+  .code-snippet{background:var(--navy);border-radius:8px;padding:14px 18px;margin-top:10px;font-family:'DM Mono',monospace;font-size:0.78rem;color:#a8d8a8;line-height:1.8;overflow-x:auto;}
+
+  /* TABS EDICIONES */
+  .edition-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+  .ed-tab{padding:8px 18px;border-radius:100px;border:1.5px solid rgba(10,22,40,0.12);background:transparent;color:var(--gray);font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:500;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+  .ed-tab:hover{border-color:var(--navy);color:var(--navy);}
+  .ed-tab.active{background:var(--navy);color:var(--gold-light);border-color:var(--navy);}
+
+  /* TABLA REPOSITORIO */
+  .repo-table-wrap{overflow-x:auto;border-radius:12px;border:1px solid rgba(10,22,40,0.1);margin-bottom:56px;}
+  .repo-table{width:100%;min-width:600px;border-collapse:collapse;background:var(--white);}
+  .repo-table thead tr{background:var(--navy);}
+  .repo-table th{padding:12px 16px;font-family:'DM Mono',monospace;font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-align:left;border-right:1px solid rgba(255,255,255,0.05);}
+  .repo-table td{padding:12px 16px;border-bottom:1px solid rgba(10,22,40,0.06);font-size:0.85rem;vertical-align:middle;}
+  .repo-table tr:last-child td{border-bottom:none;}
+  .repo-table tr:hover td{background:rgba(10,22,40,0.02);}
+  .repo-table .c-label{font-family:'DM Mono',monospace;font-size:0.7rem;color:rgba(10,22,40,0.35);}
+  .repo-table .c-name{font-weight:600;color:var(--navy);}
+  .repo-table .delegado{font-size:0.83rem;color:var(--text);}
+  .repo-table .pais{font-size:0.78rem;color:var(--gray);}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:0.72rem;font-weight:600;color:var(--navy-light);background:rgba(30,58,110,0.08);padding:4px 10px;border-radius:6px;text-decoration:none;transition:background 0.2s;}
+  .link-btn:hover{background:rgba(30,58,110,0.15);}
+  .link-placeholder{display:inline-block;font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--gray);background:rgba(10,22,40,0.05);padding:4px 10px;border-radius:6px;border:1px dashed rgba(10,22,40,0.15);}
+  .level-pip{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;}
+  .pip-adv{background:var(--navy-light);}
+  .pip-bas{background:var(--gold);}
+  .pip-eng{background:var(--red);}
+
+  /* CTA */
+  .nav-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:48px;padding-top:40px;border-top:1px solid rgba(10,22,40,0.08);}
+  .cta-btn{display:inline-block;text-decoration:none;padding:11px 24px;border-radius:10px;font-size:0.82rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;transition:all 0.2s;}
+  .cta-btn.primary{background:var(--navy);color:var(--gold-light);}
+  .cta-btn.primary:hover{background:var(--navy-light);}
+  .cta-btn.outline{border:1px solid rgba(10,22,40,0.15);color:var(--navy);}
+  .cta-btn.outline:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,162,39,0.04);}
+
+  footer{background:var(--navy);border-top:1px solid var(--border);padding:40px 24px;text-align:center;}
+  .footer-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:8px;}
+  .footer-logo em{color:var(--gold-light);font-style:italic;}
+  .footer-sub{color:rgba(255,255,255,0.3);font-size:0.78rem;line-height:1.7;}
+  .footer-divider{width:36px;height:1px;background:var(--gold);margin:16px auto;opacity:0.4;}
+  .footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
+  .footer-links a{color:rgba(255,255,255,0.28);text-decoration:none;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;transition:color 0.2s;}
+  .footer-links a:hover{color:var(--gold-light);}
+
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @media(max-width:640px){.howto-block{padding:24px;}.coming-banner{padding:36px 24px;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">SIMONU · 2026</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="cronograma.html">Cronograma</a></li>
+      <li><a href="evento.html">Evento</a></li>
+      <li><a href="comisiones.html">Comisiones</a></li>
+      <li><a href="logistica.html">Logística</a></li>
+      <li><a href="criterios.html">Criterios</a></li>
+      <li><a href="historial.html">Historial</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="repositorio.html" class="active">Repositorio</a></li>
+    </ul>
+    <button class="nav-burger" id="burger" aria-label="Abrir menú" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="mobile-menu">
+    <a href="index.html">Inicio</a>
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Banco de proyectos</a>
+    <a href="repositorio.html">Repositorio de ponencias</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb"><a href="index.html">Inicio</a><span>›</span>Repositorio de ponencias</div>
+    <h1 class="page-title">Repositorio de <em>Ponencias</em></h1>
+    <p class="page-desc">Archivo digital de los discursos de apertura, ponencias y posiciones de los delegados del SIMONU JF, organizados por edición y comisión.</p>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- BANNER PRÓXIMAMENTE -->
+  <div class="coming-banner reveal">
+    <div class="coming-icon">📚</div>
+    <h2>Repositorio <em>en construcción</em></h2>
+    <p>Las ponencias de los delegados del SIMONU 2026 se subirán después del evento del 17 de junio. Para activar este repositorio, sube los PDFs a Google Drive o a la carpeta <code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:0.85em;">docs/</code> del repositorio GitHub y reemplaza los placeholders de la tabla con los enlaces directos.</p>
+    <span class="coming-badge">Activo tras el 17 de junio de 2026</span>
+  </div>
+
+  <!-- CÓMO AÑADIR PONENCIAS -->
+  <div class="howto-block reveal">
+    <h3>📋 Cómo añadir ponencias a este repositorio</h3>
+    <div class="howto-steps">
+      <div class="hs">
+        <div class="hs-num">1</div>
+        <div class="hs-text"><strong>Sube el PDF a Google Drive.</strong> Comparte el archivo con acceso público ("cualquier persona con el enlace puede ver") y copia el enlace de compartir.</div>
+      </div>
+      <div class="hs">
+        <div class="hs-num">2</div>
+        <div class="hs-text"><strong>Convierte el enlace al formato directo.</strong> Cambia el enlace de Drive de este formato:<br>
+          <div class="code-snippet">
+            ❌ https://drive.google.com/file/d/ID/view?usp=sharing<br>
+            ✅ https://drive.google.com/file/d/ID/preview
+          </div>
+        </div>
+      </div>
+      <div class="hs">
+        <div class="hs-num">3</div>
+        <div class="hs-text"><strong>Alternativa: carpeta docs/ en GitHub.</strong> Si el PDF pesa menos de 25 MB, súbelo directamente a <code style="font-family:'DM Mono',monospace;background:rgba(10,22,40,0.08);padding:1px 5px;border-radius:3px;">docs/</code> en el repositorio y usa la URL pública de GitHub Pages.
+          <div class="code-snippet">https://simonu-jf.github.io/docs/C1_Ponencia_EEUU.pdf</div>
+        </div>
+      </div>
+      <div class="hs">
+        <div class="hs-num">4</div>
+        <div class="hs-text"><strong>Reemplaza el placeholder en la tabla.</strong> En el HTML, busca la fila del delegado y cambia <code style="font-family:'DM Mono',monospace;background:rgba(10,22,40,0.08);padding:1px 5px;border-radius:3px;">link-placeholder</code> por <code style="font-family:'DM Mono',monospace;background:rgba(10,22,40,0.08);padding:1px 5px;border-radius:3px;">link-btn</code> con el href correspondiente.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA POR EDICIÓN -->
+  <div class="reveal">
+    <p class="section-label">Archivo por edición</p>
+    <h2 class="section-heading">Ponencias <em>SIMONU 2026</em></h2>
+
+    <!-- Tabs -->
+    <div class="edition-tabs">
+      <button class="ed-tab active" onclick="showEdition('2026', this)">2026 · Geopolítica</button>
+      <button class="ed-tab" onclick="showEdition('2025', this)">2025 · Sostenibilidad</button>
+      <button class="ed-tab" onclick="showEdition('2024', this)">2024 · Ubuntu</button>
+      <button class="ed-tab" onclick="showEdition('2023', this)">2023 · 21 Lecciones</button>
+      <button class="ed-tab" onclick="showEdition('anteriores', this)">Anteriores</button>
+    </div>
+
+    <!-- Tabla 2026 -->
+    <div id="ed-2026" class="repo-table-wrap">
+      <table class="repo-table">
+        <thead>
+          <tr>
+            <th>Comisión</th>
+            <th>Delegado / Delegada</th>
+            <th>País representado</th>
+            <th>Ponencia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- C1 -->
+          <tr><td><span class="c-label">C1</span><span class="c-name"> Orden Mundial</span> <span class="pip-eng level-pip" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin-left:4px;"></span></td><td class="delegado">— por confirmar —</td><td class="pais">Estados Unidos</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr><td><span class="c-label">C1</span></td><td class="delegado">— por confirmar —</td><td class="pais">China</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr><td><span class="c-label">C1</span></td><td class="delegado">— por confirmar —</td><td class="pais">Rusia</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <!-- C2 -->
+          <tr style="background:rgba(10,22,40,0.015);"><td><span class="c-label">C2</span><span class="c-name"> Energía y Recursos</span></td><td class="delegado">— por confirmar —</td><td class="pais">Arabia Saudita</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr style="background:rgba(10,22,40,0.015);"><td><span class="c-label">C2</span></td><td class="delegado">— por confirmar —</td><td class="pais">Noruega</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <!-- C3 -->
+          <tr><td><span class="c-label">C3</span><span class="c-name"> Guerra Tecnológica</span></td><td class="delegado">— por confirmar —</td><td class="pais">Taiwán</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr><td><span class="c-label">C3</span></td><td class="delegado">— por confirmar —</td><td class="pais">Países Bajos</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <!-- C4–C15 condensado -->
+          <tr style="background:rgba(10,22,40,0.015);"><td><span class="c-label">C4</span><span class="c-name"> Geopolítica Climática</span></td><td class="delegado">— por confirmar —</td><td class="pais">Colombia</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr><td><span class="c-label">C5</span><span class="c-name"> Medio Oriente</span></td><td class="delegado">— por confirmar —</td><td class="pais">Palestina</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr style="background:rgba(10,22,40,0.015);"><td><span class="c-label">C6</span><span class="c-name"> Guerras Híbridas</span></td><td class="delegado">— por confirmar —</td><td class="pais">Ucrania</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr><td><span class="c-label">C7</span><span class="c-name"> Migraciones</span></td><td class="delegado">— por confirmar —</td><td class="pais">Venezuela</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr style="background:rgba(10,22,40,0.015);"><td><span class="c-label">C8</span><span class="c-name"> Rutas Estratégicas</span></td><td class="delegado">— por confirmar —</td><td class="pais">Panamá</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr><td><span class="c-label">C9</span><span class="c-name"> América Latina</span></td><td class="delegado">— por confirmar —</td><td class="pais">Brasil</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr style="background:rgba(10,22,40,0.015);"><td><span class="c-label">C10</span><span class="c-name"> África Estratégica</span></td><td class="delegado">— por confirmar —</td><td class="pais">Nigeria</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr><td><span class="c-label">C11</span><span class="c-name"> Indo-Pacífico</span></td><td class="delegado">— por confirmar —</td><td class="pais">India</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr style="background:rgba(10,22,40,0.015);"><td><span class="c-label">C12</span><span class="c-name"> Alimentos y Poder</span></td><td class="delegado">— por confirmar —</td><td class="pais">Ucrania</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr><td><span class="c-label">C13</span><span class="c-name"> Agua</span></td><td class="delegado">— por confirmar —</td><td class="pais">Etiopía</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr style="background:rgba(10,22,40,0.015);"><td><span class="c-label">C14</span><span class="c-name"> Espacio</span></td><td class="delegado">— por confirmar —</td><td class="pais">China</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr><td><span class="c-label">C15</span><span class="c-name"> Seguridad Global</span></td><td class="delegado">— por confirmar —</td><td class="pais">Colombia</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tabla 2025 -->
+    <div id="ed-2025" class="repo-table-wrap" style="display:none;">
+      <table class="repo-table">
+        <thead><tr><th>Comisión</th><th>Delegado / Delegada</th><th>País representado</th><th>Ponencia</th></tr></thead>
+        <tbody>
+          <tr><td colspan="4" style="text-align:center;padding:40px;color:var(--gray);font-size:0.88rem;">
+            📂 Agrega aquí las ponencias del SIMONU 2025 · Sostenibilidad.<br>
+            <span style="font-family:'DM Mono',monospace;font-size:0.75rem;color:rgba(10,22,40,0.3);">Reemplaza esta celda con las filas de delegados y sus enlaces.</span>
+          </td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tabla 2024 -->
+    <div id="ed-2024" class="repo-table-wrap" style="display:none;">
+      <table class="repo-table">
+        <thead><tr><th>Comisión</th><th>Delegado / Delegada</th><th>País representado</th><th>Ponencia</th></tr></thead>
+        <tbody>
+          <tr><td colspan="4" style="text-align:center;padding:40px;color:var(--gray);font-size:0.88rem;">
+            📂 Agrega aquí las ponencias del SIMONU 2024 · Ubuntu: Humanidad hacia otros.<br>
+            <span style="font-family:'DM Mono',monospace;font-size:0.75rem;color:rgba(10,22,40,0.3);">Incluye las ponencias destacadas de la edición Outstanding Delegation (GCBMUN 2024).</span>
+          </td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tabla 2023 -->
+    <div id="ed-2023" class="repo-table-wrap" style="display:none;">
+      <table class="repo-table">
+        <thead><tr><th>Comisión</th><th>Delegado / Delegada</th><th>País representado</th><th>Ponencia</th></tr></thead>
+        <tbody>
+          <tr><td colspan="4" style="text-align:center;padding:40px;color:var(--gray);font-size:0.88rem;">
+            📂 Agrega aquí las ponencias del SIMONU 2023 · 21 Lecciones para el Siglo XXI.<br>
+            <span style="font-family:'DM Mono',monospace;font-size:0.75rem;color:rgba(10,22,40,0.3);">Primera edición con participación en el GCBMUN.</span>
+          </td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Anteriores -->
+    <div id="ed-anteriores" class="repo-table-wrap" style="display:none;">
+      <table class="repo-table">
+        <thead><tr><th>Edición</th><th>Temática</th><th>Comisión / Delegado</th><th>Ponencia</th></tr></thead>
+        <tbody>
+          <tr><td><span class="c-label">2022</span></td><td>El Mundo Hecho una Pelota</td><td class="pais">— por agregar —</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr style="background:rgba(10,22,40,0.015);"><td><span class="c-label">2020</span></td><td>Ciudadanos del Mundo</td><td class="pais">— por agregar —</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr><td><span class="c-label">2019</span></td><td>Cultura</td><td class="pais">— por agregar —</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr style="background:rgba(10,22,40,0.015);"><td><span class="c-label">2018</span></td><td>Una Experiencia Juvenil</td><td class="pais">— por agregar —</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr><td><span class="c-label">2016</span></td><td>Tratados de Paz</td><td class="pais">— por agregar —</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+          <tr style="background:rgba(10,22,40,0.015);"><td><span class="c-label">2015</span></td><td>Simunesco</td><td class="pais">— por agregar —</td><td><span class="link-placeholder">Pendiente</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="nav-cta reveal">
+    <a href="proyectos.html" class="cta-btn primary">Banco de proyectos →</a>
+    <a href="criterios.html" class="cta-btn outline">Criterios — ponencias</a>
+    <a href="comisiones.html" class="cta-btn outline">Ver comisiones</a>
+    <a href="index.html" class="cta-btn outline">← Inicio</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">SIMONU <em>2026</em></div>
+  <div class="footer-divider"></div>
+  <div class="footer-sub">Colegio Técnico Distrital Julio Florez · Bogotá, Colombia<br>Simulación Geopolítica de Naciones Unidas · 17 de Junio de 2026</div>
+  <nav class="footer-links">
+    <a href="cronograma.html">Cronograma</a><a href="evento.html">Evento del día</a><a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a><a href="criterios.html">Criterios</a><a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a><a href="proyectos.html">Proyectos</a><a href="repositorio.html">Repositorio</a>
+  </nav>
+</footer>
+
+<script>
+  function toggleMenu(){document.getElementById('burger').classList.toggle('open');document.getElementById('mobile-menu').classList.toggle('open');}
+
+  function showEdition(id, btn) {
+    ['2026','2025','2024','2023','anteriores'].forEach(e => {
+      document.getElementById('ed-'+e).style.display = e === id ? '' : 'none';
+    });
+    document.querySelectorAll('.ed-tab').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+  }
+
+  const obs=new IntersectionObserver((e)=>{e.forEach((en,i)=>{if(en.isIntersecting){setTimeout(()=>en.target.classList.add('visible'),i*80);obs.unobserve(en.target);}});},{threshold:0.07});
+  document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+</script>
+</body>
+</html>

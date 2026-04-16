@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — SIMONU 2026 · Colegio Julio Florez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #0a1628;
+    --navy-mid:   #122040;
+    --navy-light: #1e3a6e;
+    --gold:       #c9a227;
+    --gold-light: #e8c84a;
+    --cream:      #faf8f2;
+    --white:      #ffffff;
+    --gray:       #8a95a3;
+    --text:       #1a2535;
+    --border:     rgba(201,162,39,0.25);
+    --teal:       #16a085;
+    --orange:     #d35400;
+    --purple:     #8e44ad;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,22,40,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.88rem; color: var(--gold-light); letter-spacing: 0.06em; text-decoration: none; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 9px; border-radius: 6px; transition: color 0.2s, background 0.2s; white-space: nowrap; }
+  .nav-links a:hover { color: var(--gold-light); background: rgba(201,162,39,0.08); }
+  .nav-links a.active { color: var(--gold-light); background: rgba(201,162,39,0.1); }
+  .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-burger span { display: block; width: 22px; height: 2px; background: rgba(255,255,255,0.7); border-radius: 2px; transition: all 0.25s; }
+  .nav-burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+  .nav-mobile { display: none; background: var(--navy-mid); border-top: 1px solid var(--border); padding: 8px 0 12px; }
+  .nav-mobile.open { display: block; }
+  .nav-mobile a { display: block; padding: 11px 24px; color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.04); transition: color 0.2s, background 0.2s; }
+  .nav-mobile a:hover { color: var(--gold-light); background: rgba(201,162,39,0.06); }
+  @media (max-width: 900px) { .nav-links { display: none; } .nav-burger { display: flex; } }
+
+  /* ── HERO ── */
+  .page-hero { background: var(--navy); padding: 80px 24px 64px; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,162,39,0.12) 0%, transparent 70%); }
+  .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,162,39,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201,162,39,0.05) 1px, transparent 1px); background-size: 50px 50px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%); }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+  .breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 20px; }
+  .breadcrumb a { color: rgba(201,162,39,0.6); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .breadcrumb span { margin: 0 8px; color: rgba(255,255,255,0.2); }
+  .page-title { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; color: var(--white); line-height: 1.05; margin-bottom: 16px; }
+  .page-title em { font-style: italic; color: var(--gold-light); }
+  .page-desc { font-size: 1rem; color: rgba(255,255,255,0.5); max-width: 600px; line-height: 1.7; }
+
+  /* ── FILTROS ── */
+  .filters-bar { background: var(--white); border-bottom: 1px solid rgba(10,22,40,0.08); padding: 14px 24px; position: sticky; top: 60px; z-index: 90; }
+  .filters-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .filter-btn { padding: 7px 16px; border-radius: 100px; border: 1.5px solid rgba(10,22,40,0.12); background: transparent; color: var(--gray); font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .filter-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .filter-btn.active { background: var(--navy); color: var(--gold-light); border-color: var(--navy); }
+  .post-count { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--gray); margin-left: auto; }
+
+  /* ── LAYOUT ── */
+  .content { max-width: 1100px; margin: 0 auto; padding: 48px 24px 100px; display: grid; grid-template-columns: 1fr 300px; gap: 40px; align-items: start; }
+  @media (max-width: 900px) { .content { grid-template-columns: 1fr; } .sidebar { display: none; } }
+
+  /* ── ARTÍCULO DESTACADO ── */
+  .featured-post { background: var(--navy); border-radius: 16px; padding: 36px 40px; margin-bottom: 32px; position: relative; overflow: hidden; }
+  .featured-post::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 80% at 90% 50%, rgba(201,162,39,0.1) 0%, transparent 60%); }
+  .featured-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .featured-label::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); display: block; animation: pulse-dot 2s ease infinite; }
+  @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .featured-post h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 900; color: var(--white); line-height: 1.15; margin-bottom: 14px; position: relative; }
+  .featured-post p { font-size: 0.9rem; color: rgba(255,255,255,0.55); line-height: 1.75; margin-bottom: 20px; position: relative; max-width: 600px; }
+  .featured-meta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; position: relative; }
+  .meta-date { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: rgba(255,255,255,0.35); }
+  .meta-tag { display: inline-block; font-size: 0.65rem; font-weight: 600; padding: 3px 10px; border-radius: 100px; letter-spacing: 0.08em; }
+  .tag-convocatoria { background: rgba(201,162,39,0.2); color: var(--gold-light); }
+  .tag-capacitacion { background: rgba(22,160,133,0.2); color: #2ecc71; }
+  .tag-simulacion   { background: rgba(142,68,173,0.15); color: #bb8fce; }
+  .tag-delegados    { background: rgba(36,113,163,0.2); color: #85c1e9; }
+  .tag-presidentes  { background: rgba(211,84,0,0.2); color: #f0b27a; }
+  .tag-logistica    { background: rgba(192,57,43,0.2); color: #f1948a; }
+  .tag-gcbmun       { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+
+  /* ── GRID DE POSTS ── */
+  .posts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 640px) { .posts-grid { grid-template-columns: 1fr; } }
+
+  .post-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 14px; overflow: hidden; transition: box-shadow 0.25s, transform 0.25s; display: flex; flex-direction: column; }
+  .post-card:hover { box-shadow: 0 12px 40px rgba(10,22,40,0.1); transform: translateY(-2px); }
+  .post-card[style*="display:none"] { display: none !important; }
+
+  .post-stripe { height: 4px; }
+  .stripe-convocatoria { background: var(--gold); }
+  .stripe-capacitacion { background: var(--teal); }
+  .stripe-simulacion   { background: var(--purple); }
+  .stripe-delegados    { background: var(--navy-light); }
+  .stripe-presidentes  { background: var(--orange); }
+  .stripe-logistica    { background: #c0392b; }
+  .stripe-gcbmun       { background: linear-gradient(90deg, var(--navy-light), var(--purple)); }
+
+  .post-body { padding: 22px 24px; flex: 1; display: flex; flex-direction: column; }
+  .post-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+  .post-date { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--gray); }
+  .post-tag { display: inline-block; font-size: 0.62rem; font-weight: 600; padding: 2px 8px; border-radius: 100px; letter-spacing: 0.06em; }
+  .pt-convocatoria { background: rgba(201,162,39,0.1); color: #7a6010; }
+  .pt-capacitacion { background: rgba(22,160,133,0.1); color: var(--teal); }
+  .pt-simulacion   { background: rgba(142,68,173,0.1); color: var(--purple); }
+  .pt-delegados    { background: rgba(30,58,110,0.1); color: var(--navy-light); }
+  .pt-presidentes  { background: rgba(211,84,0,0.1); color: var(--orange); }
+  .pt-logistica    { background: rgba(192,57,43,0.1); color: #c0392b; }
+  .pt-gcbmun       { background: rgba(30,58,110,0.08); color: var(--navy-light); }
+
+  .post-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--navy); line-height: 1.25; margin-bottom: 10px; }
+  .post-excerpt { font-size: 0.83rem; color: #4a5568; line-height: 1.65; flex: 1; margin-bottom: 16px; }
+  .post-author { display: flex; align-items: center; gap: 8px; padding-top: 14px; border-top: 1px solid rgba(10,22,40,0.06); }
+  .author-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--gold-light); font-weight: 700; flex-shrink: 0; }
+  .author-name { font-size: 0.78rem; font-weight: 600; color: var(--navy); }
+  .author-role { font-size: 0.7rem; color: var(--gray); }
+
+  /* ── SIDEBAR ── */
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
+  .sidebar-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 12px; padding: 20px; }
+  .sidebar-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(10,22,40,0.07); }
+
+  /* Próximos eventos */
+  .upcoming-list { display: flex; flex-direction: column; gap: 10px; }
+  .upcoming-item { display: grid; grid-template-columns: 44px 1fr; gap: 10px; align-items: start; }
+  .upcoming-date { background: var(--navy); color: var(--gold-light); border-radius: 8px; text-align: center; padding: 6px 4px; }
+  .upcoming-day { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; line-height: 1; }
+  .upcoming-month { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7; margin-top: 2px; }
+  .upcoming-title { font-size: 0.83rem; font-weight: 600; color: var(--navy); line-height: 1.3; margin-bottom: 2px; }
+  .upcoming-desc { font-size: 0.74rem; color: var(--gray); }
+
+  /* Categorías */
+  .cat-list { display: flex; flex-direction: column; gap: 6px; }
+  .cat-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(10,22,40,0.05); cursor: pointer; transition: color 0.2s; }
+  .cat-item:last-child { border-bottom: none; }
+  .cat-item:hover .cat-name { color: var(--gold); }
+  .cat-name { font-size: 0.83rem; color: var(--text); }
+  .cat-count { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--gray); background: rgba(10,22,40,0.05); border-radius: 4px; padding: 2px 7px; }
+
+  /* Cuenta regresiva */
+  .countdown-block { background: var(--navy); border-radius: 12px; padding: 20px; text-align: center; }
+  .countdown-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--gold); margin-bottom: 14px; }
+  .countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .cd-unit { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px 6px; }
+  .cd-num { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+  .cd-lbl { font-family: 'DM Mono', monospace; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); margin-top: 4px; }
+
+  /* ── CTA ── */
+  .nav-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 40px; padding-top: 36px; border-top: 1px solid rgba(10,22,40,0.08); }
+  .cta-btn { display: inline-block; text-decoration: none; padding: 11px 24px; border-radius: 10px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.2s; }
+  .cta-btn.primary { background: var(--navy); color: var(--gold-light); }
+  .cta-btn.primary:hover { background: var(--navy-light); }
+  .cta-btn.outline { border: 1px solid rgba(10,22,40,0.15); color: var(--navy); }
+  .cta-btn.outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,162,39,0.04); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--navy); border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .footer-logo em { color: var(--gold-light); font-style: italic; }
+  .footer-sub { color: rgba(255,255,255,0.3); font-size: 0.78rem; line-height: 1.7; }
+  .footer-divider { width: 36px; height: 1px; background: var(--gold); margin: 16px auto; opacity: 0.4; }
+  .footer-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+  .footer-links a { color: rgba(255,255,255,0.28); text-decoration: none; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold-light); }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">SIMONU · 2026</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="cronograma.html">Cronograma</a></li>
+      <li><a href="evento.html">Evento</a></li>
+      <li><a href="comisiones.html">Comisiones</a></li>
+      <li><a href="logistica.html">Logística</a></li>
+      <li><a href="criterios.html">Criterios</a></li>
+      <li><a href="historial.html">Historial</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="repositorio.html">Repositorio</a></li>
+    </ul>
+    <button class="nav-burger" id="burger" aria-label="Abrir menú" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="mobile-menu">
+    <a href="index.html">Inicio</a>
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Banco de proyectos</a>
+    <a href="repositorio.html">Repositorio de ponencias</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a><span>›</span>Blog
+    </div>
+    <h1 class="page-title">Blog &amp; <em>Noticias</em></h1>
+    <p class="page-desc">Crónicas del proceso SIMONU 2026: convocatoria, capacitaciones, avances de comisiones y todo lo que sucede en el camino hacia el 17 de junio.</p>
+  </div>
+</div>
+
+<!-- ── FILTROS ── -->
+<div class="filters-bar">
+  <div class="filters-inner">
+    <button class="filter-btn active" onclick="filterPosts('all', this)">Todas</button>
+    <button class="filter-btn" onclick="filterPosts('convocatoria', this)">Convocatoria</button>
+    <button class="filter-btn" onclick="filterPosts('capacitacion', this)">Capacitaciones</button>
+    <button class="filter-btn" onclick="filterPosts('delegados', this)">Delegados</button>
+    <button class="filter-btn" onclick="filterPosts('presidentes', this)">Presidentes</button>
+    <button class="filter-btn" onclick="filterPosts('logistica', this)">Logística</button>
+    <span class="post-count" id="post-count">9 publicaciones</span>
+  </div>
+</div>
+
+<!-- ── CONTENIDO ── -->
+<div class="content">
+
+  <!-- POSTS -->
+  <main>
+
+    <!-- POST DESTACADO -->
+    <div class="featured-post reveal">
+      <div class="featured-label">Última publicación</div>
+      <h2>El SIMONU 2026 entra en su fase final: capacitaciones de delegados en marcha</h2>
+      <p>Con las comisiones ya conformadas y los presidentes y vicepresidentes capacitados, el SIMONU JF inicia la etapa más intensa del proceso: la formación de los 225 delegados que representarán a países reales el próximo 17 de junio. Los talleres de oratoria, redacción de ponencias y protocolo parlamentario están en pleno desarrollo en todos los cursos participantes.</p>
+      <div class="featured-meta">
+        <span class="meta-date">Mayo 19 de 2026</span>
+        <span class="meta-tag tag-capacitacion">Capacitaciones</span>
+        <span class="meta-tag tag-delegados">Delegados</span>
+      </div>
+    </div>
+
+    <!-- GRID DE POSTS -->
+    <div class="posts-grid" id="posts-grid">
+
+      <!-- Post 1 -->
+      <article class="post-card reveal" data-cat="capacitacion">
+        <div class="post-stripe stripe-capacitacion"></div>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-date">Mayo 15, 2026</span>
+            <span class="post-tag pt-capacitacion">Capacitación</span>
+          </div>
+          <h3 class="post-title">Presidentes y vicepresidentes completan su formación parlamentaria</h3>
+          <p class="post-excerpt">Los 30 líderes de comisión —15 presidentes y 15 vicepresidentes— finalizaron sus dos semanas de capacitación intensiva. Dominio del lenguaje parlamentario, gestión del debate formal e informal, y conducción del llamado a lista fueron los ejes del proceso. Ahora están listos para recibir a sus delegados.</p>
+          <div class="post-author">
+            <div class="author-avatar">SG</div>
+            <div>
+              <div class="author-name">Santiago Aguilera</div>
+              <div class="author-role">Secretario General</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 2 -->
+      <article class="post-card reveal" data-cat="presidentes">
+        <div class="post-stripe stripe-presidentes"></div>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-date">Mayo 8, 2026</span>
+            <span class="post-tag pt-presidentes">Presidentes</span>
+          </div>
+          <h3 class="post-title">Simulacro de sesión: presidentes dirigen su primera comisión</h3>
+          <p class="post-excerpt">En el marco de las capacitaciones, los presidentes y vicepresidentes dirigieron su primer simulacro completo de sesión. Desde el llamado a lista hasta el cierre formal, cada líder puso en práctica el protocolo parlamentario con sus delegados de práctica. Los resultados superaron las expectativas del equipo organizador.</p>
+          <div class="post-author">
+            <div class="author-avatar">JV</div>
+            <div>
+              <div class="author-name">Juan Andres Vargas</div>
+              <div class="author-role">Secretario Piso 1</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 3 -->
+      <article class="post-card reveal" data-cat="logistica">
+        <div class="post-stripe stripe-logistica"></div>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-date">Mayo 4, 2026</span>
+            <span class="post-tag pt-logistica">Logística</span>
+          </div>
+          <h3 class="post-title">El equipo de logística inicia su preparación para el gran día</h3>
+          <p class="post-excerpt">Laura Zapata y Alex Lambertinez lideran la formación del equipo de logística del SIMONU 2026. Montaje de salones, distribución de materiales, control de acceso y coordinación del refrigerio son los temas principales de los talleres, que se desarrollan en paralelo a las capacitaciones de presidentes.</p>
+          <div class="post-author">
+            <div class="author-avatar">LZ</div>
+            <div>
+              <div class="author-name">Laura Zapata</div>
+              <div class="author-role">Logística 1</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 4 -->
+      <article class="post-card reveal" data-cat="delegados">
+        <div class="post-stripe stripe-delegados"></div>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-date">Abril 28, 2026</span>
+            <span class="post-tag pt-delegados">Delegados</span>
+          </div>
+          <h3 class="post-title">225 delegados asignados: cada comisión conoce a sus representantes</h3>
+          <p class="post-excerpt">Culminada la fase de inscripciones y selección, los 225 delegados del SIMONU 2026 ya conocen su comisión y el país que representarán el 17 de junio. Desde los EE.UU. en la comisión de Orden Mundial (en inglés) hasta la ONU en Seguridad Global, cada delegación tiene un papel clave en la geopolítica del siglo XXI.</p>
+          <div class="post-author">
+            <div class="author-avatar">DC</div>
+            <div>
+              <div class="author-name">Daniela Calderon</div>
+              <div class="author-role">Secretaria Piso 2</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 5 -->
+      <article class="post-card reveal" data-cat="capacitacion">
+        <div class="post-stripe stripe-capacitacion"></div>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-date">Abril 18, 2026</span>
+            <span class="post-tag pt-capacitacion">Capacitación</span>
+          </div>
+          <h3 class="post-title">Taller de ponencias: cómo construir un discurso de apertura en 90 segundos</h3>
+          <p class="post-excerpt">El equipo del SIMONU JF realizó el primer taller abierto de redacción de ponencias para todos los cursos participantes. Los delegados aprendieron a estructurar su posición en 1 minuto 30 segundos: contexto del país, postura frente al tema y propuesta de solución. Decenas de borradores ya circulan entre presidentes y delegados.</p>
+          <div class="post-author">
+            <div class="author-avatar">GS</div>
+            <div>
+              <div class="author-name">Gabriela Salinas</div>
+              <div class="author-role">Prensa 1</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 6 -->
+      <article class="post-card reveal" data-cat="delegados">
+        <div class="post-stripe stripe-delegados"></div>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-date">Abril 14, 2026</span>
+            <span class="post-tag pt-delegados">Delegados</span>
+          </div>
+          <h3 class="post-title">Fase de indagación: los delegados comienzan a investigar su país</h3>
+          <p class="post-excerpt">Con los países asignados, los delegados iniciaron la fase de investigación de sus portafolios: perfil político, geográfico, económico, sociocultural e internacional de la nación que representarán. El Libro de Mano, disponible en esta web, guía el proceso de construcción del portafolio del delegado.</p>
+          <div class="post-author">
+            <div class="author-avatar">MS</div>
+            <div>
+              <div class="author-name">Medina Sara</div>
+              <div class="author-role">Prensa 2</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 7 -->
+      <article class="post-card reveal" data-cat="convocatoria">
+        <div class="post-stripe stripe-convocatoria"></div>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-date">Abril 10, 2026</span>
+            <span class="post-tag pt-convocatoria">Convocatoria</span>
+          </div>
+          <h3 class="post-title">Cierre de inscripciones: 384 participantes confirmados para el SIMONU 2026</h3>
+          <p class="post-excerpt">Con la convocatoria cerrada, el SIMONU 2026 tiene sus 384 participantes confirmados. Delegados, presidentes, vicepresidentes, secretarios de mesa, equipo de prensa, estadística y logística están listos para vivir la mayor simulación de la historia del Julio Florez: 15 comisiones simultáneas sobre Geopolítica.</p>
+          <div class="post-author">
+            <div class="author-avatar">SA</div>
+            <div>
+              <div class="author-name">Santiago Aguilera</div>
+              <div class="author-role">Secretario General</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 8 -->
+      <article class="post-card reveal" data-cat="presidentes">
+        <div class="post-stripe stripe-presidentes"></div>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-date">Abril 6, 2026</span>
+            <span class="post-tag pt-presidentes">Presidentes</span>
+          </div>
+          <h3 class="post-title">Presentados los 15 presidentes y vicepresidentes del SIMONU 2026</h3>
+          <p class="post-excerpt">En el acto de apertura oficial del SIMONU 2026, se presentaron los 30 líderes de comisión: 15 presidentes y 15 vicepresidentes seleccionados mediante hoja de vida y entrevista. Arias Laura lidera C1 (Orden Mundial, en inglés), mientras Castelvi Miguel preside C15 (Seguridad Global). ¡Bienvenidos a la mesa!</p>
+          <div class="post-author">
+            <div class="author-avatar">CE</div>
+            <div>
+              <div class="author-name">Contreras Samuel</div>
+              <div class="author-role">Estadística 1</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 9 -->
+      <article class="post-card reveal" data-cat="convocatoria">
+        <div class="post-stripe stripe-convocatoria"></div>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-date">Marzo 28, 2026</span>
+            <span class="post-tag pt-convocatoria">Convocatoria</span>
+          </div>
+          <h3 class="post-title">Abre la convocatoria SIMONU 2026: Geopolítica, la temática del año</h3>
+          <p class="post-excerpt">El Colegio Técnico Distrital Julio Florez lanza oficialmente la convocatoria del SIMONU 2026. La temática de este año es la Geopolítica: el nuevo orden mundial, las guerras híbridas, la transición energética y los conflictos que reconfiguran el planeta serán el eje de las 15 comisiones. Inscripciones abiertas hasta el 10 de abril.</p>
+          <div class="post-author">
+            <div class="author-avatar">SA</div>
+            <div>
+              <div class="author-name">Santiago Aguilera</div>
+              <div class="author-role">Secretario General</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /posts-grid -->
+
+    <div class="nav-cta">
+      <a href="comisiones.html" class="cta-btn primary">Ver comisiones →</a>
+      <a href="historial.html" class="cta-btn outline">Historial del evento</a>
+      <a href="index.html" class="cta-btn outline">← Inicio</a>
+    </div>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- Cuenta regresiva -->
+    <div class="countdown-block reveal">
+      <div class="countdown-label">Faltan para la simulación</div>
+      <div class="countdown-grid" id="countdown">
+        <div class="cd-unit"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">Días</div></div>
+        <div class="cd-unit"><div class="cd-num" id="cd-hours">--</div><div class="cd-lbl">Horas</div></div>
+        <div class="cd-unit"><div class="cd-num" id="cd-mins">--</div><div class="cd-lbl">Min</div></div>
+        <div class="cd-unit"><div class="cd-num" id="cd-secs">--</div><div class="cd-lbl">Seg</div></div>
+      </div>
+    </div>
+
+    <!-- Próximas fechas -->
+    <div class="sidebar-card reveal">
+      <div class="sidebar-title">📅 Próximas fechas</div>
+      <div class="upcoming-list">
+        <div class="upcoming-item">
+          <div class="upcoming-date">
+            <div class="upcoming-day">19</div>
+            <div class="upcoming-month">Mayo</div>
+          </div>
+          <div>
+            <div class="upcoming-title">Inicio capacitación de delegados</div>
+            <div class="upcoming-desc">Talleres de oratoria y portafolio</div>
+          </div>
+        </div>
+        <div class="upcoming-item">
+          <div class="upcoming-date">
+            <div class="upcoming-day">6</div>
+            <div class="upcoming-month">Jun</div>
+          </div>
+          <div>
+            <div class="upcoming-title">Cierre de capacitaciones</div>
+            <div class="upcoming-desc">Entrega de ponencias finales</div>
+          </div>
+        </div>
+        <div class="upcoming-item">
+          <div class="upcoming-date" style="background:rgba(201,162,39,0.15);">
+            <div class="upcoming-day" style="color:var(--gold);">9</div>
+            <div class="upcoming-month" style="color:var(--gold);opacity:1;">Jun</div>
+          </div>
+          <div>
+            <div class="upcoming-title">Implementación in situ</div>
+            <div class="upcoming-desc">Montaje de salones · 3 días</div>
+          </div>
+        </div>
+        <div class="upcoming-item">
+          <div class="upcoming-date" style="background:var(--gold);">
+            <div class="upcoming-day" style="color:var(--navy);">17</div>
+            <div class="upcoming-month" style="color:var(--navy);opacity:0.7;">Jun</div>
+          </div>
+          <div>
+            <div class="upcoming-title" style="color:var(--gold);">⭐ Simulación Geopolítica</div>
+            <div class="upcoming-desc">06:15 – 14:00 · 15 comisiones</div>
+          </div>
+        </div>
+        <div class="upcoming-item">
+          <div class="upcoming-date">
+            <div class="upcoming-day">19</div>
+            <div class="upcoming-month">Jun</div>
+          </div>
+          <div>
+            <div class="upcoming-title">Informe de cierre</div>
+            <div class="upcoming-desc">Resultados y sistematización</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categorías -->
+    <div class="sidebar-card reveal">
+      <div class="sidebar-title">🗂️ Categorías</div>
+      <div class="cat-list">
+        <div class="cat-item" onclick="filterPosts('convocatoria', null)">
+          <span class="cat-name">Convocatoria</span>
+          <span class="cat-count">2</span>
+        </div>
+        <div class="cat-item" onclick="filterPosts('capacitacion', null)">
+          <span class="cat-name">Capacitaciones</span>
+          <span class="cat-count">2</span>
+        </div>
+        <div class="cat-item" onclick="filterPosts('delegados', null)">
+          <span class="cat-name">Delegados</span>
+          <span class="cat-count">2</span>
+        </div>
+        <div class="cat-item" onclick="filterPosts('presidentes', null)">
+          <span class="cat-name">Presidentes</span>
+          <span class="cat-count">2</span>
+        </div>
+        <div class="cat-item" onclick="filterPosts('logistica', null)">
+          <span class="cat-name">Logística</span>
+          <span class="cat-count">1</span>
+        </div>
+        <div class="cat-item" onclick="filterPosts('all', null)">
+          <span class="cat-name">Ver todas</span>
+          <span class="cat-count">9</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Links rápidos -->
+    <div class="sidebar-card reveal">
+      <div class="sidebar-title">🔗 Accesos rápidos</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <a href="criterios.html" style="display:block;font-size:0.83rem;color:var(--navy-light);text-decoration:none;padding:7px 0;border-bottom:1px solid rgba(10,22,40,0.06);">📋 Libro de mano oficial</a>
+        <a href="comisiones.html" style="display:block;font-size:0.83rem;color:var(--navy-light);text-decoration:none;padding:7px 0;border-bottom:1px solid rgba(10,22,40,0.06);">🌍 Las 15 comisiones</a>
+        <a href="evento.html" style="display:block;font-size:0.83rem;color:var(--navy-light);text-decoration:none;padding:7px 0;border-bottom:1px solid rgba(10,22,40,0.06);">🗓️ Agenda del 17 de junio</a>
+        <a href="historial.html" style="display:block;font-size:0.83rem;color:var(--navy-light);text-decoration:none;padding:7px 0;border-bottom:1px solid rgba(10,22,40,0.06);">🏛️ Historia del SIMONU JF</a>
+        <a href="repositorio.html" style="display:block;font-size:0.83rem;color:var(--navy-light);text-decoration:none;padding:7px 0;">📚 Repositorio de ponencias</a>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">SIMONU <em>2026</em></div>
+  <div class="footer-divider"></div>
+  <div class="footer-sub">
+    Colegio Técnico Distrital Julio Florez · Bogotá, Colombia<br>
+    Simulación Geopolítica de Naciones Unidas · 17 de Junio de 2026
+  </div>
+  <nav class="footer-links" aria-label="Mapa del sitio">
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="repositorio.html">Repositorio</a>
+  </nav>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('burger').classList.toggle('open');
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+
+  /* Filtro de posts */
+  function filterPosts(cat, btn) {
+    if (btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    const cards = document.querySelectorAll('#posts-grid .post-card');
+    let count = 0;
+    cards.forEach(c => {
+      const show = cat === 'all' || c.dataset.cat === cat;
+      c.style.display = show ? '' : 'none';
+      if (show) count++;
+    });
+    document.getElementById('post-count').textContent = count + ' publicación' + (count !== 1 ? 'es' : '');
+  }
+
+  /* Cuenta regresiva */
+  function updateCountdown() {
+    const target = new Date('2026-06-17T06:15:00-05:00'); // Bogotá UTC-5
+    const now    = new Date();
+    const diff   = target - now;
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent  = '0';
+      document.getElementById('cd-hours').textContent = '0';
+      document.getElementById('cd-mins').textContent  = '0';
+      document.getElementById('cd-secs').textContent  = '0';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent  = d;
+    document.getElementById('cd-hours').textContent = h;
+    document.getElementById('cd-mins').textContent  = m;
+    document.getElementById('cd-secs').textContent  = s;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  /* Reveal */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 70);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
