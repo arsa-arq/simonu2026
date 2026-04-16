@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criterios de Simulación — SIMONU 2026 · Colegio Julio Florez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #0a1628;
+    --navy-mid:   #122040;
+    --navy-light: #1e3a6e;
+    --gold:       #c9a227;
+    --gold-light: #e8c84a;
+    --cream:      #faf8f2;
+    --white:      #ffffff;
+    --gray:       #8a95a3;
+    --text:       #1a2535;
+    --border:     rgba(201,162,39,0.25);
+    --teal:       #16a085;
+    --orange:     #d35400;
+    --purple:     #8e44ad;
+    --red:        #c0392b;
+    --blue:       #2471a3;
+    --green:      #1e8449;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,22,40,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.88rem; color: var(--gold-light); letter-spacing: 0.06em; text-decoration: none; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 9px; border-radius: 6px; transition: color 0.2s, background 0.2s; white-space: nowrap; }
+  .nav-links a:hover { color: var(--gold-light); background: rgba(201,162,39,0.08); }
+  .nav-links a.active { color: var(--gold-light); background: rgba(201,162,39,0.1); }
+  .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-burger span { display: block; width: 22px; height: 2px; background: rgba(255,255,255,0.7); border-radius: 2px; transition: all 0.25s; }
+  .nav-burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+  .nav-mobile { display: none; background: var(--navy-mid); border-top: 1px solid var(--border); padding: 8px 0 12px; }
+  .nav-mobile.open { display: block; }
+  .nav-mobile a { display: block; padding: 11px 24px; color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.04); transition: color 0.2s, background 0.2s; }
+  .nav-mobile a:hover { color: var(--gold-light); background: rgba(201,162,39,0.06); }
+  @media (max-width: 900px) { .nav-links { display: none; } .nav-burger { display: flex; } }
+
+  /* ── HERO ── */
+  .page-hero { background: var(--navy); padding: 80px 24px 64px; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,162,39,0.12) 0%, transparent 70%); }
+  .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,162,39,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201,162,39,0.05) 1px, transparent 1px); background-size: 50px 50px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%); }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+  .breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 20px; }
+  .breadcrumb a { color: rgba(201,162,39,0.6); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .breadcrumb span { margin: 0 8px; color: rgba(255,255,255,0.2); }
+  .page-title { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; color: var(--white); line-height: 1.05; margin-bottom: 16px; }
+  .page-title em { font-style: italic; color: var(--gold-light); }
+  .page-desc { font-size: 1rem; color: rgba(255,255,255,0.5); max-width: 640px; line-height: 1.7; margin-bottom: 36px; }
+
+  /* Índice rápido */
+  .toc { display: flex; gap: 8px; flex-wrap: wrap; }
+  .toc-link { display: inline-block; padding: 7px 14px; border-radius: 100px; border: 1px solid rgba(201,162,39,0.2); color: rgba(255,255,255,0.55); font-size: 0.75rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.06em; transition: all 0.2s; }
+  .toc-link:hover { border-color: var(--gold); color: var(--gold-light); background: rgba(201,162,39,0.08); }
+
+  /* ── CONTENIDO ── */
+  .content { max-width: 1100px; margin: 0 auto; padding: 56px 24px 100px; }
+  .section-block { margin-bottom: 72px; scroll-margin-top: 80px; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .section-heading { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--navy); margin-bottom: 28px; }
+  .section-heading em { font-style: italic; color: var(--gold); }
+
+  /* ── MOMENTOS DE LA COMISIÓN ── */
+  .moments-timeline { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+  .moment-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 10px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+  .moment-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: rgba(201,162,39,0.25); line-height: 1; flex-shrink: 0; min-width: 28px; }
+  .moment-text { font-size: 0.84rem; font-weight: 500; color: var(--navy); line-height: 1.4; padding-top: 4px; }
+
+  /* ── CÓDIGO DE CONDUCTA ── */
+  .conduct-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .conduct-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 12px; padding: 20px; }
+  .conduct-num { font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 6px; }
+  .conduct-title { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .conduct-items { list-style: none; padding: 0; }
+  .conduct-items li { display: flex; gap: 8px; font-size: 0.8rem; color: #4a5568; padding: 4px 0; border-bottom: 1px solid rgba(10,22,40,0.05); line-height: 1.5; }
+  .conduct-items li:last-child { border-bottom: none; }
+  .ci-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 7px; }
+
+  /* ── VESTIMENTA ── */
+  .dress-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+  .dress-card { border-radius: 12px; padding: 22px; }
+  .dress-card.allowed { background: rgba(30,132,73,0.06); border: 1px solid rgba(30,132,73,0.2); }
+  .dress-card.forbidden { background: rgba(192,57,43,0.05); border: 1px solid rgba(192,57,43,0.18); }
+  .dress-card.note { background: rgba(201,162,39,0.06); border: 1px solid rgba(201,162,39,0.25); }
+  .dress-icon { font-size: 1.6rem; margin-bottom: 10px; }
+  .dress-label { font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; }
+  .dress-card.allowed .dress-label { color: var(--green); }
+  .dress-card.forbidden .dress-label { color: var(--red); }
+  .dress-card.note .dress-label { color: #7a6010; }
+  .dress-desc { font-size: 0.82rem; color: #4a5568; line-height: 1.6; }
+
+  /* ── LENGUAJE PARLAMENTARIO ── */
+  .parl-pillars { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 28px; }
+  .parl-pillar { background: var(--navy); border-radius: 10px; padding: 16px 12px; text-align: center; }
+  .parl-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--gold-light); margin-bottom: 6px; }
+  .parl-name { font-size: 0.78rem; color: rgba(255,255,255,0.65); font-weight: 500; }
+
+  /* Tabla vocabulario */
+  .vocab-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid rgba(10,22,40,0.1); margin-bottom: 28px; }
+  .vocab-table { width: 100%; min-width: 480px; border-collapse: collapse; background: var(--white); }
+  .vocab-table thead tr { background: var(--navy); }
+  .vocab-table th { padding: 12px 18px; font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); text-align: left; }
+  .vocab-table td { padding: 10px 18px; border-bottom: 1px solid rgba(10,22,40,0.06); font-size: 0.85rem; }
+  .vocab-table td:first-child { color: var(--red); font-weight: 600; }
+  .vocab-table td:last-child { color: var(--navy); font-weight: 500; }
+  .vocab-table tr:last-child td { border-bottom: none; }
+  .vocab-table tr:hover td { background: rgba(10,22,40,0.02); }
+
+  /* Frases parlamentarias */
+  .phrase-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .phrase-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 12px; padding: 18px; }
+  .phrase-context { font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 10px; }
+  .phrase-item { font-size: 0.82rem; color: #4a5568; padding: 6px 0; border-bottom: 1px solid rgba(10,22,40,0.05); line-height: 1.5; font-style: italic; }
+  .phrase-item:last-child { border-bottom: none; }
+
+  /* ── PROCEDIMIENTOS ── */
+  .proc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .proc-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-left: 3px solid var(--gold); border-radius: 0 12px 12px 0; padding: 18px 20px; }
+  .proc-title { font-weight: 700; font-size: 0.92rem; color: var(--navy); margin-bottom: 6px; }
+  .proc-desc { font-size: 0.82rem; color: #4a5568; line-height: 1.6; }
+  .proc-badge { display: inline-block; margin-top: 10px; font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 8px; border-radius: 4px; background: rgba(201,162,39,0.1); color: var(--gold); }
+
+  /* ── MOCIONES ── */
+  .motion-list { display: flex; flex-direction: column; gap: 8px; }
+  .motion-item { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 10px; padding: 16px 20px; display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
+  .motion-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 8px; border-radius: 4px; background: rgba(30,58,110,0.08); color: var(--navy-light); white-space: nowrap; margin-top: 2px; }
+  .motion-name { font-weight: 700; font-size: 0.9rem; color: var(--navy); margin-bottom: 4px; }
+  .motion-desc { font-size: 0.8rem; color: #4a5568; line-height: 1.55; }
+
+  /* ── PUNTOS ── */
+  .points-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .point-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 12px; padding: 18px; }
+  .point-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; }
+  .pt-priv    { background: rgba(142,68,173,0.1); color: var(--purple); }
+  .pt-info    { background: rgba(36,113,163,0.1); color: var(--blue); }
+  .pt-citar   { background: rgba(22,160,133,0.1); color: var(--teal); }
+  .pt-orden   { background: rgba(192,57,43,0.1); color: var(--red); }
+  .pt-orador  { background: rgba(211,84,0,0.1); color: var(--orange); }
+  .pt-verac   { background: rgba(30,58,110,0.1); color: var(--navy-light); }
+  .pt-replica { background: rgba(201,162,39,0.12); color: #7a6010; }
+  .point-title { font-weight: 700; font-size: 0.9rem; color: var(--navy); margin-bottom: 6px; }
+  .point-desc  { font-size: 0.8rem; color: #4a5568; line-height: 1.6; }
+
+  /* ── PORTAFOLIO ── */
+  .portfolio-steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .portfolio-step { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 14px; padding: 24px; position: relative; overflow: hidden; }
+  .portfolio-step::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+  .ps1::before { background: var(--blue); }
+  .ps2::before { background: var(--teal); }
+  .ps3::before { background: var(--purple); }
+  .ps-step { font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gray); margin-bottom: 8px; }
+  .ps-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 14px; }
+  .ps-items { display: flex; flex-direction: column; gap: 6px; }
+  .ps-item { display: flex; gap: 8px; align-items: flex-start; font-size: 0.82rem; color: #4a5568; line-height: 1.5; }
+  .ps-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+  .d-blue   { background: var(--blue); }
+  .d-teal   { background: var(--teal); }
+  .d-purple { background: var(--purple); }
+
+  /* ── COMPETENCIAS ── */
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .comp-card { background: var(--white); border: 1px solid rgba(10,22,40,0.08); border-radius: 14px; padding: 22px; }
+  .comp-icon { font-size: 1.6rem; margin-bottom: 12px; }
+  .comp-title { font-weight: 700; font-size: 1rem; color: var(--navy); margin-bottom: 8px; }
+  .comp-simonu { font-size: 0.78rem; color: var(--navy-light); background: rgba(30,58,110,0.07); border-radius: 6px; padding: 8px 10px; margin-bottom: 8px; line-height: 1.5; }
+  .comp-skills { display: flex; flex-direction: column; gap: 4px; }
+  .comp-skill { font-size: 0.78rem; color: #4a5568; padding: 3px 0; border-bottom: 1px solid rgba(10,22,40,0.05); }
+  .comp-skill:last-child { border-bottom: none; }
+
+  /* ── VOTOS ── */
+  .vote-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+  .vote-pill { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 100px; font-size: 0.82rem; font-weight: 600; }
+  .vp-favor    { background: rgba(22,160,133,0.12); color: var(--teal); border: 1px solid rgba(22,160,133,0.25); }
+  .vp-contra   { background: rgba(192,57,43,0.1); color: var(--red); border: 1px solid rgba(192,57,43,0.2); }
+  .vp-abs      { background: rgba(138,149,163,0.12); color: var(--gray); border: 1px solid rgba(138,149,163,0.25); }
+  .vp-paso     { background: rgba(201,162,39,0.1); color: #7a6010; border: 1px solid rgba(201,162,39,0.2); }
+
+  /* ── CTA ── */
+  .nav-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 48px; padding-top: 40px; border-top: 1px solid rgba(10,22,40,0.08); }
+  .cta-btn { display: inline-block; text-decoration: none; padding: 11px 24px; border-radius: 10px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.2s; }
+  .cta-btn.primary { background: var(--navy); color: var(--gold-light); }
+  .cta-btn.primary:hover { background: var(--navy-light); }
+  .cta-btn.outline { border: 1px solid rgba(10,22,40,0.15); color: var(--navy); }
+  .cta-btn.outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,162,39,0.04); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--navy); border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .footer-logo em { color: var(--gold-light); font-style: italic; }
+  .footer-sub { color: rgba(255,255,255,0.3); font-size: 0.78rem; line-height: 1.7; }
+  .footer-divider { width: 36px; height: 1px; background: var(--gold); margin: 16px auto; opacity: 0.4; }
+  .footer-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+  .footer-links a { color: rgba(255,255,255,0.28); text-decoration: none; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold-light); }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .note-box { background: rgba(201,162,39,0.07); border: 1px solid rgba(201,162,39,0.25); border-radius: 10px; padding: 16px 20px; font-size: 0.85rem; color: #7a6010; line-height: 1.65; margin-bottom: 24px; }
+
+  @media (max-width: 640px) {
+    .parl-pillars { grid-template-columns: repeat(3, 1fr); }
+    .motion-item { grid-template-columns: 1fr; gap: 6px; }
+    .vote-grid { gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">SIMONU · 2026</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="cronograma.html">Cronograma</a></li>
+      <li><a href="evento.html">Evento</a></li>
+      <li><a href="comisiones.html">Comisiones</a></li>
+      <li><a href="logistica.html">Logística</a></li>
+      <li><a href="criterios.html" class="active">Criterios</a></li>
+      <li><a href="historial.html">Historial</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="repositorio.html">Repositorio</a></li>
+    </ul>
+    <button class="nav-burger" id="burger" aria-label="Abrir menú" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="mobile-menu">
+    <a href="index.html">Inicio</a>
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Banco de proyectos</a>
+    <a href="repositorio.html">Repositorio de ponencias</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a><span>›</span>Criterios de simulación
+    </div>
+    <h1 class="page-title">Criterios de <em>Simulación</em></h1>
+    <p class="page-desc">Libro de mano oficial del SIMONU JF: código de conducta, vestimenta, lenguaje parlamentario, procedimientos, mociones, puntos y portafolio del delegado.</p>
+    <nav class="toc" aria-label="Secciones">
+      <a href="#momentos" class="toc-link">Momentos</a>
+      <a href="#conducta" class="toc-link">Conducta</a>
+      <a href="#vestimenta" class="toc-link">Vestimenta</a>
+      <a href="#lenguaje" class="toc-link">Lenguaje</a>
+      <a href="#procedimientos" class="toc-link">Procedimientos</a>
+      <a href="#mociones" class="toc-link">Mociones</a>
+      <a href="#puntos" class="toc-link">Puntos</a>
+      <a href="#portafolio" class="toc-link">Portafolio</a>
+      <a href="#competencias" class="toc-link">Competencias</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ── CONTENIDO ── -->
+<div class="content">
+
+  <!-- 1. MOMENTOS DE LA COMISIÓN -->
+  <div class="section-block reveal" id="momentos">
+    <p class="section-label">Estructura de la sesión</p>
+    <h2 class="section-heading">Momentos de la <em>Comisión</em></h2>
+    <p style="font-size:0.88rem;color:var(--gray);margin-bottom:20px;">Cada comisión sigue estos 14 momentos en orden durante la jornada de simulación.</p>
+    <div class="moments-timeline">
+      <div class="moment-card"><div class="moment-num">1</div><div class="moment-text">Llamado a lista</div></div>
+      <div class="moment-card"><div class="moment-num">2</div><div class="moment-text">Abrir sesión</div></div>
+      <div class="moment-card"><div class="moment-num">3</div><div class="moment-text">Adopción de la agenda</div></div>
+      <div class="moment-card"><div class="moment-num">4</div><div class="moment-text">Discursos de apertura</div></div>
+      <div class="moment-card"><div class="moment-num">5</div><div class="moment-text">Fase de discusión de debate general</div></div>
+      <div class="moment-card"><div class="moment-num">6</div><div class="moment-text">Consultas informales</div></div>
+      <div class="moment-card"><div class="moment-num">7</div><div class="moment-text">Elaboración de papeles de trabajo</div></div>
+      <div class="moment-card"><div class="moment-num">8</div><div class="moment-text">Poner sobre la mesa un papel de trabajo</div></div>
+      <div class="moment-card"><div class="moment-num">9</div><div class="moment-text">Lectura</div></div>
+      <div class="moment-card"><div class="moment-num">10</div><div class="moment-text">Enmiendas</div></div>
+      <div class="moment-card"><div class="moment-num">11</div><div class="moment-text">Debate general</div></div>
+      <div class="moment-card"><div class="moment-num">12</div><div class="moment-text">Votación</div></div>
+      <div class="moment-card"><div class="moment-num">13</div><div class="moment-text">Llamado a lista</div></div>
+      <div class="moment-card"><div class="moment-num">14</div><div class="moment-text">Cerrar la sesión</div></div>
+    </div>
+  </div>
+
+  <!-- 2. CÓDIGO DE CONDUCTA -->
+  <div class="section-block reveal" id="conducta">
+    <p class="section-label">Libro de mano</p>
+    <h2 class="section-heading">Código de <em>Conducta</em></h2>
+    <div class="note-box">El Código de Conducta promueve un ambiente de aprendizaje respetuoso, empático, crítico, reflexivo e inclusivo. Al participar en el SIMONU 2026 aceptas comprometerte con los siguientes principios.</div>
+    <div class="conduct-grid">
+      <div class="conduct-card">
+        <div class="conduct-num">Principio 1</div>
+        <div class="conduct-title">Respeto Mutuo</div>
+        <ul class="conduct-items">
+          <li><div class="ci-dot"></div>Trata a todos con respeto independientemente de su opinión, género, religión u orientación.</li>
+          <li><div class="ci-dot"></div>Escucha atentamente y evita interrumpir a quien habla.</li>
+          <li><div class="ci-dot"></div>Respeta el tiempo y espacio de los demás delegados.</li>
+          <li><div class="ci-dot"></div>Jamás uses lenguaje discriminatorio o degradante.</li>
+        </ul>
+      </div>
+      <div class="conduct-card">
+        <div class="conduct-num">Principio 2</div>
+        <div class="conduct-title">Participación Activa</div>
+        <ul class="conduct-items">
+          <li><div class="ci-dot"></div>Prepárate plenamente para las sesiones y debates.</li>
+          <li><div class="ci-dot"></div>Contribuye con argumentos lógicos y basados en evidencia.</li>
+          <li><div class="ci-dot"></div>Respeta las normas de procedimiento y los turnos de palabra.</li>
+        </ul>
+      </div>
+      <div class="conduct-card">
+        <div class="conduct-num">Principio 3</div>
+        <div class="conduct-title">Ética y Honestidad</div>
+        <ul class="conduct-items">
+          <li><div class="ci-dot"></div>No plagies ni uses información falsa en discursos o resoluciones.</li>
+          <li><div class="ci-dot"></div>No uses tácticas desleales o engañosas en las negociaciones.</li>
+          <li><div class="ci-dot"></div>No hagas uso inadecuado de la IA en tus papeles de trabajo.</li>
+          <li><div class="ci-dot"></div>Cumple las reglas establecidas por la organización.</li>
+        </ul>
+      </div>
+      <div class="conduct-card">
+        <div class="conduct-num">Principio 4</div>
+        <div class="conduct-title">Colaboración y Diplomacia</div>
+        <ul class="conduct-items">
+          <li><div class="ci-dot"></div>Trabaja en equipo para encontrar soluciones globales.</li>
+          <li><div class="ci-dot"></div>Fomenta la diplomacia y la negociación como medios para resolver conflictos.</li>
+          <li><div class="ci-dot"></div>Respeta las resoluciones y decisiones de la mayoría.</li>
+        </ul>
+      </div>
+      <div class="conduct-card">
+        <div class="conduct-num">Principio 5</div>
+        <div class="conduct-title">Comportamiento Adecuado</div>
+        <ul class="conduct-items">
+          <li><div class="ci-dot"></div>Mantén un comportamiento cordial y proactivo en todo momento.</div></li>
+          <li><div class="ci-dot"></div>Usa el lenguaje parlamentario en todo momento.</li>
+          <li><div class="ci-dot"></div>Evita lenguaje ofensivo, insultante o discriminatorio.</li>
+        </ul>
+      </div>
+      <div class="conduct-card">
+        <div class="conduct-num">Principio 6</div>
+        <div class="conduct-title">Cumplimiento de Tiempos</div>
+        <ul class="conduct-items">
+          <li><div class="ci-dot"></div>Cumple los plazos para documentos, propuestas y resoluciones.</li>
+          <li><div class="ci-dot"></div>Sé puntual en todas las sesiones y eventos programados.</li>
+        </ul>
+      </div>
+      <div class="conduct-card">
+        <div class="conduct-num">Principio 7</div>
+        <div class="conduct-title">Responsabilidad Personal</div>
+        <ul class="conduct-items">
+          <li><div class="ci-dot"></div>Asume la responsabilidad de tus acciones como delegado.</li>
+          <li><div class="ci-dot"></div>Si cometes un error, admítelo y busca soluciones constructivas.</li>
+        </ul>
+      </div>
+      <div class="conduct-card">
+        <div class="conduct-num">Principio 8</div>
+        <div class="conduct-title">Manejo de Dispositivos</div>
+        <ul class="conduct-items">
+          <li><div class="ci-dot"></div>El uso de teléfonos celulares y dispositivos electrónicos para comunicación personal no está permitido durante la simulación.</li>
+        </ul>
+      </div>
+      <div class="conduct-card">
+        <div class="conduct-num">Principio 9</div>
+        <div class="conduct-title">Código del Buen Vestir</div>
+        <ul class="conduct-items">
+          <li><div class="ci-dot"></div>Se debe seguir y respetar el Código del Buen Vestir en todo momento del modelo.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. VESTIMENTA -->
+  <div class="section-block reveal" id="vestimenta">
+    <p class="section-label">Presentación personal</p>
+    <h2 class="section-heading">Código del <em>Buen Vestir</em></h2>
+    <p style="font-size:0.88rem;color:var(--gray);margin-bottom:20px;">La vestimenta refleja el respeto mutuo y la importancia de la presentación personal. En el SIMONU JF es una expresión de creatividad, estilo, determinación y empoderamiento.</p>
+    <div class="dress-grid">
+      <div class="dress-card allowed">
+        <div class="dress-icon">🎩</div>
+        <div class="dress-label">✓ Presidentes</div>
+        <div class="dress-desc">Traje formal completo con corbata. Vestimenta que refleje la autoridad y formalidad del cargo de presidencia de comisión.</div>
+      </div>
+      <div class="dress-card allowed">
+        <div class="dress-icon">👗</div>
+        <div class="dress-label">✓ Presidentas</div>
+        <div class="dress-desc">Vestido formal o conjunto elegante. La vestimenta debe ser adecuada al evento, mostrando respeto por los presentes sin negar la identidad de cada una.</div>
+      </div>
+      <div class="dress-card allowed">
+        <div class="dress-icon">🌍</div>
+        <div class="dress-label">✓ Delegados y delegadas</div>
+        <div class="dress-desc">Traje formal o vestimenta elegante acorde al evento. Se valora la creatividad y el estilo personal dentro de los parámetros de formalidad.</div>
+      </div>
+      <div class="dress-card forbidden">
+        <div class="dress-icon">🚫</div>
+        <div class="dress-label">✗ No permitido</div>
+        <div class="dress-desc">Tenis, camisetas deportivas, cachuchas o gorras. Prendas deportivas de cualquier tipo están prohibidas durante toda la jornada.</div>
+      </div>
+      <div class="dress-card note">
+        <div class="dress-icon">💡</div>
+        <div class="dress-label">Nota: Moción de alivio</div>
+        <div class="dress-desc">Existe la posibilidad de presentar una moción para aligerar el código de vestimenta, permitiendo adaptar el atuendo a situaciones y climas cambiantes, manteniendo siempre la formalidad en camisa, blusa y corbata.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. LENGUAJE PARLAMENTARIO -->
+  <div class="section-block reveal" id="lenguaje">
+    <p class="section-label">Comunicación oficial</p>
+    <h2 class="section-heading">Lenguaje <em>Parlamentario</em></h2>
+    <p style="font-size:0.88rem;color:var(--gray);margin-bottom:20px;">El lenguaje parlamentario es obligatorio en todo momento del modelo. Se destaca por cinco características fundamentales:</p>
+    <div class="parl-pillars">
+      <div class="parl-pillar"><div class="parl-num">1</div><div class="parl-name">Respeto</div></div>
+      <div class="parl-pillar"><div class="parl-num">2</div><div class="parl-name">Sinceridad y honestidad</div></div>
+      <div class="parl-pillar"><div class="parl-num">3</div><div class="parl-name">Atención plena</div></div>
+      <div class="parl-pillar"><div class="parl-num">4</div><div class="parl-name">Elegante</div></div>
+      <div class="parl-pillar"><div class="parl-num">5</div><div class="parl-name">Participación activa</div></div>
+    </div>
+
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:16px;">Vocabulario formal requerido</h3>
+    <div class="vocab-table-wrap">
+      <table class="vocab-table">
+        <thead>
+          <tr><th>Término informal</th><th>Término formal (usar en comisión)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Problema</td><td>Desafío / Cuestión / Dilema</td></tr>
+          <tr><td>Plata / Dinero</td><td>Recursos económicos / Recursos monetarios</td></tr>
+          <tr><td>Pobres</td><td>Personas de bajos recursos</td></tr>
+          <tr><td>Trabajos</td><td>Oportunidades laborales / Empleos</td></tr>
+          <tr><td>Gente / Personas</td><td>Población / Ciudadanos / Individuos</td></tr>
+          <tr><td>Países ricos</td><td>Países desarrollados / Estados con economías avanzadas</td></tr>
+          <tr><td>Países pobres</td><td>Países en desarrollo / Estados de ingresos bajos</td></tr>
+          <tr><td>Solucionar</td><td>Resolver / Mitigar / Abordar</td></tr>
+          <tr><td>Gastar</td><td>Invertir / Destinar recursos</td></tr>
+          <tr><td>Jefe</td><td>Mandatario / Líder ejecutivo / Autoridad principal</td></tr>
+          <tr><td>Ayuda</td><td>Asistencia / Cooperación / Apoyo</td></tr>
+          <tr><td>Querer</td><td>Desear / Aspirar a / Tener la intención de</td></tr>
+          <tr><td>Crecer</td><td>Expandirse / Incrementarse / Aumentar</td></tr>
+          <tr><td>Hacer</td><td>Ejecutar / Implementar / Llevar a cabo</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--navy);margin:24px 0 16px;">Frases parlamentarias esenciales</h3>
+    <div class="phrase-grid">
+      <div class="phrase-card">
+        <div class="phrase-context">Para dirigirse a otras delegaciones</div>
+        <div class="phrase-item">"Yo pienso que la delegación de ___"</div>
+        <div class="phrase-item">"Esta delegación considera que las delegaciones tales como ___"</div>
+        <div class="phrase-item">"Esta delegación le recuerda al delegado de la nación ___"</div>
+      </div>
+      <div class="phrase-card">
+        <div class="phrase-context">Para abrir la agenda</div>
+        <div class="phrase-item">"La delegación de ___ propone una moción para abrir la agenda discutiendo el tema de ___"</div>
+      </div>
+      <div class="phrase-card">
+        <div class="phrase-context">Para abrir un debate formal</div>
+        <div class="phrase-item">"Yo solicito un debate formal con 5 minutos para cada orador"</div>
+        <div class="phrase-item">"La delegación de ___ propone una moción para un debate formal de ___ minutos con un límite de ___ minutos por orador"</div>
+      </div>
+      <div class="phrase-card">
+        <div class="phrase-context">Para abrir debate informal</div>
+        <div class="phrase-item">"Propongo un debate informal ___"</div>
+        <div class="phrase-item">"La delegación de ___ propone una moción para abrir un debate informal discutiendo el tema de ___"</div>
+      </div>
+      <div class="phrase-card">
+        <div class="phrase-context">Para ceder tiempo</div>
+        <div class="phrase-item">"La delegación de ___ le cede el tiempo al delegado ___"</div>
+        <div class="phrase-item">"La delegación ___ cede el tiempo a un punto de información referido a ___"</div>
+        <div class="phrase-item">"La delegación ___ cede el tiempo a la mesa"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. PROCEDIMIENTOS -->
+  <div class="section-block reveal" id="procedimientos">
+    <p class="section-label">Reglamento oficial</p>
+    <h2 class="section-heading">Procedimientos <em>de Sesión</em></h2>
+    <div class="proc-grid">
+      <div class="proc-card">
+        <div class="proc-title">Discurso de Apertura</div>
+        <div class="proc-desc">Se lleva a cabo al inicio de la sesión. Expresa la posición de la delegación con respecto a la pregunta problema asignada a la comisión.</div>
+        <span class="proc-badge">Duración: 1 min 30 seg</span>
+      </div>
+      <div class="proc-card">
+        <div class="proc-title">Llamado a Lista</div>
+        <div class="proc-desc">Al iniciar o reanudar cada sesión, la Mesa realiza un llamado a lista. Los delegados responden con "presente" o "presente y votando". Las ausencias sin aviso previo son sancionadas.</div>
+        <span class="proc-badge">Al inicio de cada sesión</span>
+      </div>
+      <div class="proc-card">
+        <div class="proc-title">Presente y Votando</div>
+        <div class="proc-desc">Si una delegación responde "presente y votando" en el llamado a lista, renuncia al derecho de abstenerse en votaciones sobre asuntos sustantivos hasta el siguiente llamado a lista.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-title">Quórum</div>
+        <div class="proc-desc">La Mesa puede abrir sesión con la mitad más uno de los miembros presentes. Para votaciones sobre asuntos sustantivos se requieren dos tercios de los miembros.</div>
+        <span class="proc-badge">½ + 1 para sesión · ⅔ para votar</span>
+      </div>
+      <div class="proc-card">
+        <div class="proc-title">Derecho al Voto</div>
+        <div class="proc-desc">Cada delegación tiene derecho a un voto. Solo pueden abstenerse en asuntos sustantivos. Las abstenciones no se cuentan al determinar la mayoría.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-title">Tipos de Voto</div>
+        <div class="proc-desc">Los delegados pueden votar de seis formas distintas durante las sesiones de la comisión.</div>
+        <div class="vote-grid" style="margin-top:12px;">
+          <span class="vote-pill vp-favor">A favor</span>
+          <span class="vote-pill vp-contra">En contra</span>
+          <span class="vote-pill vp-abs">Abstención</span>
+          <span class="vote-pill vp-paso">Paso</span>
+          <span class="vote-pill vp-favor" style="font-size:0.72rem;">A favor con razones</span>
+          <span class="vote-pill vp-contra" style="font-size:0.72rem;">En contra con razones</span>
+        </div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-title">Mayoría Simple</div>
+        <div class="proc-desc">Se logra cuando hay más votos a favor que en contra. Se aplica a la mayoría de mociones presentadas en comisión.</div>
+        <span class="proc-badge">Favor > Contra</span>
+      </div>
+      <div class="proc-card">
+        <div class="proc-title">Mayoría de Dos Tercios</div>
+        <div class="proc-desc">Se alcanza cuando hay al menos el doble de votos a favor que en contra. Se aplica en decisiones sustantivas de mayor importancia. Las abstenciones no se cuentan en ningún caso.</div>
+        <span class="proc-badge">Favor ≥ 2 × Contra</span>
+      </div>
+      <div class="proc-card">
+        <div class="proc-title">Papeles de Trabajo</div>
+        <div class="proc-desc">Borrador inicial de ideas y argumentos. Se redacta después de una discusión exhaustiva. Puede convertirse en proyecto de resolución o resolución final.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-title">Comunicado de Prensa</div>
+        <div class="proc-desc">Se presenta cuando una o más delegaciones no están de acuerdo con las soluciones propuestas. Se expone en tercera persona, sin voto. Se lee antes de los papeles resolutivos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. MOCIONES -->
+  <div class="section-block reveal" id="mociones">
+    <p class="section-label">Acciones procedimentales</p>
+    <h2 class="section-heading">Tipos de <em>Mociones</em></h2>
+    <p style="font-size:0.88rem;color:var(--gray);margin-bottom:20px;">Las mociones son la forma en que los delegados proponen acciones en el comité. Cada moción debe someterse a votación y se aprueba con mayoría simple, salvo indicación contraria.</p>
+    <div class="motion-list">
+      <div class="motion-item"><span class="motion-tag">Apertura</span><div><div class="motion-name">Moción para Abrir Sesión</div><div class="motion-desc">Inicia la sesión en la primera sección de trabajo, después del llamado a lista.</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Control</span><div><div class="motion-name">Moción para Suspender Sesión</div><div class="motion-desc">Se usa cuando se va a tomar un receso. Indica que se toma un descanso hasta la siguiente sesión de trabajo.</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Control</span><div><div class="motion-name">Moción para Reanudar Sesión</div><div class="motion-desc">Se usa al regresar de un descanso o de otra actividad, después de haber suspendido la sesión previamente.</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Agenda</span><div><div class="motion-name">Moción para Abrir Agenda</div><div class="motion-desc">Determina o informa a los delegados la agenda que la Mesa tiene propuesta para la sesión.</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Agenda</span><div><div class="motion-name">Moción para Cerrar Agenda</div><div class="motion-desc">Solo puede efectuarse una vez completada la sección de resoluciones y papeles de trabajo del tema abierto.</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Discursos</span><div><div class="motion-name">Moción para Leer Discursos de Apertura</div><div class="motion-desc">Da inicio a la lectura de los discursos de apertura. Se presenta antes de abrir la agenda.</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Debate</span><div><div class="motion-name">Moción para Lista de Oradores — Debate Formal</div><div class="motion-desc">Establece un debate formal con tiempo específico por orador. La Mesa elabora la lista de delegaciones que desean usar la palabra. Al finalizar, el delegado puede ceder su tiempo o abrirse a puntos de información.</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Debate</span><div><div class="motion-name">Moción para Debate Informal</div><div class="motion-desc">Agiliza la discusión de puntos críticos. El delegado debe especificar la duración y propósito. No hay límite de tiempo por intervención.</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Negociación</span><div><div class="motion-name">Moción para Tiempo de Lobby</div><div class="motion-desc">Los delegados pueden debatir informalmente. Este tiempo se usa principalmente para redactar papeles de trabajo o establecer bloques de alianza.</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Espacio</span><div><div class="motion-name">Moción para Libre Uso del Espacio</div><div class="motion-desc">Permite a los delegados usar libremente el espacio sin ser declarados fuera de orden. Para que rija en todo el modelo se especifica: "Uso permanente del espacio por todo el modelo".</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Registro</span><div><div class="motion-name">Añadir al Registro</div><div class="motion-desc">Permite citar directamente a otro delegado y agregar su intervención a un registro bajo control de la mesa, previa verificación de la exactitud de la cita.</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Resolución</span><div><div class="motion-name">Pasar a la Lectura de un Papel de Trabajo</div><div class="motion-desc">Permite pasar directamente a la lectura de un papel de trabajo. La lectura debe realizarla dos de los países redactantes.</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Resolución</span><div><div class="motion-name">Pasar a un Proceso de Votación</div><div class="motion-desc">Procede directamente a la votación de una enmienda no amigable, un papel de trabajo o una resolución mediante llamado a lista.</div></div></div>
+      <div class="motion-item"><span class="motion-tag">Vestimenta</span><div><div class="motion-name">Moción para Aligerar Código de Vestimenta</div><div class="motion-desc">Busca equilibrar comodidad con presentación adecuada. Mantiene la formalidad en camisas, blusas y corbatas. Se aprueba con mayoría simple.</div></div></div>
+    </div>
+  </div>
+
+  <!-- 7. PUNTOS -->
+  <div class="section-block reveal" id="puntos">
+    <p class="section-label">Solicitudes procedimentales</p>
+    <h2 class="section-heading">Tipos de <em>Puntos</em></h2>
+    <p style="font-size:0.88rem;color:var(--gray);margin-bottom:20px;">Los puntos permiten a los delegados realizar acciones inmediatas. No requieren votación y no pueden interrumpir a ningún delegado en uso de la palabra.</p>
+    <div class="points-grid">
+      <div class="point-card">
+        <span class="point-tag pt-priv">Privilegio personal</span>
+        <div class="point-title">Punto de Privilegio Personal</div>
+        <div class="point-desc">Se solicita cuando alguna circunstancia impide participar adecuadamente: problemas técnicos, temperatura, entre otros. Solo interrumpe al orador si la causa está directamente relacionada con su intervención.</div>
+      </div>
+      <div class="point-card">
+        <span class="point-tag pt-info">Información a la Mesa</span>
+        <div class="point-title">Punto de Información a la Mesa</div>
+        <div class="point-desc">Permite hacer preguntas directamente a la Mesa Directiva, ya sea ante todo el comité o de forma más privada. La Mesa responde sin que los demás delegados lo escuchen si el delegado lo prefiere.</div>
+      </div>
+      <div class="point-card">
+        <span class="point-tag pt-citar">Permiso para citar</span>
+        <div class="point-title">Permiso para Citar</div>
+        <div class="point-desc">Se usa para dar veracidad a la información presentada. Todos los datos deben citarse mediante una fuente confiable. Si la Mesa considera la fuente válida, el delegado puede continuar con la información citada.</div>
+      </div>
+      <div class="point-card">
+        <span class="point-tag pt-orador">Información al Orador</span>
+        <div class="point-title">Punto de Información al Orador</div>
+        <div class="point-desc">Permite hacer una pregunta directa al orador durante su intervención. La Mesa reconoce al delegado que pregunta, el orador decide si responder. El tiempo de respuesta se descuenta del tiempo del delegado.</div>
+      </div>
+      <div class="point-card">
+        <span class="point-tag pt-orden">Relevancia</span>
+        <div class="point-title">Puntos de Relevancia</div>
+        <div class="point-desc">Se plantea si un delegado considera que otro se está desviando del tema principal. Se usa cuando los comentarios no guardan relación con el asunto en discusión.</div>
+      </div>
+      <div class="point-card">
+        <span class="point-tag pt-orden">Punto de Orden</span>
+        <div class="point-title">Punto de Orden</div>
+        <div class="point-desc">Se usa cuando se lleva a cabo un procedimiento incorrecto: omisión del llamado a lista, abstención después de declararse "presente y votando", entre otros. Solo puede presentarse una vez finalizada la intervención y no corregida por la Mesa.</div>
+      </div>
+      <div class="point-card">
+        <span class="point-tag pt-verac">Veracidad</span>
+        <div class="point-title">Punto de Veracidad</div>
+        <div class="point-desc">Si un delegado considera que otro está proporcionando información falsa o inexacta. No es interrumpible: debe plantearse al final de la intervención cuestionada. El delegado debe proporcionar la fuente correcta.</div>
+      </div>
+      <div class="point-card">
+        <span class="point-tag pt-verac">Lenguaje</span>
+        <div class="point-title">Punto de Lenguaje Parlamentario</div>
+        <div class="point-desc">Permite preguntar a la Mesa sobre una palabra, frase o término que no esté en el lenguaje parlamentario o que deba expresarse de manera específica.</div>
+      </div>
+      <div class="point-card">
+        <span class="point-tag pt-replica">Réplica</span>
+        <div class="point-title">Derecho a Réplica</div>
+        <div class="point-desc">Se usa cuando un delegado se siente ofendido directamente por otro. Si la solicitud es válida, se da tiempo para explicar la ofensa y la delegación acusada puede defenderse. No se permiten réplicas a réplicas.</div>
+      </div>
+      <div class="point-card">
+        <span class="point-tag pt-info">Intervención conjunta</span>
+        <div class="point-title">Permiso para Intervención Conjunta</div>
+        <div class="point-desc">Dos delegaciones de un mismo bloque establecen de forma más completa la posición de su alianza y sus posibles soluciones. La Mesa determina el tiempo disponible.</div>
+      </div>
+      <div class="point-card">
+        <span class="point-tag pt-priv">Previo preámbulo</span>
+        <div class="point-title">Punto de Previo Preámbulo</div>
+        <div class="point-desc">Se solicita cuando un delegado desea hacer una intervención específica sobre un discurso previo o alguna referencia hecha por otro delegado, con el fin de aclarar.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. PORTAFOLIO -->
+  <div class="section-block reveal" id="portafolio">
+    <p class="section-label">Preparación del delegado</p>
+    <h2 class="section-heading">Portafolio <em>del Delegado</em></h2>
+    <p style="font-size:0.88rem;color:var(--gray);margin-bottom:20px;">El portafolio SIMONU es el documento de preparación del delegado. Fundamenta sus intervenciones y demuestra una preparación sólida. Contiene tres pasos obligatorios:</p>
+    <div class="portfolio-steps">
+      <div class="portfolio-step ps1">
+        <div class="ps-step">Paso 1</div>
+        <div class="ps-title">Perfil del País</div>
+        <div class="ps-items">
+          <div class="ps-item"><div class="ps-dot d-blue"></div><strong>Perfil Político:</strong> nombre, tipo de gobierno, divisiones, constitución, ramas del poder, partidos.</div>
+          <div class="ps-item"><div class="ps-dot d-blue"></div><strong>Perfil Geográfico:</strong> ubicación, fronteras, recursos naturales, situaciones ambientales, acuerdos ambientales.</div>
+          <div class="ps-item"><div class="ps-dot d-blue"></div><strong>Perfil Económico:</strong> sectores económicos, socios comerciales, organizaciones económicas.</div>
+          <div class="ps-item"><div class="ps-dot d-blue"></div><strong>Perfil Sociocultural:</strong> población, grupos étnicos, grupos religiosos, minorías relevantes.</div>
+          <div class="ps-item"><div class="ps-dot d-blue"></div><strong>Perfil Internacional:</strong> relaciones internacionales, acuerdos, relaciones con la ONU, ODS.</div>
+        </div>
+      </div>
+      <div class="portfolio-step ps2">
+        <div class="ps-step">Paso 2</div>
+        <div class="ps-title">Perfil de la Comisión</div>
+        <div class="ps-items">
+          <div class="ps-item"><div class="ps-dot d-teal"></div>Nombre y función de la comisión asignada.</div>
+          <div class="ps-item"><div class="ps-dot d-teal"></div>Historia y relevancia de la comisión en el contexto internacional.</div>
+          <div class="ps-item"><div class="ps-dot d-teal"></div>Mandato y objetivos de la comisión.</div>
+          <div class="ps-item"><div class="ps-dot d-teal"></div>Objetivos de Desarrollo Sostenible relacionados.</div>
+          <div class="ps-item"><div class="ps-dot d-teal"></div>Agenda del país para cumplir la Agenda 2030.</div>
+        </div>
+      </div>
+      <div class="portfolio-step ps3">
+        <div class="ps-step">Paso 3</div>
+        <div class="ps-title">Redacción de Reflexiones</div>
+        <div class="ps-items">
+          <div class="ps-item"><div class="ps-dot d-purple"></div>Responder la pregunta problema desde la postura del país representado.</div>
+          <div class="ps-item"><div class="ps-dot d-purple"></div>Desarrollar argumentos de respaldo y estrategias de negociación.</div>
+          <div class="ps-item"><div class="ps-dot d-purple"></div>Preparar el discurso de apertura (1 min 30 seg) con base en la investigación.</div>
+          <div class="ps-item"><div class="ps-dot d-purple"></div>Identificar posibles alianzas y posiciones de otras delegaciones.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. COMPETENCIAS -->
+  <div class="section-block reveal" id="competencias">
+    <p class="section-label">Aprendizajes del evento</p>
+    <h2 class="section-heading">Competencias que <em>desarrolla</em></h2>
+    <p style="font-size:0.88rem;color:var(--gray);margin-bottom:20px;">El SIMONU JF desarrolla seis competencias clave que preparan a los estudiantes para el mundo laboral y la vida universitaria.</p>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-icon">🎙️</div>
+        <div class="comp-title">Comunicación Efectiva y Expresión Oral</div>
+        <div class="comp-simonu">En el SIMONU: los delegados desarrollan habilidades de negociación, oratoria y escritura formal.</div>
+        <div class="comp-skills">
+          <div class="comp-skill">Argumentación y presentación de ideas</div>
+          <div class="comp-skill">Comunicación asertiva y discursos estructurados</div>
+          <div class="comp-skill">Escritura y defensa de informes y propuestas</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-icon">🧠</div>
+        <div class="comp-title">Pensamiento Crítico y Resolución de Problemas</div>
+        <div class="comp-simonu">En el SIMONU: los estudiantes analizan conflictos internacionales y proponen soluciones a través del debate.</div>
+        <div class="comp-skills">
+          <div class="comp-skill">Análisis de información y toma de decisiones</div>
+          <div class="comp-skill">Evaluación de situaciones complejas</div>
+          <div class="comp-skill">Formulación de soluciones innovadoras</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-icon">🤝</div>
+        <div class="comp-title">Trabajo Colaborativo y Liderazgo</div>
+        <div class="comp-simonu">En el SIMONU: los delegados trabajan juntos para redactar resoluciones y negociar acuerdos.</div>
+        <div class="comp-skills">
+          <div class="comp-skill">Coordinación de equipos y toma de decisiones conjuntas</div>
+          <div class="comp-skill">Liderazgo situacional</div>
+          <div class="comp-skill">Empatía e inteligencia emocional</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-icon">⏱️</div>
+        <div class="comp-title">Gestión del Tiempo y Organización</div>
+        <div class="comp-simonu">En el SIMONU: los estudiantes deben administrar su tiempo para preparar discursos y responder en tiempo real.</div>
+        <div class="comp-skills">
+          <div class="comp-skill">Priorización de tareas y manejo de plazos</div>
+          <div class="comp-skill">Planificación de actividades</div>
+          <div class="comp-skill">Estrategias de productividad</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-icon">🌏</div>
+        <div class="comp-title">Conciencia Global y Responsabilidad Social</div>
+        <div class="comp-simonu">En el SIMONU: la simulación expone a los estudiantes a desafíos globales y promueve un enfoque internacional.</div>
+        <div class="comp-skills">
+          <div class="comp-skill">Reflexión sobre problemáticas globales y su impacto local</div>
+          <div class="comp-skill">Empatía y conciencia de diversidad cultural</div>
+          <div class="comp-skill">Responsabilidad cívica y social</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-icon">⚖️</div>
+        <div class="comp-title">Ética Profesional y Diplomacia</div>
+        <div class="comp-simonu">En el SIMONU: la simulación requiere actuar con diplomacia y respetar normas internacionales de procedimiento.</div>
+        <div class="comp-skills">
+          <div class="comp-skill">Reflexión sobre dilemas éticos</div>
+          <div class="comp-skill">Respeto a protocolos de negociación</div>
+          <div class="comp-skill">Integridad y decisiones basadas en valores</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="nav-cta reveal">
+    <a href="repositorio.html" class="cta-btn primary">Ver repositorio de ponencias →</a>
+    <a href="comisiones.html" class="cta-btn outline">Ver comisiones</a>
+    <a href="evento.html" class="cta-btn outline">Agenda del día</a>
+    <a href="index.html" class="cta-btn outline">← Inicio</a>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">SIMONU <em>2026</em></div>
+  <div class="footer-divider"></div>
+  <div class="footer-sub">
+    Colegio Técnico Distrital Julio Florez · Bogotá, Colombia<br>
+    Simulación Geopolítica de Naciones Unidas · 17 de Junio de 2026
+  </div>
+  <nav class="footer-links" aria-label="Mapa del sitio">
+    <a href="cronograma.html">Cronograma</a>
+    <a href="evento.html">Evento del día</a>
+    <a href="comisiones.html">Comisiones</a>
+    <a href="logistica.html">Logística</a>
+    <a href="criterios.html">Criterios</a>
+    <a href="historial.html">Historial</a>
+    <a href="blog.html">Blog</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="repositorio.html">Repositorio</a>
+  </nav>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('burger').classList.toggle('open');
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
